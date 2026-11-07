@@ -46,9 +46,11 @@ export function StickyActions({ children }: { children: ReactNode }) {
   return (
     <div
       className={cn(
-        'sticky bottom-[calc(3.75rem+env(safe-area-inset-bottom))] z-10 -mx-4 mt-6 flex gap-2 border-t bg-background px-4 py-3',
-        'md:static md:mx-0 md:justify-end md:border-0 md:bg-transparent md:px-0',
-        '[&>button]:h-12 md:[&>button]:h-9 [&>button:last-child]:flex-1 md:[&>button:last-child]:flex-none',
+        'sticky bottom-[calc(3.75rem+env(safe-area-inset-bottom))] z-10 -mx-4 mt-6 flex flex-wrap gap-2 border-t bg-background px-4 py-3',
+        'md:static md:mx-0 md:flex-nowrap md:justify-end md:border-0 md:bg-transparent md:px-0',
+        // На телефоне главное действие (последняя кнопка) — сверху во всю ширину, вторичные — рядом друг с другом под ним.
+        '[&>button]:h-12 [&>button]:flex-1 md:[&>button]:h-9 md:[&>button]:flex-none',
+        '[&>button:last-child]:order-first [&>button:last-child]:basis-full md:[&>button:last-child]:order-none md:[&>button:last-child]:basis-auto',
       )}
     >
       {children}

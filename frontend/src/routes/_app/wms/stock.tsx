@@ -59,7 +59,7 @@ function StockPage() {
         </>
       ),
     },
-    { key: 'cell', title: t('wms.colCell'), render: (b) => <Cell address={b.cellAddress} receiving={b.isReceiving} /> },
+    { key: 'cell', title: t('wms.colCell'), render: (b) => <Cell address={b.cellAddress} /> },
     {
       key: 'qty',
       title: t('wms.colQty'),
