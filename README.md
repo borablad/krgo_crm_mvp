@@ -12,12 +12,15 @@ make run                     # бэкенд: http://localhost:8080
 cd frontend && npm install && npm run dev   # интерфейс: http://localhost:5173
 ```
 
-Вход с демо-данными: см. вывод `make seed`.
+Вход с демо-данными: логины `admin`, `director`, `manager`, `buh`, `sklad`, пароль `demo-2026`.
+
+Тестовый стенд: http://38.180.39.171 (обновляется автоматически из ветки `main`).
 
 ## Документация
 - [Архитектура и соглашения](docs/architecture.md)
 - [Правила интерфейса](docs/ux.md)
 - [Бэклог и статусы задач](docs/backlog.md)
 - [Сценарии приёмки](docs/acceptance.md)
+- [Сценарий демонстрации](docs/demo.md)
 - [Деплой](docs/deploy.md)
 - [Лог разработки](docs/devlog.md)
