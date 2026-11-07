@@ -282,14 +282,15 @@ type DirCurrenciesResponse struct {
 
 // Входные параметры.
 
-type listIn struct {
+// ListQuery — общие параметры списков. Тип экспортируемый: встроенные неэкспортируемые структуры Huma не видит.
+type ListQuery struct {
 	Q        string `query:"q" doc:"Поиск по наименованию и коду"`
 	IsActive string `query:"isActive" enum:"true,false" doc:"true — только активные, false — только отключённые; без параметра — все"`
 	Limit    int32  `query:"limit" default:"50" minimum:"1" maximum:"200"`
 	Offset   int32  `query:"offset" default:"0" minimum:"0"`
 }
 
-func (l *listIn) params() ListParams {
+func (l *ListQuery) params() ListParams {
 	p := ListParams{Q: l.Q, Limit: l.Limit, Offset: l.Offset}
 	// Huma не поддерживает указатели в query, поэтому булево приходит строкой.
 	switch l.IsActive {
@@ -302,12 +303,12 @@ func (l *listIn) params() ListParams {
 }
 
 type listKindIn struct {
-	listIn
+	ListQuery
 	Kind string `query:"kind" doc:"Фильтр по типу"`
 }
 
 func (l *listKindIn) params() ListParams {
-	p := l.listIn.params()
+	p := l.ListQuery.params()
 	p.Kind = l.Kind
 	return p
 }
@@ -331,7 +332,7 @@ type bodyOut[B any] struct {
 
 type cellsListIn struct {
 	ID int64 `path:"id"`
-	listIn
+	ListQuery
 }
 
 type cellCreateIn struct {
@@ -450,7 +451,7 @@ func costCenterDTO(c CostCenter) DirCostCenter {
 }
 
 func Register(api huma.API, svc *Service) {
-	registerList(api, "organizations", "organizations", "Список организаций", (*listIn).params,
+	registerList(api, "organizations", "organizations", "Список организаций", (*ListQuery).params,
 		svc.ListOrganizations, orgDTO, func(i []DirOrganization, t int64) DirOrganizationsResponse { return DirOrganizationsResponse{i, t} })
 	registerCRUD(api, crudSpec[Organization, DirOrganization, DirOrganizationBody, DirOrganizationUpdateBody]{
 		id: "organizations", path: "organizations", noun: "Организация", group: groupOrganizations,
@@ -476,7 +477,7 @@ func Register(api huma.API, svc *Service) {
 		},
 	})
 
-	registerList(api, "items", "items", "Список номенклатуры", (*listIn).params,
+	registerList(api, "items", "items", "Список номенклатуры", (*ListQuery).params,
 		svc.ListItems, itemDTO, func(i []DirItem, t int64) DirItemsResponse { return DirItemsResponse{i, t} })
 	registerCRUD(api, crudSpec[Item, DirItem, DirItemBody, DirItemUpdateBody]{
 		id: "items", path: "items", noun: "Товар", group: groupItems,
@@ -489,7 +490,7 @@ func Register(api huma.API, svc *Service) {
 		},
 	})
 
-	registerList(api, "warehouses", "warehouses", "Список складов", (*listIn).params,
+	registerList(api, "warehouses", "warehouses", "Список складов", (*ListQuery).params,
 		svc.ListWarehouses, warehouseDTO, func(i []DirWarehouse, t int64) DirWarehousesResponse { return DirWarehousesResponse{i, t} })
 	registerCRUD(api, crudSpec[Warehouse, DirWarehouse, DirWarehouseBody, DirWarehouseUpdateBody]{
 		id: "warehouses", path: "warehouses", noun: "Склад", group: groupWarehouses,
@@ -517,7 +518,7 @@ func Register(api huma.API, svc *Service) {
 		},
 	})
 
-	registerList(api, "cost-centers", "cost-centers", "Список ЦФО", (*listIn).params,
+	registerList(api, "cost-centers", "cost-centers", "Список ЦФО", (*ListQuery).params,
 		svc.ListCostCenters, costCenterDTO, func(i []DirCostCenter, t int64) DirCostCentersResponse { return DirCostCentersResponse{i, t} })
 	registerCRUD(api, crudSpec[CostCenter, DirCostCenter, DirCostCenterBody, DirCostCenterUpdateBody]{
 		id: "cost-centers", path: "cost-centers", noun: "ЦФО", group: groupCostCenters,
@@ -577,7 +578,7 @@ func registerCells(api huma.API, svc *Service) {
 		if err := requireRead(ctx); err != nil {
 			return nil, err
 		}
-		page, err := svc.ListCells(ctx, in.ID, in.listIn.params())
+		page, err := svc.ListCells(ctx, in.ID, in.ListQuery.params())
 		if err != nil {
 			return nil, mapErr(err, "Склад")
 		}
