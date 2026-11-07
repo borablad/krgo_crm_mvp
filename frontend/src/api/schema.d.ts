@@ -107,6 +107,23 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/v1/users/options": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Сотрудники для выбора ответственного */
+        get: operations["users-options"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/v1/users/{id}": {
         parameters: {
             query?: never;
@@ -276,6 +293,13 @@ export interface components {
             /** @enum {string} */
             role: "admin" | "manager" | "employee" | "accountant" | "storekeeper";
         };
+        UserOption: {
+            fullName: string;
+            /** Format: int64 */
+            id: number;
+            /** @enum {string} */
+            role: "admin" | "manager" | "employee" | "accountant" | "storekeeper";
+        };
         UsersCreateBody: {
             /**
              * Format: uri
@@ -301,6 +325,15 @@ export interface components {
             items: components["schemas"]["UserAccount"][];
             /** Format: int64 */
             total: number;
+        };
+        UsersOptionsResponse: {
+            /**
+             * Format: uri
+             * @description A URL to the JSON Schema for this object.
+             * @example https://example.com/schemas/UsersOptionsResponse.json
+             */
+            readonly $schema?: string;
+            items: components["schemas"]["UserOption"][];
         };
         UsersPasswordBody: {
             /**
@@ -541,6 +574,35 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["UserAccount"];
+                };
+            };
+            /** @description Error */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["ErrorModel"];
+                };
+            };
+        };
+    };
+    "users-options": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["UsersOptionsResponse"];
                 };
             };
             /** @description Error */

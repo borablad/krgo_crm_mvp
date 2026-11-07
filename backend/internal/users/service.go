@@ -73,6 +73,26 @@ func (s *Service) List(ctx context.Context) ([]User, error) {
 	return out, nil
 }
 
+// Option — пользователь для выбора ответственного в других модулях.
+type Option struct {
+	ID       int64
+	FullName string
+	Role     auth.Role
+}
+
+// Options — активные пользователи для списков выбора. Доступно любому вошедшему.
+func (s *Service) Options(ctx context.Context) ([]Option, error) {
+	rows, err := s.q.ListActiveUsers(ctx)
+	if err != nil {
+		return nil, fmt.Errorf("список активных пользователей: %w", err)
+	}
+	out := make([]Option, 0, len(rows))
+	for _, r := range rows {
+		out = append(out, Option{ID: r.ID, FullName: r.FullName, Role: auth.Role(r.Role)})
+	}
+	return out, nil
+}
+
 func (s *Service) Get(ctx context.Context, id int64) (User, error) {
 	r, err := s.q.GetUser(ctx, id)
 	if err != nil {

@@ -3,6 +3,12 @@ select id, login, full_name, role, is_active, created_at
 from users
 order by full_name;
 
+-- name: ListActiveUsers :many
+select id, full_name, role
+from users
+where is_active
+order by full_name;
+
 -- name: GetUser :one
 select id, login, full_name, role, is_active, created_at
 from users

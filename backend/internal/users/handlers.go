@@ -34,6 +34,21 @@ type UsersListResponse struct {
 	Total int           `json:"total"`
 }
 
+// UserOption — сотрудник в списках выбора ответственного (без логина и служебных полей).
+type UserOption struct {
+	ID       int64     `json:"id"`
+	FullName string    `json:"fullName"`
+	Role     auth.Role `json:"role" enum:"admin,manager,employee,accountant,storekeeper"`
+}
+
+type UsersOptionsResponse struct {
+	Items []UserOption `json:"items"`
+}
+
+type optionsOutput struct {
+	Body UsersOptionsResponse
+}
+
 type UsersCreateBody struct {
 	Login    string    `json:"login" maxLength:"32" doc:"Логин для входа"`
 	FullName string    `json:"fullName" maxLength:"200" doc:"Имя и фамилия"`
@@ -78,6 +93,23 @@ type passwordInput struct {
 }
 
 func Register(api huma.API, svc *Service) {
+	huma.Register(api, huma.Operation{
+		OperationID: "users-options", Method: http.MethodGet, Path: "/api/v1/users/options",
+		Summary: "Сотрудники для выбора ответственного", Tags: []string{"users"},
+	}, func(ctx context.Context, _ *struct{}) (*optionsOutput, error) {
+		// Любой вошедший: выбор ответственного нужен в CRM, казначействе и на складе.
+		opts, err := svc.Options(ctx)
+		if err != nil {
+			return nil, err
+		}
+		out := &optionsOutput{}
+		out.Body.Items = make([]UserOption, 0, len(opts))
+		for _, o := range opts {
+			out.Body.Items = append(out.Body.Items, UserOption{ID: o.ID, FullName: o.FullName, Role: o.Role})
+		}
+		return out, nil
+	})
+
 	huma.Register(api, huma.Operation{
 		OperationID: "users-list", Method: http.MethodGet, Path: "/api/v1/users",
 		Summary: "Список пользователей", Tags: []string{"users"},

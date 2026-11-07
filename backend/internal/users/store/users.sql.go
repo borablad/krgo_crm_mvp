@@ -91,6 +91,39 @@ func (q *Queries) GetUser(ctx context.Context, id int64) (GetUserRow, error) {
 	return i, err
 }
 
+const listActiveUsers = `-- name: ListActiveUsers :many
+select id, full_name, role
+from users
+where is_active
+order by full_name
+`
+
+type ListActiveUsersRow struct {
+	ID       int64
+	FullName string
+	Role     string
+}
+
+func (q *Queries) ListActiveUsers(ctx context.Context) ([]ListActiveUsersRow, error) {
+	rows, err := q.db.Query(ctx, listActiveUsers)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	var items []ListActiveUsersRow
+	for rows.Next() {
+		var i ListActiveUsersRow
+		if err := rows.Scan(&i.ID, &i.FullName, &i.Role); err != nil {
+			return nil, err
+		}
+		items = append(items, i)
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return items, nil
+}
+
 const listUsers = `-- name: ListUsers :many
 select id, login, full_name, role, is_active, created_at
 from users
