@@ -8,6 +8,7 @@ import (
 	"log/slog"
 	"net/http"
 	"net/http/httptest"
+	"strconv"
 	"strings"
 	"testing"
 	"time"
@@ -172,6 +173,52 @@ func TestHealthAndSPA(t *testing.T) {
 	}
 	if resp, _ := c.do(http.MethodGet, "/api/v1/nothing-here", nil); resp.StatusCode != http.StatusNotFound {
 		t.Fatalf("неизвестный путь API: %d", resp.StatusCode)
+	}
+}
+
+func TestCRMAccessAndFlow(t *testing.T) {
+	a, c := newTestApp(t)
+	ctx := context.Background()
+	buh, err := a.Users.Create(ctx, users.CreateInput{Login: "buh", FullName: "Бухгалтер", Role: auth.RoleAccountant, Password: "password-1"})
+	if err != nil {
+		t.Fatal(err)
+	}
+	emp, err := a.Users.Create(ctx, users.CreateInput{Login: "ivan", FullName: "Иван", Role: auth.RoleEmployee, Password: "password-2"})
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	c.do(http.MethodPost, "/api/v1/auth/login", map[string]string{"login": "buh", "password": "password-1"})
+	if resp, _ := c.do(http.MethodGet, "/api/v1/crm/clients", nil); resp.StatusCode != http.StatusForbidden {
+		t.Fatalf("бухгалтер видит клиентов: %d", resp.StatusCode)
+	}
+	if resp, _ := c.do(http.MethodPost, "/api/v1/crm/clients", map[string]any{"name": "X", "ownerUserId": buh.ID}); resp.StatusCode != http.StatusForbidden {
+		t.Fatalf("бухгалтер создаёт клиента: %d", resp.StatusCode)
+	}
+	c.do(http.MethodPost, "/api/v1/auth/logout", nil)
+
+	c.do(http.MethodPost, "/api/v1/auth/login", map[string]string{"login": "ivan", "password": "password-2"})
+	resp, body := c.do(http.MethodPost, "/api/v1/crm/clients", map[string]any{"name": "ТОО Ромашка", "bin": "150340410002", "ownerUserId": emp.ID})
+	if resp.StatusCode != http.StatusCreated || body["ownerName"] != "Иван" {
+		t.Fatalf("создание клиента: %d %v", resp.StatusCode, body)
+	}
+	clientID := body["id"].(float64)
+	resp, body = c.do(http.MethodPost, "/api/v1/crm/clients", map[string]any{"name": "ТОО Ромашка", "bin": "123", "ownerUserId": emp.ID})
+	if resp.StatusCode != http.StatusUnprocessableEntity || !strings.Contains(toJSON(body), "body.bin") {
+		t.Fatalf("неверный БИН: %d %v", resp.StatusCode, body)
+	}
+	resp, body = c.do(http.MethodPost, "/api/v1/crm/deals", map[string]any{"clientId": clientID, "title": "Поставка", "amount": "125000.00", "probability": 60, "expectedCloseDate": "2026-12-01", "ownerUserId": emp.ID})
+	if resp.StatusCode != http.StatusCreated || body["amount"] != "125000.00" || body["expectedCloseDate"] != "2026-12-01" {
+		t.Fatalf("создание сделки: %d %v", resp.StatusCode, body)
+	}
+	dealID := body["id"].(float64)
+	resp, body = c.do(http.MethodPost, "/api/v1/crm/deals/"+strconv.Itoa(int(dealID))+"/stage", map[string]any{"stage": "contact"})
+	if resp.StatusCode != http.StatusOK || body["stage"] != "contact" || len(body["history"].([]any)) != 2 {
+		t.Fatalf("смена этапа: %d %v", resp.StatusCode, body)
+	}
+	resp, body = c.do(http.MethodGet, "/api/v1/crm/metrics", nil)
+	if resp.StatusCode != http.StatusOK || body["clientsTotal"].(float64) != 1 || body["dealsAmountActive"] != "125000.00" {
+		t.Fatalf("показатели: %d %v", resp.StatusCode, body)
 	}
 }
 

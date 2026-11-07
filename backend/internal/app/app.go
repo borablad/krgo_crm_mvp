@@ -16,6 +16,7 @@ import (
 	"github.com/borablad/krgo_crm_mvp/backend/internal/audit"
 	"github.com/borablad/krgo_crm_mvp/backend/internal/auth"
 	"github.com/borablad/krgo_crm_mvp/backend/internal/config"
+	"github.com/borablad/krgo_crm_mvp/backend/internal/crm"
 	"github.com/borablad/krgo_crm_mvp/backend/internal/directories"
 	"github.com/borablad/krgo_crm_mvp/backend/internal/platform/httpx"
 	"github.com/borablad/krgo_crm_mvp/backend/internal/users"
@@ -35,6 +36,7 @@ type App struct {
 	Auth  *auth.Service
 	Users *users.Service
 	Audit *audit.Service
+	CRM   *crm.Service
 
 	Directories *directories.Service
 
@@ -51,6 +53,7 @@ func New(cfg config.Config, pool *pgxpool.Pool, log *slog.Logger) *App {
 	usersSvc := users.NewService(pool, recorder, authSvc)
 	auditSvc := audit.NewService(pool)
 	directoriesSvc := directories.NewService(pool, recorder)
+	crmSvc := crm.NewService(pool, recorder)
 
 	api.UseMiddleware(auth.Middleware(api, authSvc))
 
@@ -58,6 +61,7 @@ func New(cfg config.Config, pool *pgxpool.Pool, log *slog.Logger) *App {
 	users.Register(api, usersSvc)
 	audit.Register(api, auditSvc)
 	directories.Register(api, directoriesSvc)
+	crm.Register(api, crmSvc)
 	registerHealth(api, pool)
 
 	// Неизвестные пути API — 404 в формате API, а не index.html.
@@ -76,7 +80,7 @@ func New(cfg config.Config, pool *pgxpool.Pool, log *slog.Logger) *App {
 
 	return &App{
 		Config: cfg, Pool: pool, Log: log, API: api,
-		Auth: authSvc, Users: usersSvc, Audit: auditSvc, Directories: directoriesSvc,
+		Auth: authSvc, Users: usersSvc, Audit: auditSvc, Directories: directoriesSvc, CRM: crmSvc,
 		handler: handler,
 	}
 }
