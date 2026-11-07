@@ -133,6 +133,1945 @@
         ],
         "type": "object"
       },
+      "CrmClient": {
+        "additionalProperties": false,
+        "properties": {
+          "$schema": {
+            "description": "A URL to the JSON Schema for this object.",
+            "examples": [
+              "https://example.com/schemas/CrmClient.json"
+            ],
+            "format": "uri",
+            "readOnly": true,
+            "type": "string"
+          },
+          "bin": {
+            "description": "Пусто, если БИН не указан",
+            "type": "string"
+          },
+          "contactName": {
+            "type": "string"
+          },
+          "contactPosition": {
+            "type": "string"
+          },
+          "createdAt": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          },
+          "id": {
+            "format": "int64",
+            "type": "integer"
+          },
+          "industry": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "ownerName": {
+            "type": "string"
+          },
+          "ownerUserId": {
+            "format": "int64",
+            "type": "integer"
+          },
+          "phone": {
+            "type": "string"
+          },
+          "region": {
+            "type": "string"
+          },
+          "status": {
+            "enum": [
+              "potential",
+              "active",
+              "inactive"
+            ],
+            "type": "string"
+          },
+          "updatedAt": {
+            "format": "date-time",
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "name",
+          "bin",
+          "industry",
+          "region",
+          "contactName",
+          "contactPosition",
+          "phone",
+          "email",
+          "ownerUserId",
+          "ownerName",
+          "status",
+          "createdAt",
+          "updatedAt"
+        ],
+        "type": "object"
+      },
+      "CrmClientBody": {
+        "additionalProperties": false,
+        "properties": {
+          "$schema": {
+            "description": "A URL to the JSON Schema for this object.",
+            "examples": [
+              "https://example.com/schemas/CrmClientBody.json"
+            ],
+            "format": "uri",
+            "readOnly": true,
+            "type": "string"
+          },
+          "bin": {
+            "description": "БИН/ИИН, 12 цифр",
+            "maxLength": 12,
+            "type": "string"
+          },
+          "contactName": {
+            "maxLength": 200,
+            "type": "string"
+          },
+          "contactPosition": {
+            "maxLength": 200,
+            "type": "string"
+          },
+          "email": {
+            "maxLength": 200,
+            "type": "string"
+          },
+          "industry": {
+            "maxLength": 200,
+            "type": "string"
+          },
+          "name": {
+            "description": "Название компании",
+            "maxLength": 300,
+            "type": "string"
+          },
+          "ownerUserId": {
+            "description": "Ответственный сотрудник",
+            "format": "int64",
+            "type": "integer"
+          },
+          "phone": {
+            "maxLength": 50,
+            "type": "string"
+          },
+          "region": {
+            "maxLength": 200,
+            "type": "string"
+          },
+          "status": {
+            "description": "По умолчанию potential",
+            "enum": [
+              "potential",
+              "active",
+              "inactive"
+            ],
+            "type": "string"
+          }
+        },
+        "required": [
+          "name",
+          "ownerUserId"
+        ],
+        "type": "object"
+      },
+      "CrmClientsResponse": {
+        "additionalProperties": false,
+        "properties": {
+          "$schema": {
+            "description": "A URL to the JSON Schema for this object.",
+            "examples": [
+              "https://example.com/schemas/CrmClientsResponse.json"
+            ],
+            "format": "uri",
+            "readOnly": true,
+            "type": "string"
+          },
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/CrmClient"
+            },
+            "type": "array"
+          },
+          "total": {
+            "format": "int64",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "items",
+          "total"
+        ],
+        "type": "object"
+      },
+      "CrmDeal": {
+        "additionalProperties": false,
+        "properties": {
+          "amount": {
+            "examples": [
+              "125000.00"
+            ],
+            "type": "string"
+          },
+          "clientId": {
+            "format": "int64",
+            "type": "integer"
+          },
+          "clientName": {
+            "type": "string"
+          },
+          "createdAt": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "expectedCloseDate": {
+            "description": "ГГГГ-ММ-ДД; пусто, если не задана",
+            "format": "date",
+            "type": "string"
+          },
+          "id": {
+            "format": "int64",
+            "type": "integer"
+          },
+          "ownerName": {
+            "type": "string"
+          },
+          "ownerUserId": {
+            "format": "int64",
+            "type": "integer"
+          },
+          "probability": {
+            "format": "int64",
+            "type": "integer"
+          },
+          "stage": {
+            "enum": [
+              "new",
+              "contact",
+              "negotiation",
+              "proposal",
+              "approval",
+              "won",
+              "lost"
+            ],
+            "type": "string"
+          },
+          "stageChangedAt": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "title": {
+            "type": "string"
+          },
+          "updatedAt": {
+            "format": "date-time",
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "clientId",
+          "clientName",
+          "title",
+          "amount",
+          "probability",
+          "expectedCloseDate",
+          "ownerUserId",
+          "ownerName",
+          "stage",
+          "stageChangedAt",
+          "createdAt",
+          "updatedAt"
+        ],
+        "type": "object"
+      },
+      "CrmDealBody": {
+        "additionalProperties": false,
+        "properties": {
+          "$schema": {
+            "description": "A URL to the JSON Schema for this object.",
+            "examples": [
+              "https://example.com/schemas/CrmDealBody.json"
+            ],
+            "format": "uri",
+            "readOnly": true,
+            "type": "string"
+          },
+          "amount": {
+            "description": "Сумма в тенге строкой",
+            "examples": [
+              "125000.00"
+            ],
+            "maxLength": 30,
+            "type": "string"
+          },
+          "clientId": {
+            "format": "int64",
+            "type": "integer"
+          },
+          "expectedCloseDate": {
+            "description": "ГГГГ-ММ-ДД",
+            "format": "date",
+            "type": "string"
+          },
+          "ownerUserId": {
+            "format": "int64",
+            "type": "integer"
+          },
+          "probability": {
+            "default": 50,
+            "description": "0–100",
+            "format": "int64",
+            "type": "integer"
+          },
+          "title": {
+            "maxLength": 300,
+            "type": "string"
+          }
+        },
+        "required": [
+          "clientId",
+          "title",
+          "amount",
+          "ownerUserId"
+        ],
+        "type": "object"
+      },
+      "CrmDealDetail": {
+        "additionalProperties": false,
+        "properties": {
+          "$schema": {
+            "description": "A URL to the JSON Schema for this object.",
+            "examples": [
+              "https://example.com/schemas/CrmDealDetail.json"
+            ],
+            "format": "uri",
+            "readOnly": true,
+            "type": "string"
+          },
+          "amount": {
+            "examples": [
+              "125000.00"
+            ],
+            "type": "string"
+          },
+          "clientId": {
+            "format": "int64",
+            "type": "integer"
+          },
+          "clientName": {
+            "type": "string"
+          },
+          "createdAt": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "expectedCloseDate": {
+            "description": "ГГГГ-ММ-ДД; пусто, если не задана",
+            "format": "date",
+            "type": "string"
+          },
+          "history": {
+            "items": {
+              "$ref": "#/components/schemas/CrmDealStageHistoryEntry"
+            },
+            "type": "array"
+          },
+          "id": {
+            "format": "int64",
+            "type": "integer"
+          },
+          "ownerName": {
+            "type": "string"
+          },
+          "ownerUserId": {
+            "format": "int64",
+            "type": "integer"
+          },
+          "probability": {
+            "format": "int64",
+            "type": "integer"
+          },
+          "stage": {
+            "enum": [
+              "new",
+              "contact",
+              "negotiation",
+              "proposal",
+              "approval",
+              "won",
+              "lost"
+            ],
+            "type": "string"
+          },
+          "stageChangedAt": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "title": {
+            "type": "string"
+          },
+          "updatedAt": {
+            "format": "date-time",
+            "type": "string"
+          }
+        },
+        "required": [
+          "history",
+          "id",
+          "clientId",
+          "clientName",
+          "title",
+          "amount",
+          "probability",
+          "expectedCloseDate",
+          "ownerUserId",
+          "ownerName",
+          "stage",
+          "stageChangedAt",
+          "createdAt",
+          "updatedAt"
+        ],
+        "type": "object"
+      },
+      "CrmDealStageBody": {
+        "additionalProperties": false,
+        "properties": {
+          "$schema": {
+            "description": "A URL to the JSON Schema for this object.",
+            "examples": [
+              "https://example.com/schemas/CrmDealStageBody.json"
+            ],
+            "format": "uri",
+            "readOnly": true,
+            "type": "string"
+          },
+          "comment": {
+            "maxLength": 1000,
+            "type": "string"
+          },
+          "stage": {
+            "enum": [
+              "new",
+              "contact",
+              "negotiation",
+              "proposal",
+              "approval",
+              "won",
+              "lost"
+            ],
+            "type": "string"
+          }
+        },
+        "required": [
+          "stage"
+        ],
+        "type": "object"
+      },
+      "CrmDealStageHistoryEntry": {
+        "additionalProperties": false,
+        "properties": {
+          "changedAt": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "changedBy": {
+            "description": "0, если автор неизвестен",
+            "format": "int64",
+            "type": "integer"
+          },
+          "changedByName": {
+            "type": "string"
+          },
+          "comment": {
+            "type": "string"
+          },
+          "fromStage": {
+            "description": "Пусто у первой записи",
+            "type": "string"
+          },
+          "id": {
+            "format": "int64",
+            "type": "integer"
+          },
+          "toStage": {
+            "enum": [
+              "new",
+              "contact",
+              "negotiation",
+              "proposal",
+              "approval",
+              "won",
+              "lost"
+            ],
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "fromStage",
+          "toStage",
+          "changedBy",
+          "changedByName",
+          "changedAt",
+          "comment"
+        ],
+        "type": "object"
+      },
+      "CrmDealUpdateBody": {
+        "additionalProperties": false,
+        "properties": {
+          "$schema": {
+            "description": "A URL to the JSON Schema for this object.",
+            "examples": [
+              "https://example.com/schemas/CrmDealUpdateBody.json"
+            ],
+            "format": "uri",
+            "readOnly": true,
+            "type": "string"
+          },
+          "amount": {
+            "examples": [
+              "125000.00"
+            ],
+            "maxLength": 30,
+            "type": "string"
+          },
+          "expectedCloseDate": {
+            "description": "ГГГГ-ММ-ДД",
+            "format": "date",
+            "type": "string"
+          },
+          "ownerUserId": {
+            "format": "int64",
+            "type": "integer"
+          },
+          "probability": {
+            "default": 50,
+            "format": "int64",
+            "type": "integer"
+          },
+          "title": {
+            "maxLength": 300,
+            "type": "string"
+          }
+        },
+        "required": [
+          "title",
+          "amount",
+          "ownerUserId"
+        ],
+        "type": "object"
+      },
+      "CrmDealsResponse": {
+        "additionalProperties": false,
+        "properties": {
+          "$schema": {
+            "description": "A URL to the JSON Schema for this object.",
+            "examples": [
+              "https://example.com/schemas/CrmDealsResponse.json"
+            ],
+            "format": "uri",
+            "readOnly": true,
+            "type": "string"
+          },
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/CrmDeal"
+            },
+            "type": "array"
+          },
+          "total": {
+            "format": "int64",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "items",
+          "total"
+        ],
+        "type": "object"
+      },
+      "CrmMetrics": {
+        "additionalProperties": false,
+        "properties": {
+          "$schema": {
+            "description": "A URL to the JSON Schema for this object.",
+            "examples": [
+              "https://example.com/schemas/CrmMetrics.json"
+            ],
+            "format": "uri",
+            "readOnly": true,
+            "type": "string"
+          },
+          "clientsTotal": {
+            "format": "int64",
+            "type": "integer"
+          },
+          "dealsActive": {
+            "description": "Сделки не на этапах «Договор заключен» и «Отказ»",
+            "format": "int64",
+            "type": "integer"
+          },
+          "dealsAmountActive": {
+            "examples": [
+              "1250000.00"
+            ],
+            "type": "string"
+          },
+          "dealsAmountWon": {
+            "examples": [
+              "980000.00"
+            ],
+            "type": "string"
+          },
+          "dealsWon": {
+            "format": "int64",
+            "type": "integer"
+          },
+          "tasksOpen": {
+            "format": "int64",
+            "type": "integer"
+          },
+          "tasksOverdue": {
+            "format": "int64",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "clientsTotal",
+          "dealsActive",
+          "dealsWon",
+          "dealsAmountActive",
+          "dealsAmountWon",
+          "tasksOverdue",
+          "tasksOpen"
+        ],
+        "type": "object"
+      },
+      "CrmTask": {
+        "additionalProperties": false,
+        "properties": {
+          "$schema": {
+            "description": "A URL to the JSON Schema for this object.",
+            "examples": [
+              "https://example.com/schemas/CrmTask.json"
+            ],
+            "format": "uri",
+            "readOnly": true,
+            "type": "string"
+          },
+          "assigneeName": {
+            "type": "string"
+          },
+          "assigneeUserId": {
+            "format": "int64",
+            "type": "integer"
+          },
+          "clientId": {
+            "description": "0, если задача не привязана к клиенту",
+            "format": "int64",
+            "type": "integer"
+          },
+          "clientName": {
+            "type": "string"
+          },
+          "createdAt": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "dealId": {
+            "description": "0, если задача не привязана к сделке",
+            "format": "int64",
+            "type": "integer"
+          },
+          "dealTitle": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "doneAt": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "dueDate": {
+            "description": "ГГГГ-ММ-ДД",
+            "format": "date",
+            "type": "string"
+          },
+          "id": {
+            "format": "int64",
+            "type": "integer"
+          },
+          "isOverdue": {
+            "description": "Открыта и срок прошёл (по дате в Алматы)",
+            "type": "boolean"
+          },
+          "status": {
+            "enum": [
+              "open",
+              "done",
+              "cancelled"
+            ],
+            "type": "string"
+          },
+          "title": {
+            "type": "string"
+          },
+          "updatedAt": {
+            "format": "date-time",
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "title",
+          "description",
+          "assigneeUserId",
+          "assigneeName",
+          "dueDate",
+          "status",
+          "isOverdue",
+          "clientId",
+          "clientName",
+          "dealId",
+          "dealTitle",
+          "createdAt",
+          "updatedAt"
+        ],
+        "type": "object"
+      },
+      "CrmTaskBody": {
+        "additionalProperties": false,
+        "properties": {
+          "$schema": {
+            "description": "A URL to the JSON Schema for this object.",
+            "examples": [
+              "https://example.com/schemas/CrmTaskBody.json"
+            ],
+            "format": "uri",
+            "readOnly": true,
+            "type": "string"
+          },
+          "assigneeUserId": {
+            "format": "int64",
+            "type": "integer"
+          },
+          "clientId": {
+            "description": "Если указана только сделка, клиент берётся из сделки",
+            "format": "int64",
+            "type": "integer"
+          },
+          "dealId": {
+            "format": "int64",
+            "type": "integer"
+          },
+          "description": {
+            "maxLength": 5000,
+            "type": "string"
+          },
+          "dueDate": {
+            "description": "ГГГГ-ММ-ДД",
+            "format": "date",
+            "type": "string"
+          },
+          "title": {
+            "maxLength": 300,
+            "type": "string"
+          }
+        },
+        "required": [
+          "title",
+          "assigneeUserId",
+          "dueDate"
+        ],
+        "type": "object"
+      },
+      "CrmTasksResponse": {
+        "additionalProperties": false,
+        "properties": {
+          "$schema": {
+            "description": "A URL to the JSON Schema for this object.",
+            "examples": [
+              "https://example.com/schemas/CrmTasksResponse.json"
+            ],
+            "format": "uri",
+            "readOnly": true,
+            "type": "string"
+          },
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/CrmTask"
+            },
+            "type": "array"
+          },
+          "total": {
+            "format": "int64",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "items",
+          "total"
+        ],
+        "type": "object"
+      },
+      "DirCashflowItem": {
+        "additionalProperties": false,
+        "properties": {
+          "$schema": {
+            "description": "A URL to the JSON Schema for this object.",
+            "examples": [
+              "https://example.com/schemas/DirCashflowItem.json"
+            ],
+            "format": "uri",
+            "readOnly": true,
+            "type": "string"
+          },
+          "createdAt": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "id": {
+            "format": "int64",
+            "type": "integer"
+          },
+          "isActive": {
+            "type": "boolean"
+          },
+          "kind": {
+            "enum": [
+              "income",
+              "expense"
+            ],
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "updatedAt": {
+            "format": "date-time",
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "name",
+          "kind",
+          "isActive",
+          "createdAt",
+          "updatedAt"
+        ],
+        "type": "object"
+      },
+      "DirCashflowItemBody": {
+        "additionalProperties": false,
+        "properties": {
+          "$schema": {
+            "description": "A URL to the JSON Schema for this object.",
+            "examples": [
+              "https://example.com/schemas/DirCashflowItemBody.json"
+            ],
+            "format": "uri",
+            "readOnly": true,
+            "type": "string"
+          },
+          "kind": {
+            "description": "Приход или расход",
+            "enum": [
+              "income",
+              "expense"
+            ],
+            "type": "string"
+          },
+          "name": {
+            "maxLength": 300,
+            "type": "string"
+          }
+        },
+        "required": [
+          "name",
+          "kind"
+        ],
+        "type": "object"
+      },
+      "DirCashflowItemUpdateBody": {
+        "additionalProperties": false,
+        "properties": {
+          "$schema": {
+            "description": "A URL to the JSON Schema for this object.",
+            "examples": [
+              "https://example.com/schemas/DirCashflowItemUpdateBody.json"
+            ],
+            "format": "uri",
+            "readOnly": true,
+            "type": "string"
+          },
+          "isActive": {
+            "type": "boolean"
+          },
+          "kind": {
+            "enum": [
+              "income",
+              "expense"
+            ],
+            "type": "string"
+          },
+          "name": {
+            "maxLength": 300,
+            "type": "string"
+          }
+        },
+        "required": [
+          "name",
+          "kind",
+          "isActive"
+        ],
+        "type": "object"
+      },
+      "DirCashflowItemsResponse": {
+        "additionalProperties": false,
+        "properties": {
+          "$schema": {
+            "description": "A URL to the JSON Schema for this object.",
+            "examples": [
+              "https://example.com/schemas/DirCashflowItemsResponse.json"
+            ],
+            "format": "uri",
+            "readOnly": true,
+            "type": "string"
+          },
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/DirCashflowItem"
+            },
+            "type": "array"
+          },
+          "total": {
+            "format": "int64",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "items",
+          "total"
+        ],
+        "type": "object"
+      },
+      "DirCell": {
+        "additionalProperties": false,
+        "properties": {
+          "$schema": {
+            "description": "A URL to the JSON Schema for this object.",
+            "examples": [
+              "https://example.com/schemas/DirCell.json"
+            ],
+            "format": "uri",
+            "readOnly": true,
+            "type": "string"
+          },
+          "address": {
+            "type": "string"
+          },
+          "createdAt": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "id": {
+            "format": "int64",
+            "type": "integer"
+          },
+          "isActive": {
+            "type": "boolean"
+          },
+          "isReceiving": {
+            "type": "boolean"
+          },
+          "warehouseId": {
+            "format": "int64",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "id",
+          "warehouseId",
+          "address",
+          "isReceiving",
+          "isActive",
+          "createdAt"
+        ],
+        "type": "object"
+      },
+      "DirCellBody": {
+        "additionalProperties": false,
+        "properties": {
+          "$schema": {
+            "description": "A URL to the JSON Schema for this object.",
+            "examples": [
+              "https://example.com/schemas/DirCellBody.json"
+            ],
+            "format": "uri",
+            "readOnly": true,
+            "type": "string"
+          },
+          "address": {
+            "description": "Адрес ячейки, например A-01-01; сохраняется в верхнем регистре",
+            "maxLength": 50,
+            "type": "string"
+          }
+        },
+        "required": [
+          "address"
+        ],
+        "type": "object"
+      },
+      "DirCellUpdateBody": {
+        "additionalProperties": false,
+        "properties": {
+          "$schema": {
+            "description": "A URL to the JSON Schema for this object.",
+            "examples": [
+              "https://example.com/schemas/DirCellUpdateBody.json"
+            ],
+            "format": "uri",
+            "readOnly": true,
+            "type": "string"
+          },
+          "address": {
+            "maxLength": 50,
+            "type": "string"
+          },
+          "isActive": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "address",
+          "isActive"
+        ],
+        "type": "object"
+      },
+      "DirCellsResponse": {
+        "additionalProperties": false,
+        "properties": {
+          "$schema": {
+            "description": "A URL to the JSON Schema for this object.",
+            "examples": [
+              "https://example.com/schemas/DirCellsResponse.json"
+            ],
+            "format": "uri",
+            "readOnly": true,
+            "type": "string"
+          },
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/DirCell"
+            },
+            "type": "array"
+          },
+          "total": {
+            "format": "int64",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "items",
+          "total"
+        ],
+        "type": "object"
+      },
+      "DirCostCenter": {
+        "additionalProperties": false,
+        "properties": {
+          "$schema": {
+            "description": "A URL to the JSON Schema for this object.",
+            "examples": [
+              "https://example.com/schemas/DirCostCenter.json"
+            ],
+            "format": "uri",
+            "readOnly": true,
+            "type": "string"
+          },
+          "code": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "createdAt": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "id": {
+            "format": "int64",
+            "type": "integer"
+          },
+          "isActive": {
+            "type": "boolean"
+          },
+          "name": {
+            "type": "string"
+          },
+          "updatedAt": {
+            "format": "date-time",
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "name",
+          "code",
+          "isActive",
+          "createdAt",
+          "updatedAt"
+        ],
+        "type": "object"
+      },
+      "DirCostCenterBody": {
+        "additionalProperties": false,
+        "properties": {
+          "$schema": {
+            "description": "A URL to the JSON Schema for this object.",
+            "examples": [
+              "https://example.com/schemas/DirCostCenterBody.json"
+            ],
+            "format": "uri",
+            "readOnly": true,
+            "type": "string"
+          },
+          "code": {
+            "maxLength": 50,
+            "type": "string"
+          },
+          "name": {
+            "maxLength": 300,
+            "type": "string"
+          }
+        },
+        "required": [
+          "name"
+        ],
+        "type": "object"
+      },
+      "DirCostCenterUpdateBody": {
+        "additionalProperties": false,
+        "properties": {
+          "$schema": {
+            "description": "A URL to the JSON Schema for this object.",
+            "examples": [
+              "https://example.com/schemas/DirCostCenterUpdateBody.json"
+            ],
+            "format": "uri",
+            "readOnly": true,
+            "type": "string"
+          },
+          "code": {
+            "maxLength": 50,
+            "type": "string"
+          },
+          "isActive": {
+            "type": "boolean"
+          },
+          "name": {
+            "maxLength": 300,
+            "type": "string"
+          }
+        },
+        "required": [
+          "name",
+          "isActive"
+        ],
+        "type": "object"
+      },
+      "DirCostCentersResponse": {
+        "additionalProperties": false,
+        "properties": {
+          "$schema": {
+            "description": "A URL to the JSON Schema for this object.",
+            "examples": [
+              "https://example.com/schemas/DirCostCentersResponse.json"
+            ],
+            "format": "uri",
+            "readOnly": true,
+            "type": "string"
+          },
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/DirCostCenter"
+            },
+            "type": "array"
+          },
+          "total": {
+            "format": "int64",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "items",
+          "total"
+        ],
+        "type": "object"
+      },
+      "DirCounterpartiesResponse": {
+        "additionalProperties": false,
+        "properties": {
+          "$schema": {
+            "description": "A URL to the JSON Schema for this object.",
+            "examples": [
+              "https://example.com/schemas/DirCounterpartiesResponse.json"
+            ],
+            "format": "uri",
+            "readOnly": true,
+            "type": "string"
+          },
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/DirCounterparty"
+            },
+            "type": "array"
+          },
+          "total": {
+            "format": "int64",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "items",
+          "total"
+        ],
+        "type": "object"
+      },
+      "DirCounterparty": {
+        "additionalProperties": false,
+        "properties": {
+          "$schema": {
+            "description": "A URL to the JSON Schema for this object.",
+            "examples": [
+              "https://example.com/schemas/DirCounterparty.json"
+            ],
+            "format": "uri",
+            "readOnly": true,
+            "type": "string"
+          },
+          "bin": {
+            "type": "string"
+          },
+          "contactName": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "createdAt": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "email": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "id": {
+            "format": "int64",
+            "type": "integer"
+          },
+          "isActive": {
+            "type": "boolean"
+          },
+          "kind": {
+            "enum": [
+              "supplier",
+              "customer",
+              "other"
+            ],
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "phone": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "updatedAt": {
+            "format": "date-time",
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "name",
+          "bin",
+          "kind",
+          "contactName",
+          "phone",
+          "email",
+          "isActive",
+          "createdAt",
+          "updatedAt"
+        ],
+        "type": "object"
+      },
+      "DirCounterpartyBody": {
+        "additionalProperties": false,
+        "properties": {
+          "$schema": {
+            "description": "A URL to the JSON Schema for this object.",
+            "examples": [
+              "https://example.com/schemas/DirCounterpartyBody.json"
+            ],
+            "format": "uri",
+            "readOnly": true,
+            "type": "string"
+          },
+          "bin": {
+            "maxLength": 32,
+            "type": "string"
+          },
+          "contactName": {
+            "maxLength": 200,
+            "type": "string"
+          },
+          "email": {
+            "maxLength": 200,
+            "type": "string"
+          },
+          "kind": {
+            "description": "Поставщик, покупатель или прочий",
+            "enum": [
+              "supplier",
+              "customer",
+              "other"
+            ],
+            "type": "string"
+          },
+          "name": {
+            "maxLength": 300,
+            "type": "string"
+          },
+          "phone": {
+            "maxLength": 32,
+            "type": "string"
+          }
+        },
+        "required": [
+          "name",
+          "bin",
+          "kind"
+        ],
+        "type": "object"
+      },
+      "DirCounterpartyUpdateBody": {
+        "additionalProperties": false,
+        "properties": {
+          "$schema": {
+            "description": "A URL to the JSON Schema for this object.",
+            "examples": [
+              "https://example.com/schemas/DirCounterpartyUpdateBody.json"
+            ],
+            "format": "uri",
+            "readOnly": true,
+            "type": "string"
+          },
+          "bin": {
+            "maxLength": 32,
+            "type": "string"
+          },
+          "contactName": {
+            "maxLength": 200,
+            "type": "string"
+          },
+          "email": {
+            "maxLength": 200,
+            "type": "string"
+          },
+          "isActive": {
+            "type": "boolean"
+          },
+          "kind": {
+            "enum": [
+              "supplier",
+              "customer",
+              "other"
+            ],
+            "type": "string"
+          },
+          "name": {
+            "maxLength": 300,
+            "type": "string"
+          },
+          "phone": {
+            "maxLength": 32,
+            "type": "string"
+          }
+        },
+        "required": [
+          "name",
+          "bin",
+          "kind",
+          "isActive"
+        ],
+        "type": "object"
+      },
+      "DirCurrenciesResponse": {
+        "additionalProperties": false,
+        "properties": {
+          "$schema": {
+            "description": "A URL to the JSON Schema for this object.",
+            "examples": [
+              "https://example.com/schemas/DirCurrenciesResponse.json"
+            ],
+            "format": "uri",
+            "readOnly": true,
+            "type": "string"
+          },
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/DirCurrency"
+            },
+            "type": "array"
+          }
+        },
+        "required": [
+          "items"
+        ],
+        "type": "object"
+      },
+      "DirCurrency": {
+        "additionalProperties": false,
+        "properties": {
+          "code": {
+            "type": "string"
+          },
+          "isActive": {
+            "type": "boolean"
+          },
+          "name": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "code",
+          "name",
+          "isActive"
+        ],
+        "type": "object"
+      },
+      "DirItem": {
+        "additionalProperties": false,
+        "properties": {
+          "$schema": {
+            "description": "A URL to the JSON Schema for this object.",
+            "examples": [
+              "https://example.com/schemas/DirItem.json"
+            ],
+            "format": "uri",
+            "readOnly": true,
+            "type": "string"
+          },
+          "barcode": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "createdAt": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "id": {
+            "format": "int64",
+            "type": "integer"
+          },
+          "isActive": {
+            "type": "boolean"
+          },
+          "name": {
+            "type": "string"
+          },
+          "sku": {
+            "type": "string"
+          },
+          "unitId": {
+            "format": "int64",
+            "type": "integer"
+          },
+          "updatedAt": {
+            "format": "date-time",
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "name",
+          "sku",
+          "unitId",
+          "barcode",
+          "isActive",
+          "createdAt",
+          "updatedAt"
+        ],
+        "type": "object"
+      },
+      "DirItemBody": {
+        "additionalProperties": false,
+        "properties": {
+          "$schema": {
+            "description": "A URL to the JSON Schema for this object.",
+            "examples": [
+              "https://example.com/schemas/DirItemBody.json"
+            ],
+            "format": "uri",
+            "readOnly": true,
+            "type": "string"
+          },
+          "barcode": {
+            "maxLength": 100,
+            "type": "string"
+          },
+          "name": {
+            "maxLength": 300,
+            "type": "string"
+          },
+          "sku": {
+            "description": "Артикул",
+            "maxLength": 100,
+            "type": "string"
+          },
+          "unitId": {
+            "description": "Единица измерения из справочника",
+            "format": "int64",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "name",
+          "sku",
+          "unitId"
+        ],
+        "type": "object"
+      },
+      "DirItemUpdateBody": {
+        "additionalProperties": false,
+        "properties": {
+          "$schema": {
+            "description": "A URL to the JSON Schema for this object.",
+            "examples": [
+              "https://example.com/schemas/DirItemUpdateBody.json"
+            ],
+            "format": "uri",
+            "readOnly": true,
+            "type": "string"
+          },
+          "barcode": {
+            "maxLength": 100,
+            "type": "string"
+          },
+          "isActive": {
+            "type": "boolean"
+          },
+          "name": {
+            "maxLength": 300,
+            "type": "string"
+          },
+          "sku": {
+            "maxLength": 100,
+            "type": "string"
+          },
+          "unitId": {
+            "format": "int64",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "name",
+          "sku",
+          "unitId",
+          "isActive"
+        ],
+        "type": "object"
+      },
+      "DirItemsResponse": {
+        "additionalProperties": false,
+        "properties": {
+          "$schema": {
+            "description": "A URL to the JSON Schema for this object.",
+            "examples": [
+              "https://example.com/schemas/DirItemsResponse.json"
+            ],
+            "format": "uri",
+            "readOnly": true,
+            "type": "string"
+          },
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/DirItem"
+            },
+            "type": "array"
+          },
+          "total": {
+            "format": "int64",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "items",
+          "total"
+        ],
+        "type": "object"
+      },
+      "DirOrganization": {
+        "additionalProperties": false,
+        "properties": {
+          "$schema": {
+            "description": "A URL to the JSON Schema for this object.",
+            "examples": [
+              "https://example.com/schemas/DirOrganization.json"
+            ],
+            "format": "uri",
+            "readOnly": true,
+            "type": "string"
+          },
+          "address": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "bin": {
+            "type": "string"
+          },
+          "createdAt": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "id": {
+            "format": "int64",
+            "type": "integer"
+          },
+          "isActive": {
+            "type": "boolean"
+          },
+          "name": {
+            "type": "string"
+          },
+          "updatedAt": {
+            "format": "date-time",
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "name",
+          "bin",
+          "address",
+          "isActive",
+          "createdAt",
+          "updatedAt"
+        ],
+        "type": "object"
+      },
+      "DirOrganizationBody": {
+        "additionalProperties": false,
+        "properties": {
+          "$schema": {
+            "description": "A URL to the JSON Schema for this object.",
+            "examples": [
+              "https://example.com/schemas/DirOrganizationBody.json"
+            ],
+            "format": "uri",
+            "readOnly": true,
+            "type": "string"
+          },
+          "address": {
+            "maxLength": 500,
+            "type": "string"
+          },
+          "bin": {
+            "description": "БИН/ИИН, 12 цифр",
+            "maxLength": 32,
+            "type": "string"
+          },
+          "name": {
+            "description": "Наименование",
+            "maxLength": 300,
+            "type": "string"
+          }
+        },
+        "required": [
+          "name",
+          "bin"
+        ],
+        "type": "object"
+      },
+      "DirOrganizationUpdateBody": {
+        "additionalProperties": false,
+        "properties": {
+          "$schema": {
+            "description": "A URL to the JSON Schema for this object.",
+            "examples": [
+              "https://example.com/schemas/DirOrganizationUpdateBody.json"
+            ],
+            "format": "uri",
+            "readOnly": true,
+            "type": "string"
+          },
+          "address": {
+            "maxLength": 500,
+            "type": "string"
+          },
+          "bin": {
+            "maxLength": 32,
+            "type": "string"
+          },
+          "isActive": {
+            "type": "boolean"
+          },
+          "name": {
+            "maxLength": 300,
+            "type": "string"
+          }
+        },
+        "required": [
+          "name",
+          "bin",
+          "isActive"
+        ],
+        "type": "object"
+      },
+      "DirOrganizationsResponse": {
+        "additionalProperties": false,
+        "properties": {
+          "$schema": {
+            "description": "A URL to the JSON Schema for this object.",
+            "examples": [
+              "https://example.com/schemas/DirOrganizationsResponse.json"
+            ],
+            "format": "uri",
+            "readOnly": true,
+            "type": "string"
+          },
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/DirOrganization"
+            },
+            "type": "array"
+          },
+          "total": {
+            "format": "int64",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "items",
+          "total"
+        ],
+        "type": "object"
+      },
+      "DirUnit": {
+        "additionalProperties": false,
+        "properties": {
+          "code": {
+            "type": "string"
+          },
+          "id": {
+            "format": "int64",
+            "type": "integer"
+          },
+          "name": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "code",
+          "name"
+        ],
+        "type": "object"
+      },
+      "DirUnitsResponse": {
+        "additionalProperties": false,
+        "properties": {
+          "$schema": {
+            "description": "A URL to the JSON Schema for this object.",
+            "examples": [
+              "https://example.com/schemas/DirUnitsResponse.json"
+            ],
+            "format": "uri",
+            "readOnly": true,
+            "type": "string"
+          },
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/DirUnit"
+            },
+            "type": "array"
+          }
+        },
+        "required": [
+          "items"
+        ],
+        "type": "object"
+      },
+      "DirWarehouse": {
+        "additionalProperties": false,
+        "properties": {
+          "$schema": {
+            "description": "A URL to the JSON Schema for this object.",
+            "examples": [
+              "https://example.com/schemas/DirWarehouse.json"
+            ],
+            "format": "uri",
+            "readOnly": true,
+            "type": "string"
+          },
+          "code": {
+            "type": "string"
+          },
+          "createdAt": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "id": {
+            "format": "int64",
+            "type": "integer"
+          },
+          "isActive": {
+            "type": "boolean"
+          },
+          "name": {
+            "type": "string"
+          },
+          "responsibleUserId": {
+            "format": "int64",
+            "type": [
+              "integer",
+              "null"
+            ]
+          },
+          "updatedAt": {
+            "format": "date-time",
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "name",
+          "code",
+          "responsibleUserId",
+          "isActive",
+          "createdAt",
+          "updatedAt"
+        ],
+        "type": "object"
+      },
+      "DirWarehouseBody": {
+        "additionalProperties": false,
+        "properties": {
+          "$schema": {
+            "description": "A URL to the JSON Schema for this object.",
+            "examples": [
+              "https://example.com/schemas/DirWarehouseBody.json"
+            ],
+            "format": "uri",
+            "readOnly": true,
+            "type": "string"
+          },
+          "code": {
+            "maxLength": 50,
+            "type": "string"
+          },
+          "name": {
+            "maxLength": 300,
+            "type": "string"
+          },
+          "responsibleUserId": {
+            "format": "int64",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "name",
+          "code"
+        ],
+        "type": "object"
+      },
+      "DirWarehouseUpdateBody": {
+        "additionalProperties": false,
+        "properties": {
+          "$schema": {
+            "description": "A URL to the JSON Schema for this object.",
+            "examples": [
+              "https://example.com/schemas/DirWarehouseUpdateBody.json"
+            ],
+            "format": "uri",
+            "readOnly": true,
+            "type": "string"
+          },
+          "code": {
+            "maxLength": 50,
+            "type": "string"
+          },
+          "isActive": {
+            "type": "boolean"
+          },
+          "name": {
+            "maxLength": 300,
+            "type": "string"
+          },
+          "responsibleUserId": {
+            "format": "int64",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "name",
+          "code",
+          "isActive"
+        ],
+        "type": "object"
+      },
+      "DirWarehousesResponse": {
+        "additionalProperties": false,
+        "properties": {
+          "$schema": {
+            "description": "A URL to the JSON Schema for this object.",
+            "examples": [
+              "https://example.com/schemas/DirWarehousesResponse.json"
+            ],
+            "format": "uri",
+            "readOnly": true,
+            "type": "string"
+          },
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/DirWarehouse"
+            },
+            "type": "array"
+          },
+          "total": {
+            "format": "int64",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "items",
+          "total"
+        ],
+        "type": "object"
+      },
       "ErrorDetail": {
         "additionalProperties": false,
         "properties": {
@@ -730,6 +2669,2202 @@
         "summary": "Текущий пользователь",
         "tags": [
           "auth"
+        ]
+      }
+    },
+    "/api/v1/crm/clients": {
+      "get": {
+        "operationId": "crm-clients-list",
+        "parameters": [
+          {
+            "description": "Поиск по названию, БИН и контакту",
+            "explode": false,
+            "in": "query",
+            "name": "q",
+            "schema": {
+              "description": "Поиск по названию, БИН и контакту",
+              "type": "string"
+            }
+          },
+          {
+            "explode": false,
+            "in": "query",
+            "name": "ownerUserId",
+            "schema": {
+              "format": "int64",
+              "type": "integer"
+            }
+          },
+          {
+            "explode": false,
+            "in": "query",
+            "name": "status",
+            "schema": {
+              "enum": [
+                "potential",
+                "active",
+                "inactive",
+                ""
+              ],
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CrmClientsResponse"
+                }
+              }
+            },
+            "description": "OK"
+          },
+          "default": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorModel"
+                }
+              }
+            },
+            "description": "Error"
+          }
+        },
+        "summary": "Список клиентов",
+        "tags": [
+          "crm"
+        ]
+      },
+      "post": {
+        "operationId": "crm-clients-create",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CrmClientBody"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CrmClient"
+                }
+              }
+            },
+            "description": "Created"
+          },
+          "default": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorModel"
+                }
+              }
+            },
+            "description": "Error"
+          }
+        },
+        "summary": "Создать клиента",
+        "tags": [
+          "crm"
+        ]
+      }
+    },
+    "/api/v1/crm/clients/{id}": {
+      "get": {
+        "operationId": "crm-clients-get",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "format": "int64",
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CrmClient"
+                }
+              }
+            },
+            "description": "OK"
+          },
+          "default": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorModel"
+                }
+              }
+            },
+            "description": "Error"
+          }
+        },
+        "summary": "Карточка клиента",
+        "tags": [
+          "crm"
+        ]
+      },
+      "patch": {
+        "operationId": "crm-clients-update",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "format": "int64",
+              "type": "integer"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CrmClientBody"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CrmClient"
+                }
+              }
+            },
+            "description": "OK"
+          },
+          "default": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorModel"
+                }
+              }
+            },
+            "description": "Error"
+          }
+        },
+        "summary": "Изменить клиента",
+        "tags": [
+          "crm"
+        ]
+      }
+    },
+    "/api/v1/crm/deals": {
+      "get": {
+        "operationId": "crm-deals-list",
+        "parameters": [
+          {
+            "description": "Поиск по названию сделки",
+            "explode": false,
+            "in": "query",
+            "name": "q",
+            "schema": {
+              "description": "Поиск по названию сделки",
+              "type": "string"
+            }
+          },
+          {
+            "explode": false,
+            "in": "query",
+            "name": "clientId",
+            "schema": {
+              "format": "int64",
+              "type": "integer"
+            }
+          },
+          {
+            "explode": false,
+            "in": "query",
+            "name": "stage",
+            "schema": {
+              "enum": [
+                "new",
+                "contact",
+                "negotiation",
+                "proposal",
+                "approval",
+                "won",
+                "lost",
+                ""
+              ],
+              "type": "string"
+            }
+          },
+          {
+            "explode": false,
+            "in": "query",
+            "name": "ownerUserId",
+            "schema": {
+              "format": "int64",
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CrmDealsResponse"
+                }
+              }
+            },
+            "description": "OK"
+          },
+          "default": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorModel"
+                }
+              }
+            },
+            "description": "Error"
+          }
+        },
+        "summary": "Список сделок",
+        "tags": [
+          "crm"
+        ]
+      },
+      "post": {
+        "operationId": "crm-deals-create",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CrmDealBody"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CrmDealDetail"
+                }
+              }
+            },
+            "description": "Created"
+          },
+          "default": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorModel"
+                }
+              }
+            },
+            "description": "Error"
+          }
+        },
+        "summary": "Создать сделку",
+        "tags": [
+          "crm"
+        ]
+      }
+    },
+    "/api/v1/crm/deals/{id}": {
+      "get": {
+        "operationId": "crm-deals-get",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "format": "int64",
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CrmDealDetail"
+                }
+              }
+            },
+            "description": "OK"
+          },
+          "default": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorModel"
+                }
+              }
+            },
+            "description": "Error"
+          }
+        },
+        "summary": "Сделка с историей этапов",
+        "tags": [
+          "crm"
+        ]
+      },
+      "patch": {
+        "operationId": "crm-deals-update",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "format": "int64",
+              "type": "integer"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CrmDealUpdateBody"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CrmDealDetail"
+                }
+              }
+            },
+            "description": "OK"
+          },
+          "default": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorModel"
+                }
+              }
+            },
+            "description": "Error"
+          }
+        },
+        "summary": "Изменить сделку",
+        "tags": [
+          "crm"
+        ]
+      }
+    },
+    "/api/v1/crm/deals/{id}/stage": {
+      "post": {
+        "operationId": "crm-deals-stage",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "format": "int64",
+              "type": "integer"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CrmDealStageBody"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CrmDealDetail"
+                }
+              }
+            },
+            "description": "OK"
+          },
+          "default": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorModel"
+                }
+              }
+            },
+            "description": "Error"
+          }
+        },
+        "summary": "Сменить этап сделки",
+        "tags": [
+          "crm"
+        ]
+      }
+    },
+    "/api/v1/crm/metrics": {
+      "get": {
+        "operationId": "crm-metrics",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CrmMetrics"
+                }
+              }
+            },
+            "description": "OK"
+          },
+          "default": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorModel"
+                }
+              }
+            },
+            "description": "Error"
+          }
+        },
+        "summary": "Показатели CRM",
+        "tags": [
+          "crm"
+        ]
+      }
+    },
+    "/api/v1/crm/tasks": {
+      "get": {
+        "operationId": "crm-tasks-list",
+        "parameters": [
+          {
+            "explode": false,
+            "in": "query",
+            "name": "assigneeUserId",
+            "schema": {
+              "format": "int64",
+              "type": "integer"
+            }
+          },
+          {
+            "explode": false,
+            "in": "query",
+            "name": "status",
+            "schema": {
+              "enum": [
+                "open",
+                "done",
+                "cancelled",
+                ""
+              ],
+              "type": "string"
+            }
+          },
+          {
+            "explode": false,
+            "in": "query",
+            "name": "clientId",
+            "schema": {
+              "format": "int64",
+              "type": "integer"
+            }
+          },
+          {
+            "explode": false,
+            "in": "query",
+            "name": "dealId",
+            "schema": {
+              "format": "int64",
+              "type": "integer"
+            }
+          },
+          {
+            "description": "Только просроченные открытые задачи",
+            "explode": false,
+            "in": "query",
+            "name": "overdue",
+            "schema": {
+              "description": "Только просроченные открытые задачи",
+              "type": "boolean"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CrmTasksResponse"
+                }
+              }
+            },
+            "description": "OK"
+          },
+          "default": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorModel"
+                }
+              }
+            },
+            "description": "Error"
+          }
+        },
+        "summary": "Список задач",
+        "tags": [
+          "crm"
+        ]
+      },
+      "post": {
+        "operationId": "crm-tasks-create",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CrmTaskBody"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CrmTask"
+                }
+              }
+            },
+            "description": "Created"
+          },
+          "default": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorModel"
+                }
+              }
+            },
+            "description": "Error"
+          }
+        },
+        "summary": "Создать задачу",
+        "tags": [
+          "crm"
+        ]
+      }
+    },
+    "/api/v1/crm/tasks/{id}": {
+      "get": {
+        "operationId": "crm-tasks-get",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "format": "int64",
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CrmTask"
+                }
+              }
+            },
+            "description": "OK"
+          },
+          "default": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorModel"
+                }
+              }
+            },
+            "description": "Error"
+          }
+        },
+        "summary": "Задача",
+        "tags": [
+          "crm"
+        ]
+      },
+      "patch": {
+        "operationId": "crm-tasks-update",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "format": "int64",
+              "type": "integer"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CrmTaskBody"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CrmTask"
+                }
+              }
+            },
+            "description": "OK"
+          },
+          "default": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorModel"
+                }
+              }
+            },
+            "description": "Error"
+          }
+        },
+        "summary": "Изменить задачу",
+        "tags": [
+          "crm"
+        ]
+      }
+    },
+    "/api/v1/crm/tasks/{id}/cancel": {
+      "post": {
+        "operationId": "crm-tasks-cancel",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "format": "int64",
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CrmTask"
+                }
+              }
+            },
+            "description": "OK"
+          },
+          "default": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorModel"
+                }
+              }
+            },
+            "description": "Error"
+          }
+        },
+        "summary": "Отменить задачу",
+        "tags": [
+          "crm"
+        ]
+      }
+    },
+    "/api/v1/crm/tasks/{id}/done": {
+      "post": {
+        "operationId": "crm-tasks-done",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "format": "int64",
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CrmTask"
+                }
+              }
+            },
+            "description": "OK"
+          },
+          "default": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorModel"
+                }
+              }
+            },
+            "description": "Error"
+          }
+        },
+        "summary": "Отметить задачу выполненной",
+        "tags": [
+          "crm"
+        ]
+      }
+    },
+    "/api/v1/directories/cashflow-items": {
+      "get": {
+        "operationId": "directories-cashflow-items-list",
+        "parameters": [
+          {
+            "description": "Фильтр по типу",
+            "explode": false,
+            "in": "query",
+            "name": "kind",
+            "schema": {
+              "description": "Фильтр по типу",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DirCashflowItemsResponse"
+                }
+              }
+            },
+            "description": "OK"
+          },
+          "default": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorModel"
+                }
+              }
+            },
+            "description": "Error"
+          }
+        },
+        "summary": "Список статей ДДС",
+        "tags": [
+          "directories"
+        ]
+      },
+      "post": {
+        "operationId": "directories-cashflow-items-create",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DirCashflowItemBody"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DirCashflowItem"
+                }
+              }
+            },
+            "description": "Created"
+          },
+          "default": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorModel"
+                }
+              }
+            },
+            "description": "Error"
+          }
+        },
+        "summary": "Создать: Статья ДДС",
+        "tags": [
+          "directories"
+        ]
+      }
+    },
+    "/api/v1/directories/cashflow-items/{id}": {
+      "get": {
+        "operationId": "directories-cashflow-items-get",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "format": "int64",
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DirCashflowItem"
+                }
+              }
+            },
+            "description": "OK"
+          },
+          "default": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorModel"
+                }
+              }
+            },
+            "description": "Error"
+          }
+        },
+        "summary": "Карточка: Статья ДДС",
+        "tags": [
+          "directories"
+        ]
+      },
+      "patch": {
+        "operationId": "directories-cashflow-items-update",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "format": "int64",
+              "type": "integer"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DirCashflowItemUpdateBody"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DirCashflowItem"
+                }
+              }
+            },
+            "description": "OK"
+          },
+          "default": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorModel"
+                }
+              }
+            },
+            "description": "Error"
+          }
+        },
+        "summary": "Изменить: Статья ДДС",
+        "tags": [
+          "directories"
+        ]
+      }
+    },
+    "/api/v1/directories/cost-centers": {
+      "get": {
+        "operationId": "directories-cost-centers-list",
+        "parameters": [
+          {
+            "description": "Поиск по наименованию и коду",
+            "explode": false,
+            "in": "query",
+            "name": "q",
+            "schema": {
+              "description": "Поиск по наименованию и коду",
+              "type": "string"
+            }
+          },
+          {
+            "description": "true — только активные, false — только отключённые; без параметра — все",
+            "explode": false,
+            "in": "query",
+            "name": "isActive",
+            "schema": {
+              "description": "true — только активные, false — только отключённые; без параметра — все",
+              "enum": [
+                "true",
+                "false"
+              ],
+              "type": "string"
+            }
+          },
+          {
+            "explode": false,
+            "in": "query",
+            "name": "limit",
+            "schema": {
+              "default": 50,
+              "format": "int32",
+              "maximum": 200,
+              "minimum": 1,
+              "type": "integer"
+            }
+          },
+          {
+            "explode": false,
+            "in": "query",
+            "name": "offset",
+            "schema": {
+              "default": 0,
+              "format": "int32",
+              "minimum": 0,
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DirCostCentersResponse"
+                }
+              }
+            },
+            "description": "OK"
+          },
+          "default": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorModel"
+                }
+              }
+            },
+            "description": "Error"
+          }
+        },
+        "summary": "Список ЦФО",
+        "tags": [
+          "directories"
+        ]
+      },
+      "post": {
+        "operationId": "directories-cost-centers-create",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DirCostCenterBody"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DirCostCenter"
+                }
+              }
+            },
+            "description": "Created"
+          },
+          "default": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorModel"
+                }
+              }
+            },
+            "description": "Error"
+          }
+        },
+        "summary": "Создать: ЦФО",
+        "tags": [
+          "directories"
+        ]
+      }
+    },
+    "/api/v1/directories/cost-centers/{id}": {
+      "get": {
+        "operationId": "directories-cost-centers-get",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "format": "int64",
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DirCostCenter"
+                }
+              }
+            },
+            "description": "OK"
+          },
+          "default": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorModel"
+                }
+              }
+            },
+            "description": "Error"
+          }
+        },
+        "summary": "Карточка: ЦФО",
+        "tags": [
+          "directories"
+        ]
+      },
+      "patch": {
+        "operationId": "directories-cost-centers-update",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "format": "int64",
+              "type": "integer"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DirCostCenterUpdateBody"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DirCostCenter"
+                }
+              }
+            },
+            "description": "OK"
+          },
+          "default": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorModel"
+                }
+              }
+            },
+            "description": "Error"
+          }
+        },
+        "summary": "Изменить: ЦФО",
+        "tags": [
+          "directories"
+        ]
+      }
+    },
+    "/api/v1/directories/counterparties": {
+      "get": {
+        "operationId": "directories-counterparties-list",
+        "parameters": [
+          {
+            "description": "Фильтр по типу",
+            "explode": false,
+            "in": "query",
+            "name": "kind",
+            "schema": {
+              "description": "Фильтр по типу",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DirCounterpartiesResponse"
+                }
+              }
+            },
+            "description": "OK"
+          },
+          "default": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorModel"
+                }
+              }
+            },
+            "description": "Error"
+          }
+        },
+        "summary": "Список контрагентов",
+        "tags": [
+          "directories"
+        ]
+      },
+      "post": {
+        "operationId": "directories-counterparties-create",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DirCounterpartyBody"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DirCounterparty"
+                }
+              }
+            },
+            "description": "Created"
+          },
+          "default": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorModel"
+                }
+              }
+            },
+            "description": "Error"
+          }
+        },
+        "summary": "Создать: Контрагент",
+        "tags": [
+          "directories"
+        ]
+      }
+    },
+    "/api/v1/directories/counterparties/{id}": {
+      "get": {
+        "operationId": "directories-counterparties-get",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "format": "int64",
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DirCounterparty"
+                }
+              }
+            },
+            "description": "OK"
+          },
+          "default": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorModel"
+                }
+              }
+            },
+            "description": "Error"
+          }
+        },
+        "summary": "Карточка: Контрагент",
+        "tags": [
+          "directories"
+        ]
+      },
+      "patch": {
+        "operationId": "directories-counterparties-update",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "format": "int64",
+              "type": "integer"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DirCounterpartyUpdateBody"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DirCounterparty"
+                }
+              }
+            },
+            "description": "OK"
+          },
+          "default": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorModel"
+                }
+              }
+            },
+            "description": "Error"
+          }
+        },
+        "summary": "Изменить: Контрагент",
+        "tags": [
+          "directories"
+        ]
+      }
+    },
+    "/api/v1/directories/currencies": {
+      "get": {
+        "operationId": "directories-currencies-list",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DirCurrenciesResponse"
+                }
+              }
+            },
+            "description": "OK"
+          },
+          "default": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorModel"
+                }
+              }
+            },
+            "description": "Error"
+          }
+        },
+        "summary": "Валюты",
+        "tags": [
+          "directories"
+        ]
+      }
+    },
+    "/api/v1/directories/items": {
+      "get": {
+        "operationId": "directories-items-list",
+        "parameters": [
+          {
+            "description": "Поиск по наименованию и коду",
+            "explode": false,
+            "in": "query",
+            "name": "q",
+            "schema": {
+              "description": "Поиск по наименованию и коду",
+              "type": "string"
+            }
+          },
+          {
+            "description": "true — только активные, false — только отключённые; без параметра — все",
+            "explode": false,
+            "in": "query",
+            "name": "isActive",
+            "schema": {
+              "description": "true — только активные, false — только отключённые; без параметра — все",
+              "enum": [
+                "true",
+                "false"
+              ],
+              "type": "string"
+            }
+          },
+          {
+            "explode": false,
+            "in": "query",
+            "name": "limit",
+            "schema": {
+              "default": 50,
+              "format": "int32",
+              "maximum": 200,
+              "minimum": 1,
+              "type": "integer"
+            }
+          },
+          {
+            "explode": false,
+            "in": "query",
+            "name": "offset",
+            "schema": {
+              "default": 0,
+              "format": "int32",
+              "minimum": 0,
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DirItemsResponse"
+                }
+              }
+            },
+            "description": "OK"
+          },
+          "default": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorModel"
+                }
+              }
+            },
+            "description": "Error"
+          }
+        },
+        "summary": "Список номенклатуры",
+        "tags": [
+          "directories"
+        ]
+      },
+      "post": {
+        "operationId": "directories-items-create",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DirItemBody"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DirItem"
+                }
+              }
+            },
+            "description": "Created"
+          },
+          "default": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorModel"
+                }
+              }
+            },
+            "description": "Error"
+          }
+        },
+        "summary": "Создать: Товар",
+        "tags": [
+          "directories"
+        ]
+      }
+    },
+    "/api/v1/directories/items/{id}": {
+      "get": {
+        "operationId": "directories-items-get",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "format": "int64",
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DirItem"
+                }
+              }
+            },
+            "description": "OK"
+          },
+          "default": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorModel"
+                }
+              }
+            },
+            "description": "Error"
+          }
+        },
+        "summary": "Карточка: Товар",
+        "tags": [
+          "directories"
+        ]
+      },
+      "patch": {
+        "operationId": "directories-items-update",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "format": "int64",
+              "type": "integer"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DirItemUpdateBody"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DirItem"
+                }
+              }
+            },
+            "description": "OK"
+          },
+          "default": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorModel"
+                }
+              }
+            },
+            "description": "Error"
+          }
+        },
+        "summary": "Изменить: Товар",
+        "tags": [
+          "directories"
+        ]
+      }
+    },
+    "/api/v1/directories/organizations": {
+      "get": {
+        "operationId": "directories-organizations-list",
+        "parameters": [
+          {
+            "description": "Поиск по наименованию и коду",
+            "explode": false,
+            "in": "query",
+            "name": "q",
+            "schema": {
+              "description": "Поиск по наименованию и коду",
+              "type": "string"
+            }
+          },
+          {
+            "description": "true — только активные, false — только отключённые; без параметра — все",
+            "explode": false,
+            "in": "query",
+            "name": "isActive",
+            "schema": {
+              "description": "true — только активные, false — только отключённые; без параметра — все",
+              "enum": [
+                "true",
+                "false"
+              ],
+              "type": "string"
+            }
+          },
+          {
+            "explode": false,
+            "in": "query",
+            "name": "limit",
+            "schema": {
+              "default": 50,
+              "format": "int32",
+              "maximum": 200,
+              "minimum": 1,
+              "type": "integer"
+            }
+          },
+          {
+            "explode": false,
+            "in": "query",
+            "name": "offset",
+            "schema": {
+              "default": 0,
+              "format": "int32",
+              "minimum": 0,
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DirOrganizationsResponse"
+                }
+              }
+            },
+            "description": "OK"
+          },
+          "default": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorModel"
+                }
+              }
+            },
+            "description": "Error"
+          }
+        },
+        "summary": "Список организаций",
+        "tags": [
+          "directories"
+        ]
+      },
+      "post": {
+        "operationId": "directories-organizations-create",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DirOrganizationBody"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DirOrganization"
+                }
+              }
+            },
+            "description": "Created"
+          },
+          "default": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorModel"
+                }
+              }
+            },
+            "description": "Error"
+          }
+        },
+        "summary": "Создать: Организация",
+        "tags": [
+          "directories"
+        ]
+      }
+    },
+    "/api/v1/directories/organizations/{id}": {
+      "get": {
+        "operationId": "directories-organizations-get",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "format": "int64",
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DirOrganization"
+                }
+              }
+            },
+            "description": "OK"
+          },
+          "default": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorModel"
+                }
+              }
+            },
+            "description": "Error"
+          }
+        },
+        "summary": "Карточка: Организация",
+        "tags": [
+          "directories"
+        ]
+      },
+      "patch": {
+        "operationId": "directories-organizations-update",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "format": "int64",
+              "type": "integer"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DirOrganizationUpdateBody"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DirOrganization"
+                }
+              }
+            },
+            "description": "OK"
+          },
+          "default": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorModel"
+                }
+              }
+            },
+            "description": "Error"
+          }
+        },
+        "summary": "Изменить: Организация",
+        "tags": [
+          "directories"
+        ]
+      }
+    },
+    "/api/v1/directories/units": {
+      "get": {
+        "operationId": "directories-units-list",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DirUnitsResponse"
+                }
+              }
+            },
+            "description": "OK"
+          },
+          "default": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorModel"
+                }
+              }
+            },
+            "description": "Error"
+          }
+        },
+        "summary": "Единицы измерения",
+        "tags": [
+          "directories"
+        ]
+      }
+    },
+    "/api/v1/directories/warehouses": {
+      "get": {
+        "operationId": "directories-warehouses-list",
+        "parameters": [
+          {
+            "description": "Поиск по наименованию и коду",
+            "explode": false,
+            "in": "query",
+            "name": "q",
+            "schema": {
+              "description": "Поиск по наименованию и коду",
+              "type": "string"
+            }
+          },
+          {
+            "description": "true — только активные, false — только отключённые; без параметра — все",
+            "explode": false,
+            "in": "query",
+            "name": "isActive",
+            "schema": {
+              "description": "true — только активные, false — только отключённые; без параметра — все",
+              "enum": [
+                "true",
+                "false"
+              ],
+              "type": "string"
+            }
+          },
+          {
+            "explode": false,
+            "in": "query",
+            "name": "limit",
+            "schema": {
+              "default": 50,
+              "format": "int32",
+              "maximum": 200,
+              "minimum": 1,
+              "type": "integer"
+            }
+          },
+          {
+            "explode": false,
+            "in": "query",
+            "name": "offset",
+            "schema": {
+              "default": 0,
+              "format": "int32",
+              "minimum": 0,
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DirWarehousesResponse"
+                }
+              }
+            },
+            "description": "OK"
+          },
+          "default": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorModel"
+                }
+              }
+            },
+            "description": "Error"
+          }
+        },
+        "summary": "Список складов",
+        "tags": [
+          "directories"
+        ]
+      },
+      "post": {
+        "operationId": "directories-warehouses-create",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DirWarehouseBody"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DirWarehouse"
+                }
+              }
+            },
+            "description": "Created"
+          },
+          "default": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorModel"
+                }
+              }
+            },
+            "description": "Error"
+          }
+        },
+        "summary": "Создать: Склад",
+        "tags": [
+          "directories"
+        ]
+      }
+    },
+    "/api/v1/directories/warehouses/{id}": {
+      "get": {
+        "operationId": "directories-warehouses-get",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "format": "int64",
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DirWarehouse"
+                }
+              }
+            },
+            "description": "OK"
+          },
+          "default": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorModel"
+                }
+              }
+            },
+            "description": "Error"
+          }
+        },
+        "summary": "Карточка: Склад",
+        "tags": [
+          "directories"
+        ]
+      },
+      "patch": {
+        "operationId": "directories-warehouses-update",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "format": "int64",
+              "type": "integer"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DirWarehouseUpdateBody"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DirWarehouse"
+                }
+              }
+            },
+            "description": "OK"
+          },
+          "default": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorModel"
+                }
+              }
+            },
+            "description": "Error"
+          }
+        },
+        "summary": "Изменить: Склад",
+        "tags": [
+          "directories"
+        ]
+      }
+    },
+    "/api/v1/directories/warehouses/{id}/cells": {
+      "get": {
+        "operationId": "directories-cells-list",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "format": "int64",
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DirCellsResponse"
+                }
+              }
+            },
+            "description": "OK"
+          },
+          "default": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorModel"
+                }
+              }
+            },
+            "description": "Error"
+          }
+        },
+        "summary": "Ячейки склада",
+        "tags": [
+          "directories"
+        ]
+      },
+      "post": {
+        "operationId": "directories-cells-create",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "format": "int64",
+              "type": "integer"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DirCellBody"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DirCell"
+                }
+              }
+            },
+            "description": "Created"
+          },
+          "default": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorModel"
+                }
+              }
+            },
+            "description": "Error"
+          }
+        },
+        "summary": "Создать ячейку",
+        "tags": [
+          "directories"
+        ]
+      }
+    },
+    "/api/v1/directories/warehouses/{id}/cells/{cellId}": {
+      "patch": {
+        "operationId": "directories-cells-update",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "format": "int64",
+              "type": "integer"
+            }
+          },
+          {
+            "in": "path",
+            "name": "cellId",
+            "required": true,
+            "schema": {
+              "format": "int64",
+              "type": "integer"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DirCellUpdateBody"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DirCell"
+                }
+              }
+            },
+            "description": "OK"
+          },
+          "default": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorModel"
+                }
+              }
+            },
+            "description": "Error"
+          }
+        },
+        "summary": "Изменить ячейку",
+        "tags": [
+          "directories"
         ]
       }
     },

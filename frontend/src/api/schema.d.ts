@@ -72,6 +72,467 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/v1/crm/clients": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Список клиентов */
+        get: operations["crm-clients-list"];
+        put?: never;
+        /** Создать клиента */
+        post: operations["crm-clients-create"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/crm/clients/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Карточка клиента */
+        get: operations["crm-clients-get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        /** Изменить клиента */
+        patch: operations["crm-clients-update"];
+        trace?: never;
+    };
+    "/api/v1/crm/deals": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Список сделок */
+        get: operations["crm-deals-list"];
+        put?: never;
+        /** Создать сделку */
+        post: operations["crm-deals-create"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/crm/deals/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Сделка с историей этапов */
+        get: operations["crm-deals-get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        /** Изменить сделку */
+        patch: operations["crm-deals-update"];
+        trace?: never;
+    };
+    "/api/v1/crm/deals/{id}/stage": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Сменить этап сделки */
+        post: operations["crm-deals-stage"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/crm/metrics": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Показатели CRM */
+        get: operations["crm-metrics"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/crm/tasks": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Список задач */
+        get: operations["crm-tasks-list"];
+        put?: never;
+        /** Создать задачу */
+        post: operations["crm-tasks-create"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/crm/tasks/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Задача */
+        get: operations["crm-tasks-get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        /** Изменить задачу */
+        patch: operations["crm-tasks-update"];
+        trace?: never;
+    };
+    "/api/v1/crm/tasks/{id}/cancel": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Отменить задачу */
+        post: operations["crm-tasks-cancel"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/crm/tasks/{id}/done": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Отметить задачу выполненной */
+        post: operations["crm-tasks-done"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/directories/cashflow-items": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Список статей ДДС */
+        get: operations["directories-cashflow-items-list"];
+        put?: never;
+        /** Создать: Статья ДДС */
+        post: operations["directories-cashflow-items-create"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/directories/cashflow-items/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Карточка: Статья ДДС */
+        get: operations["directories-cashflow-items-get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        /** Изменить: Статья ДДС */
+        patch: operations["directories-cashflow-items-update"];
+        trace?: never;
+    };
+    "/api/v1/directories/cost-centers": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Список ЦФО */
+        get: operations["directories-cost-centers-list"];
+        put?: never;
+        /** Создать: ЦФО */
+        post: operations["directories-cost-centers-create"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/directories/cost-centers/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Карточка: ЦФО */
+        get: operations["directories-cost-centers-get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        /** Изменить: ЦФО */
+        patch: operations["directories-cost-centers-update"];
+        trace?: never;
+    };
+    "/api/v1/directories/counterparties": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Список контрагентов */
+        get: operations["directories-counterparties-list"];
+        put?: never;
+        /** Создать: Контрагент */
+        post: operations["directories-counterparties-create"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/directories/counterparties/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Карточка: Контрагент */
+        get: operations["directories-counterparties-get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        /** Изменить: Контрагент */
+        patch: operations["directories-counterparties-update"];
+        trace?: never;
+    };
+    "/api/v1/directories/currencies": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Валюты */
+        get: operations["directories-currencies-list"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/directories/items": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Список номенклатуры */
+        get: operations["directories-items-list"];
+        put?: never;
+        /** Создать: Товар */
+        post: operations["directories-items-create"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/directories/items/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Карточка: Товар */
+        get: operations["directories-items-get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        /** Изменить: Товар */
+        patch: operations["directories-items-update"];
+        trace?: never;
+    };
+    "/api/v1/directories/organizations": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Список организаций */
+        get: operations["directories-organizations-list"];
+        put?: never;
+        /** Создать: Организация */
+        post: operations["directories-organizations-create"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/directories/organizations/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Карточка: Организация */
+        get: operations["directories-organizations-get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        /** Изменить: Организация */
+        patch: operations["directories-organizations-update"];
+        trace?: never;
+    };
+    "/api/v1/directories/units": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Единицы измерения */
+        get: operations["directories-units-list"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/directories/warehouses": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Список складов */
+        get: operations["directories-warehouses-list"];
+        put?: never;
+        /** Создать: Склад */
+        post: operations["directories-warehouses-create"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/directories/warehouses/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Карточка: Склад */
+        get: operations["directories-warehouses-get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        /** Изменить: Склад */
+        patch: operations["directories-warehouses-update"];
+        trace?: never;
+    };
+    "/api/v1/directories/warehouses/{id}/cells": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Ячейки склада */
+        get: operations["directories-cells-list"];
+        put?: never;
+        /** Создать ячейку */
+        post: operations["directories-cells-create"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/directories/warehouses/{id}/cells/{cellId}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        /** Изменить ячейку */
+        patch: operations["directories-cells-update"];
+        trace?: never;
+    };
     "/api/v1/health": {
         parameters: {
             query?: never;
@@ -208,6 +669,748 @@ export interface components {
              */
             readonly $schema?: string;
             user: components["schemas"]["SessionUser"];
+        };
+        CrmClient: {
+            /**
+             * Format: uri
+             * @description A URL to the JSON Schema for this object.
+             * @example https://example.com/schemas/CrmClient.json
+             */
+            readonly $schema?: string;
+            /** @description Пусто, если БИН не указан */
+            bin: string;
+            contactName: string;
+            contactPosition: string;
+            /** Format: date-time */
+            createdAt: string;
+            email: string;
+            /** Format: int64 */
+            id: number;
+            industry: string;
+            name: string;
+            ownerName: string;
+            /** Format: int64 */
+            ownerUserId: number;
+            phone: string;
+            region: string;
+            /** @enum {string} */
+            status: "potential" | "active" | "inactive";
+            /** Format: date-time */
+            updatedAt: string;
+        };
+        CrmClientBody: {
+            /**
+             * Format: uri
+             * @description A URL to the JSON Schema for this object.
+             * @example https://example.com/schemas/CrmClientBody.json
+             */
+            readonly $schema?: string;
+            /** @description БИН/ИИН, 12 цифр */
+            bin?: string;
+            contactName?: string;
+            contactPosition?: string;
+            email?: string;
+            industry?: string;
+            /** @description Название компании */
+            name: string;
+            /**
+             * Format: int64
+             * @description Ответственный сотрудник
+             */
+            ownerUserId: number;
+            phone?: string;
+            region?: string;
+            /**
+             * @description По умолчанию potential
+             * @enum {string}
+             */
+            status?: "potential" | "active" | "inactive";
+        };
+        CrmClientsResponse: {
+            /**
+             * Format: uri
+             * @description A URL to the JSON Schema for this object.
+             * @example https://example.com/schemas/CrmClientsResponse.json
+             */
+            readonly $schema?: string;
+            items: components["schemas"]["CrmClient"][];
+            /** Format: int64 */
+            total: number;
+        };
+        CrmDeal: {
+            /** @example 125000.00 */
+            amount: string;
+            /** Format: int64 */
+            clientId: number;
+            clientName: string;
+            /** Format: date-time */
+            createdAt: string;
+            /**
+             * Format: date
+             * @description ГГГГ-ММ-ДД; пусто, если не задана
+             */
+            expectedCloseDate: string;
+            /** Format: int64 */
+            id: number;
+            ownerName: string;
+            /** Format: int64 */
+            ownerUserId: number;
+            /** Format: int64 */
+            probability: number;
+            /** @enum {string} */
+            stage: "new" | "contact" | "negotiation" | "proposal" | "approval" | "won" | "lost";
+            /** Format: date-time */
+            stageChangedAt: string;
+            title: string;
+            /** Format: date-time */
+            updatedAt: string;
+        };
+        CrmDealBody: {
+            /**
+             * Format: uri
+             * @description A URL to the JSON Schema for this object.
+             * @example https://example.com/schemas/CrmDealBody.json
+             */
+            readonly $schema?: string;
+            /**
+             * @description Сумма в тенге строкой
+             * @example 125000.00
+             */
+            amount: string;
+            /** Format: int64 */
+            clientId: number;
+            /**
+             * Format: date
+             * @description ГГГГ-ММ-ДД
+             */
+            expectedCloseDate?: string;
+            /** Format: int64 */
+            ownerUserId: number;
+            /**
+             * Format: int64
+             * @description 0–100
+             * @default 50
+             */
+            probability: number;
+            title: string;
+        };
+        CrmDealDetail: {
+            /**
+             * Format: uri
+             * @description A URL to the JSON Schema for this object.
+             * @example https://example.com/schemas/CrmDealDetail.json
+             */
+            readonly $schema?: string;
+            /** @example 125000.00 */
+            amount: string;
+            /** Format: int64 */
+            clientId: number;
+            clientName: string;
+            /** Format: date-time */
+            createdAt: string;
+            /**
+             * Format: date
+             * @description ГГГГ-ММ-ДД; пусто, если не задана
+             */
+            expectedCloseDate: string;
+            history: components["schemas"]["CrmDealStageHistoryEntry"][];
+            /** Format: int64 */
+            id: number;
+            ownerName: string;
+            /** Format: int64 */
+            ownerUserId: number;
+            /** Format: int64 */
+            probability: number;
+            /** @enum {string} */
+            stage: "new" | "contact" | "negotiation" | "proposal" | "approval" | "won" | "lost";
+            /** Format: date-time */
+            stageChangedAt: string;
+            title: string;
+            /** Format: date-time */
+            updatedAt: string;
+        };
+        CrmDealStageBody: {
+            /**
+             * Format: uri
+             * @description A URL to the JSON Schema for this object.
+             * @example https://example.com/schemas/CrmDealStageBody.json
+             */
+            readonly $schema?: string;
+            comment?: string;
+            /** @enum {string} */
+            stage: "new" | "contact" | "negotiation" | "proposal" | "approval" | "won" | "lost";
+        };
+        CrmDealStageHistoryEntry: {
+            /** Format: date-time */
+            changedAt: string;
+            /**
+             * Format: int64
+             * @description 0, если автор неизвестен
+             */
+            changedBy: number;
+            changedByName: string;
+            comment: string;
+            /** @description Пусто у первой записи */
+            fromStage: string;
+            /** Format: int64 */
+            id: number;
+            /** @enum {string} */
+            toStage: "new" | "contact" | "negotiation" | "proposal" | "approval" | "won" | "lost";
+        };
+        CrmDealUpdateBody: {
+            /**
+             * Format: uri
+             * @description A URL to the JSON Schema for this object.
+             * @example https://example.com/schemas/CrmDealUpdateBody.json
+             */
+            readonly $schema?: string;
+            /** @example 125000.00 */
+            amount: string;
+            /**
+             * Format: date
+             * @description ГГГГ-ММ-ДД
+             */
+            expectedCloseDate?: string;
+            /** Format: int64 */
+            ownerUserId: number;
+            /**
+             * Format: int64
+             * @default 50
+             */
+            probability: number;
+            title: string;
+        };
+        CrmDealsResponse: {
+            /**
+             * Format: uri
+             * @description A URL to the JSON Schema for this object.
+             * @example https://example.com/schemas/CrmDealsResponse.json
+             */
+            readonly $schema?: string;
+            items: components["schemas"]["CrmDeal"][];
+            /** Format: int64 */
+            total: number;
+        };
+        CrmMetrics: {
+            /**
+             * Format: uri
+             * @description A URL to the JSON Schema for this object.
+             * @example https://example.com/schemas/CrmMetrics.json
+             */
+            readonly $schema?: string;
+            /** Format: int64 */
+            clientsTotal: number;
+            /**
+             * Format: int64
+             * @description Сделки не на этапах «Договор заключен» и «Отказ»
+             */
+            dealsActive: number;
+            /** @example 1250000.00 */
+            dealsAmountActive: string;
+            /** @example 980000.00 */
+            dealsAmountWon: string;
+            /** Format: int64 */
+            dealsWon: number;
+            /** Format: int64 */
+            tasksOpen: number;
+            /** Format: int64 */
+            tasksOverdue: number;
+        };
+        CrmTask: {
+            /**
+             * Format: uri
+             * @description A URL to the JSON Schema for this object.
+             * @example https://example.com/schemas/CrmTask.json
+             */
+            readonly $schema?: string;
+            assigneeName: string;
+            /** Format: int64 */
+            assigneeUserId: number;
+            /**
+             * Format: int64
+             * @description 0, если задача не привязана к клиенту
+             */
+            clientId: number;
+            clientName: string;
+            /** Format: date-time */
+            createdAt: string;
+            /**
+             * Format: int64
+             * @description 0, если задача не привязана к сделке
+             */
+            dealId: number;
+            dealTitle: string;
+            description: string;
+            /** Format: date-time */
+            doneAt?: string;
+            /**
+             * Format: date
+             * @description ГГГГ-ММ-ДД
+             */
+            dueDate: string;
+            /** Format: int64 */
+            id: number;
+            /** @description Открыта и срок прошёл (по дате в Алматы) */
+            isOverdue: boolean;
+            /** @enum {string} */
+            status: "open" | "done" | "cancelled";
+            title: string;
+            /** Format: date-time */
+            updatedAt: string;
+        };
+        CrmTaskBody: {
+            /**
+             * Format: uri
+             * @description A URL to the JSON Schema for this object.
+             * @example https://example.com/schemas/CrmTaskBody.json
+             */
+            readonly $schema?: string;
+            /** Format: int64 */
+            assigneeUserId: number;
+            /**
+             * Format: int64
+             * @description Если указана только сделка, клиент берётся из сделки
+             */
+            clientId?: number;
+            /** Format: int64 */
+            dealId?: number;
+            description?: string;
+            /**
+             * Format: date
+             * @description ГГГГ-ММ-ДД
+             */
+            dueDate: string;
+            title: string;
+        };
+        CrmTasksResponse: {
+            /**
+             * Format: uri
+             * @description A URL to the JSON Schema for this object.
+             * @example https://example.com/schemas/CrmTasksResponse.json
+             */
+            readonly $schema?: string;
+            items: components["schemas"]["CrmTask"][];
+            /** Format: int64 */
+            total: number;
+        };
+        DirCashflowItem: {
+            /**
+             * Format: uri
+             * @description A URL to the JSON Schema for this object.
+             * @example https://example.com/schemas/DirCashflowItem.json
+             */
+            readonly $schema?: string;
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: int64 */
+            id: number;
+            isActive: boolean;
+            /** @enum {string} */
+            kind: "income" | "expense";
+            name: string;
+            /** Format: date-time */
+            updatedAt: string;
+        };
+        DirCashflowItemBody: {
+            /**
+             * Format: uri
+             * @description A URL to the JSON Schema for this object.
+             * @example https://example.com/schemas/DirCashflowItemBody.json
+             */
+            readonly $schema?: string;
+            /**
+             * @description Приход или расход
+             * @enum {string}
+             */
+            kind: "income" | "expense";
+            name: string;
+        };
+        DirCashflowItemUpdateBody: {
+            /**
+             * Format: uri
+             * @description A URL to the JSON Schema for this object.
+             * @example https://example.com/schemas/DirCashflowItemUpdateBody.json
+             */
+            readonly $schema?: string;
+            isActive: boolean;
+            /** @enum {string} */
+            kind: "income" | "expense";
+            name: string;
+        };
+        DirCashflowItemsResponse: {
+            /**
+             * Format: uri
+             * @description A URL to the JSON Schema for this object.
+             * @example https://example.com/schemas/DirCashflowItemsResponse.json
+             */
+            readonly $schema?: string;
+            items: components["schemas"]["DirCashflowItem"][];
+            /** Format: int64 */
+            total: number;
+        };
+        DirCell: {
+            /**
+             * Format: uri
+             * @description A URL to the JSON Schema for this object.
+             * @example https://example.com/schemas/DirCell.json
+             */
+            readonly $schema?: string;
+            address: string;
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: int64 */
+            id: number;
+            isActive: boolean;
+            isReceiving: boolean;
+            /** Format: int64 */
+            warehouseId: number;
+        };
+        DirCellBody: {
+            /**
+             * Format: uri
+             * @description A URL to the JSON Schema for this object.
+             * @example https://example.com/schemas/DirCellBody.json
+             */
+            readonly $schema?: string;
+            /** @description Адрес ячейки, например A-01-01; сохраняется в верхнем регистре */
+            address: string;
+        };
+        DirCellUpdateBody: {
+            /**
+             * Format: uri
+             * @description A URL to the JSON Schema for this object.
+             * @example https://example.com/schemas/DirCellUpdateBody.json
+             */
+            readonly $schema?: string;
+            address: string;
+            isActive: boolean;
+        };
+        DirCellsResponse: {
+            /**
+             * Format: uri
+             * @description A URL to the JSON Schema for this object.
+             * @example https://example.com/schemas/DirCellsResponse.json
+             */
+            readonly $schema?: string;
+            items: components["schemas"]["DirCell"][];
+            /** Format: int64 */
+            total: number;
+        };
+        DirCostCenter: {
+            /**
+             * Format: uri
+             * @description A URL to the JSON Schema for this object.
+             * @example https://example.com/schemas/DirCostCenter.json
+             */
+            readonly $schema?: string;
+            code: string | null;
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: int64 */
+            id: number;
+            isActive: boolean;
+            name: string;
+            /** Format: date-time */
+            updatedAt: string;
+        };
+        DirCostCenterBody: {
+            /**
+             * Format: uri
+             * @description A URL to the JSON Schema for this object.
+             * @example https://example.com/schemas/DirCostCenterBody.json
+             */
+            readonly $schema?: string;
+            code?: string;
+            name: string;
+        };
+        DirCostCenterUpdateBody: {
+            /**
+             * Format: uri
+             * @description A URL to the JSON Schema for this object.
+             * @example https://example.com/schemas/DirCostCenterUpdateBody.json
+             */
+            readonly $schema?: string;
+            code?: string;
+            isActive: boolean;
+            name: string;
+        };
+        DirCostCentersResponse: {
+            /**
+             * Format: uri
+             * @description A URL to the JSON Schema for this object.
+             * @example https://example.com/schemas/DirCostCentersResponse.json
+             */
+            readonly $schema?: string;
+            items: components["schemas"]["DirCostCenter"][];
+            /** Format: int64 */
+            total: number;
+        };
+        DirCounterpartiesResponse: {
+            /**
+             * Format: uri
+             * @description A URL to the JSON Schema for this object.
+             * @example https://example.com/schemas/DirCounterpartiesResponse.json
+             */
+            readonly $schema?: string;
+            items: components["schemas"]["DirCounterparty"][];
+            /** Format: int64 */
+            total: number;
+        };
+        DirCounterparty: {
+            /**
+             * Format: uri
+             * @description A URL to the JSON Schema for this object.
+             * @example https://example.com/schemas/DirCounterparty.json
+             */
+            readonly $schema?: string;
+            bin: string;
+            contactName: string | null;
+            /** Format: date-time */
+            createdAt: string;
+            email: string | null;
+            /** Format: int64 */
+            id: number;
+            isActive: boolean;
+            /** @enum {string} */
+            kind: "supplier" | "customer" | "other";
+            name: string;
+            phone: string | null;
+            /** Format: date-time */
+            updatedAt: string;
+        };
+        DirCounterpartyBody: {
+            /**
+             * Format: uri
+             * @description A URL to the JSON Schema for this object.
+             * @example https://example.com/schemas/DirCounterpartyBody.json
+             */
+            readonly $schema?: string;
+            bin: string;
+            contactName?: string;
+            email?: string;
+            /**
+             * @description Поставщик, покупатель или прочий
+             * @enum {string}
+             */
+            kind: "supplier" | "customer" | "other";
+            name: string;
+            phone?: string;
+        };
+        DirCounterpartyUpdateBody: {
+            /**
+             * Format: uri
+             * @description A URL to the JSON Schema for this object.
+             * @example https://example.com/schemas/DirCounterpartyUpdateBody.json
+             */
+            readonly $schema?: string;
+            bin: string;
+            contactName?: string;
+            email?: string;
+            isActive: boolean;
+            /** @enum {string} */
+            kind: "supplier" | "customer" | "other";
+            name: string;
+            phone?: string;
+        };
+        DirCurrenciesResponse: {
+            /**
+             * Format: uri
+             * @description A URL to the JSON Schema for this object.
+             * @example https://example.com/schemas/DirCurrenciesResponse.json
+             */
+            readonly $schema?: string;
+            items: components["schemas"]["DirCurrency"][];
+        };
+        DirCurrency: {
+            code: string;
+            isActive: boolean;
+            name: string;
+        };
+        DirItem: {
+            /**
+             * Format: uri
+             * @description A URL to the JSON Schema for this object.
+             * @example https://example.com/schemas/DirItem.json
+             */
+            readonly $schema?: string;
+            barcode: string | null;
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: int64 */
+            id: number;
+            isActive: boolean;
+            name: string;
+            sku: string;
+            /** Format: int64 */
+            unitId: number;
+            /** Format: date-time */
+            updatedAt: string;
+        };
+        DirItemBody: {
+            /**
+             * Format: uri
+             * @description A URL to the JSON Schema for this object.
+             * @example https://example.com/schemas/DirItemBody.json
+             */
+            readonly $schema?: string;
+            barcode?: string;
+            name: string;
+            /** @description Артикул */
+            sku: string;
+            /**
+             * Format: int64
+             * @description Единица измерения из справочника
+             */
+            unitId: number;
+        };
+        DirItemUpdateBody: {
+            /**
+             * Format: uri
+             * @description A URL to the JSON Schema for this object.
+             * @example https://example.com/schemas/DirItemUpdateBody.json
+             */
+            readonly $schema?: string;
+            barcode?: string;
+            isActive: boolean;
+            name: string;
+            sku: string;
+            /** Format: int64 */
+            unitId: number;
+        };
+        DirItemsResponse: {
+            /**
+             * Format: uri
+             * @description A URL to the JSON Schema for this object.
+             * @example https://example.com/schemas/DirItemsResponse.json
+             */
+            readonly $schema?: string;
+            items: components["schemas"]["DirItem"][];
+            /** Format: int64 */
+            total: number;
+        };
+        DirOrganization: {
+            /**
+             * Format: uri
+             * @description A URL to the JSON Schema for this object.
+             * @example https://example.com/schemas/DirOrganization.json
+             */
+            readonly $schema?: string;
+            address: string | null;
+            bin: string;
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: int64 */
+            id: number;
+            isActive: boolean;
+            name: string;
+            /** Format: date-time */
+            updatedAt: string;
+        };
+        DirOrganizationBody: {
+            /**
+             * Format: uri
+             * @description A URL to the JSON Schema for this object.
+             * @example https://example.com/schemas/DirOrganizationBody.json
+             */
+            readonly $schema?: string;
+            address?: string;
+            /** @description БИН/ИИН, 12 цифр */
+            bin: string;
+            /** @description Наименование */
+            name: string;
+        };
+        DirOrganizationUpdateBody: {
+            /**
+             * Format: uri
+             * @description A URL to the JSON Schema for this object.
+             * @example https://example.com/schemas/DirOrganizationUpdateBody.json
+             */
+            readonly $schema?: string;
+            address?: string;
+            bin: string;
+            isActive: boolean;
+            name: string;
+        };
+        DirOrganizationsResponse: {
+            /**
+             * Format: uri
+             * @description A URL to the JSON Schema for this object.
+             * @example https://example.com/schemas/DirOrganizationsResponse.json
+             */
+            readonly $schema?: string;
+            items: components["schemas"]["DirOrganization"][];
+            /** Format: int64 */
+            total: number;
+        };
+        DirUnit: {
+            code: string;
+            /** Format: int64 */
+            id: number;
+            name: string;
+        };
+        DirUnitsResponse: {
+            /**
+             * Format: uri
+             * @description A URL to the JSON Schema for this object.
+             * @example https://example.com/schemas/DirUnitsResponse.json
+             */
+            readonly $schema?: string;
+            items: components["schemas"]["DirUnit"][];
+        };
+        DirWarehouse: {
+            /**
+             * Format: uri
+             * @description A URL to the JSON Schema for this object.
+             * @example https://example.com/schemas/DirWarehouse.json
+             */
+            readonly $schema?: string;
+            code: string;
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: int64 */
+            id: number;
+            isActive: boolean;
+            name: string;
+            /** Format: int64 */
+            responsibleUserId: number | null;
+            /** Format: date-time */
+            updatedAt: string;
+        };
+        DirWarehouseBody: {
+            /**
+             * Format: uri
+             * @description A URL to the JSON Schema for this object.
+             * @example https://example.com/schemas/DirWarehouseBody.json
+             */
+            readonly $schema?: string;
+            code: string;
+            name: string;
+            /** Format: int64 */
+            responsibleUserId?: number;
+        };
+        DirWarehouseUpdateBody: {
+            /**
+             * Format: uri
+             * @description A URL to the JSON Schema for this object.
+             * @example https://example.com/schemas/DirWarehouseUpdateBody.json
+             */
+            readonly $schema?: string;
+            code: string;
+            isActive: boolean;
+            name: string;
+            /** Format: int64 */
+            responsibleUserId?: number;
+        };
+        DirWarehousesResponse: {
+            /**
+             * Format: uri
+             * @description A URL to the JSON Schema for this object.
+             * @example https://example.com/schemas/DirWarehousesResponse.json
+             */
+            readonly $schema?: string;
+            items: components["schemas"]["DirWarehouse"][];
+            /** Format: int64 */
+            total: number;
         };
         ErrorDetail: {
             /** @description Where the error occurred, e.g. 'body.items[3].tags' or 'path.thing-id' */
@@ -483,6 +1686,1496 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["AuthUserResponse"];
+                };
+            };
+            /** @description Error */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["ErrorModel"];
+                };
+            };
+        };
+    };
+    "crm-clients-list": {
+        parameters: {
+            query?: {
+                /** @description Поиск по названию, БИН и контакту */
+                q?: string;
+                ownerUserId?: number;
+                status?: "potential" | "active" | "inactive" | "";
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["CrmClientsResponse"];
+                };
+            };
+            /** @description Error */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["ErrorModel"];
+                };
+            };
+        };
+    };
+    "crm-clients-create": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["CrmClientBody"];
+            };
+        };
+        responses: {
+            /** @description Created */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["CrmClient"];
+                };
+            };
+            /** @description Error */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["ErrorModel"];
+                };
+            };
+        };
+    };
+    "crm-clients-get": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["CrmClient"];
+                };
+            };
+            /** @description Error */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["ErrorModel"];
+                };
+            };
+        };
+    };
+    "crm-clients-update": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["CrmClientBody"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["CrmClient"];
+                };
+            };
+            /** @description Error */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["ErrorModel"];
+                };
+            };
+        };
+    };
+    "crm-deals-list": {
+        parameters: {
+            query?: {
+                /** @description Поиск по названию сделки */
+                q?: string;
+                clientId?: number;
+                stage?: "new" | "contact" | "negotiation" | "proposal" | "approval" | "won" | "lost" | "";
+                ownerUserId?: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["CrmDealsResponse"];
+                };
+            };
+            /** @description Error */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["ErrorModel"];
+                };
+            };
+        };
+    };
+    "crm-deals-create": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["CrmDealBody"];
+            };
+        };
+        responses: {
+            /** @description Created */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["CrmDealDetail"];
+                };
+            };
+            /** @description Error */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["ErrorModel"];
+                };
+            };
+        };
+    };
+    "crm-deals-get": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["CrmDealDetail"];
+                };
+            };
+            /** @description Error */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["ErrorModel"];
+                };
+            };
+        };
+    };
+    "crm-deals-update": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["CrmDealUpdateBody"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["CrmDealDetail"];
+                };
+            };
+            /** @description Error */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["ErrorModel"];
+                };
+            };
+        };
+    };
+    "crm-deals-stage": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["CrmDealStageBody"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["CrmDealDetail"];
+                };
+            };
+            /** @description Error */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["ErrorModel"];
+                };
+            };
+        };
+    };
+    "crm-metrics": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["CrmMetrics"];
+                };
+            };
+            /** @description Error */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["ErrorModel"];
+                };
+            };
+        };
+    };
+    "crm-tasks-list": {
+        parameters: {
+            query?: {
+                assigneeUserId?: number;
+                status?: "open" | "done" | "cancelled" | "";
+                clientId?: number;
+                dealId?: number;
+                /** @description Только просроченные открытые задачи */
+                overdue?: boolean;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["CrmTasksResponse"];
+                };
+            };
+            /** @description Error */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["ErrorModel"];
+                };
+            };
+        };
+    };
+    "crm-tasks-create": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["CrmTaskBody"];
+            };
+        };
+        responses: {
+            /** @description Created */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["CrmTask"];
+                };
+            };
+            /** @description Error */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["ErrorModel"];
+                };
+            };
+        };
+    };
+    "crm-tasks-get": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["CrmTask"];
+                };
+            };
+            /** @description Error */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["ErrorModel"];
+                };
+            };
+        };
+    };
+    "crm-tasks-update": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["CrmTaskBody"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["CrmTask"];
+                };
+            };
+            /** @description Error */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["ErrorModel"];
+                };
+            };
+        };
+    };
+    "crm-tasks-cancel": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["CrmTask"];
+                };
+            };
+            /** @description Error */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["ErrorModel"];
+                };
+            };
+        };
+    };
+    "crm-tasks-done": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["CrmTask"];
+                };
+            };
+            /** @description Error */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["ErrorModel"];
+                };
+            };
+        };
+    };
+    "directories-cashflow-items-list": {
+        parameters: {
+            query?: {
+                /** @description Фильтр по типу */
+                kind?: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["DirCashflowItemsResponse"];
+                };
+            };
+            /** @description Error */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["ErrorModel"];
+                };
+            };
+        };
+    };
+    "directories-cashflow-items-create": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["DirCashflowItemBody"];
+            };
+        };
+        responses: {
+            /** @description Created */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["DirCashflowItem"];
+                };
+            };
+            /** @description Error */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["ErrorModel"];
+                };
+            };
+        };
+    };
+    "directories-cashflow-items-get": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["DirCashflowItem"];
+                };
+            };
+            /** @description Error */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["ErrorModel"];
+                };
+            };
+        };
+    };
+    "directories-cashflow-items-update": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["DirCashflowItemUpdateBody"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["DirCashflowItem"];
+                };
+            };
+            /** @description Error */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["ErrorModel"];
+                };
+            };
+        };
+    };
+    "directories-cost-centers-list": {
+        parameters: {
+            query?: {
+                /** @description Поиск по наименованию и коду */
+                q?: string;
+                /** @description true — только активные, false — только отключённые; без параметра — все */
+                isActive?: "true" | "false";
+                limit?: number;
+                offset?: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["DirCostCentersResponse"];
+                };
+            };
+            /** @description Error */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["ErrorModel"];
+                };
+            };
+        };
+    };
+    "directories-cost-centers-create": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["DirCostCenterBody"];
+            };
+        };
+        responses: {
+            /** @description Created */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["DirCostCenter"];
+                };
+            };
+            /** @description Error */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["ErrorModel"];
+                };
+            };
+        };
+    };
+    "directories-cost-centers-get": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["DirCostCenter"];
+                };
+            };
+            /** @description Error */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["ErrorModel"];
+                };
+            };
+        };
+    };
+    "directories-cost-centers-update": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["DirCostCenterUpdateBody"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["DirCostCenter"];
+                };
+            };
+            /** @description Error */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["ErrorModel"];
+                };
+            };
+        };
+    };
+    "directories-counterparties-list": {
+        parameters: {
+            query?: {
+                /** @description Фильтр по типу */
+                kind?: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["DirCounterpartiesResponse"];
+                };
+            };
+            /** @description Error */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["ErrorModel"];
+                };
+            };
+        };
+    };
+    "directories-counterparties-create": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["DirCounterpartyBody"];
+            };
+        };
+        responses: {
+            /** @description Created */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["DirCounterparty"];
+                };
+            };
+            /** @description Error */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["ErrorModel"];
+                };
+            };
+        };
+    };
+    "directories-counterparties-get": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["DirCounterparty"];
+                };
+            };
+            /** @description Error */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["ErrorModel"];
+                };
+            };
+        };
+    };
+    "directories-counterparties-update": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["DirCounterpartyUpdateBody"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["DirCounterparty"];
+                };
+            };
+            /** @description Error */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["ErrorModel"];
+                };
+            };
+        };
+    };
+    "directories-currencies-list": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["DirCurrenciesResponse"];
+                };
+            };
+            /** @description Error */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["ErrorModel"];
+                };
+            };
+        };
+    };
+    "directories-items-list": {
+        parameters: {
+            query?: {
+                /** @description Поиск по наименованию и коду */
+                q?: string;
+                /** @description true — только активные, false — только отключённые; без параметра — все */
+                isActive?: "true" | "false";
+                limit?: number;
+                offset?: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["DirItemsResponse"];
+                };
+            };
+            /** @description Error */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["ErrorModel"];
+                };
+            };
+        };
+    };
+    "directories-items-create": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["DirItemBody"];
+            };
+        };
+        responses: {
+            /** @description Created */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["DirItem"];
+                };
+            };
+            /** @description Error */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["ErrorModel"];
+                };
+            };
+        };
+    };
+    "directories-items-get": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["DirItem"];
+                };
+            };
+            /** @description Error */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["ErrorModel"];
+                };
+            };
+        };
+    };
+    "directories-items-update": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["DirItemUpdateBody"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["DirItem"];
+                };
+            };
+            /** @description Error */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["ErrorModel"];
+                };
+            };
+        };
+    };
+    "directories-organizations-list": {
+        parameters: {
+            query?: {
+                /** @description Поиск по наименованию и коду */
+                q?: string;
+                /** @description true — только активные, false — только отключённые; без параметра — все */
+                isActive?: "true" | "false";
+                limit?: number;
+                offset?: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["DirOrganizationsResponse"];
+                };
+            };
+            /** @description Error */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["ErrorModel"];
+                };
+            };
+        };
+    };
+    "directories-organizations-create": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["DirOrganizationBody"];
+            };
+        };
+        responses: {
+            /** @description Created */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["DirOrganization"];
+                };
+            };
+            /** @description Error */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["ErrorModel"];
+                };
+            };
+        };
+    };
+    "directories-organizations-get": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["DirOrganization"];
+                };
+            };
+            /** @description Error */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["ErrorModel"];
+                };
+            };
+        };
+    };
+    "directories-organizations-update": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["DirOrganizationUpdateBody"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["DirOrganization"];
+                };
+            };
+            /** @description Error */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["ErrorModel"];
+                };
+            };
+        };
+    };
+    "directories-units-list": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["DirUnitsResponse"];
+                };
+            };
+            /** @description Error */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["ErrorModel"];
+                };
+            };
+        };
+    };
+    "directories-warehouses-list": {
+        parameters: {
+            query?: {
+                /** @description Поиск по наименованию и коду */
+                q?: string;
+                /** @description true — только активные, false — только отключённые; без параметра — все */
+                isActive?: "true" | "false";
+                limit?: number;
+                offset?: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["DirWarehousesResponse"];
+                };
+            };
+            /** @description Error */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["ErrorModel"];
+                };
+            };
+        };
+    };
+    "directories-warehouses-create": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["DirWarehouseBody"];
+            };
+        };
+        responses: {
+            /** @description Created */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["DirWarehouse"];
+                };
+            };
+            /** @description Error */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["ErrorModel"];
+                };
+            };
+        };
+    };
+    "directories-warehouses-get": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["DirWarehouse"];
+                };
+            };
+            /** @description Error */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["ErrorModel"];
+                };
+            };
+        };
+    };
+    "directories-warehouses-update": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["DirWarehouseUpdateBody"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["DirWarehouse"];
+                };
+            };
+            /** @description Error */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["ErrorModel"];
+                };
+            };
+        };
+    };
+    "directories-cells-list": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["DirCellsResponse"];
+                };
+            };
+            /** @description Error */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["ErrorModel"];
+                };
+            };
+        };
+    };
+    "directories-cells-create": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["DirCellBody"];
+            };
+        };
+        responses: {
+            /** @description Created */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["DirCell"];
+                };
+            };
+            /** @description Error */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["ErrorModel"];
+                };
+            };
+        };
+    };
+    "directories-cells-update": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+                cellId: number;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["DirCellUpdateBody"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["DirCell"];
                 };
             };
             /** @description Error */
