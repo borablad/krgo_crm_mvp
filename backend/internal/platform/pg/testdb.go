@@ -30,11 +30,12 @@ func TestPool(t testing.TB) *pgxpool.Pool {
 	return pool
 }
 
-// truncateAll чистит все таблицы схемы public, кроме служебной таблицы goose.
+// truncateAll чистит все таблицы схемы public, кроме служебной таблицы goose
+// и справочников, заполняемых миграциями (единицы измерения, валюты).
 func truncateAll(t testing.TB, pool *pgxpool.Pool) {
 	t.Helper()
 	ctx := context.Background()
-	rows, err := pool.Query(ctx, `select tablename from pg_tables where schemaname = 'public' and tablename <> 'goose_db_version'`)
+	rows, err := pool.Query(ctx, `select tablename from pg_tables where schemaname = 'public' and tablename not in ('goose_db_version', 'units', 'currencies')`)
 	if err != nil {
 		t.Fatalf("список таблиц: %v", err)
 	}
