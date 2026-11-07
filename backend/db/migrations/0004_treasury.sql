@@ -47,4 +47,5 @@ create index payment_request_history_request_id_idx on payment_request_history (
 -- +goose Down
 drop table payment_request_history;
 drop table payment_requests;
-drop sequence payment_request_number_seq;
+-- Последовательность привязана к колонке (owned by) и удаляется вместе с таблицей.
+drop sequence if exists payment_request_number_seq;
