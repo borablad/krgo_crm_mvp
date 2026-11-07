@@ -25,7 +25,7 @@ function DirectoriesLayout() {
       <p className="mb-3 text-xl font-semibold">{t('directories.title')}</p>
       {/* На телефоне вкладки прокручиваются вбок; полоса прокрутки скрыта, активная вкладка подчёркнута */}
       <Tabs value={active?.to ?? ''} className="mb-6 gap-0">
-        <div className="-mx-4 overflow-x-auto border-b px-4 md:mx-0 md:px-0 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+        <div className="-mx-4 overflow-x-auto overflow-y-hidden border-b px-4 md:mx-0 md:px-0 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
           <TabsList variant="line" className="h-11 w-max gap-1 p-0">
             {tabs.map((tab) => (
               <TabsTrigger
