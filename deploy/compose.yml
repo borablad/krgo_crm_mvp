@@ -1,0 +1,63 @@
+# Боевой стенд на VPS: /opt/cargo-crm/compose.yml. Переменные — в /opt/cargo-crm/.env (см. .env.example).
+services:
+  db:
+    image: postgres:17-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: cargo
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?задайте POSTGRES_PASSWORD в .env}
+      POSTGRES_DB: cargo
+    # Параметры под 1 ГБ памяти на всю машину.
+    command: postgres -c shared_buffers=96MB -c max_connections=40 -c work_mem=4MB
+    volumes:
+      - db-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U cargo -d cargo"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+    deploy:
+      resources:
+        limits:
+          memory: 320m
+
+  app:
+    image: ghcr.io/borablad/krgo_crm_mvp:${APP_TAG:-latest}
+    restart: unless-stopped
+    environment:
+      CARGO_ENV: prod
+      CARGO_ADDR: ":8080"
+      DATABASE_URL: postgres://cargo:${POSTGRES_PASSWORD}@db:5432/cargo?sslmode=disable
+      CARGO_SECURE_COOKIES: ${SECURE_COOKIES:-false}
+    depends_on:
+      db:
+        condition: service_healthy
+    deploy:
+      resources:
+        limits:
+          memory: 256m
+
+  caddy:
+    image: caddy:2-alpine
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+    environment:
+      # ":80" — работа по IP без HTTPS. Домен вместо ":80" включает автоматический HTTPS.
+      SITE_ADDRESS: ${SITE_ADDRESS:-:80}
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy-data:/data
+      - caddy-config:/config
+    depends_on:
+      - app
+    deploy:
+      resources:
+        limits:
+          memory: 96m
+
+volumes:
+  db-data:
+  caddy-data:
+  caddy-config:

@@ -1,0 +1,10 @@
+.git
+.github
+docs
+deploy
+frontend/node_modules
+frontend/dist
+backend/bin
+backend/internal/web/dist
+**/.env
+**/.env.*

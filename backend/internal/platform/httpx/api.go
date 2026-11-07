@@ -59,6 +59,10 @@ func Invalid(detail string, fields ...*huma.ErrorDetail) error {
 // Сообщения валидации Huma на русском. Это запасной уровень: основные проверки
 // с человеческими текстами делают сервисы и фронтенд.
 func init() {
+	// Списки в ответах всегда непустые срезы (make(..., 0)), поэтому в схеме они не nullable:
+	// иначе фронтенд получает тип `T[] | null` на каждый список.
+	huma.DefaultArrayNullable = false
+
 	validation.MsgExpectedRequiredProperty = "заполните поле %s"
 	validation.MsgUnexpectedProperty = "неизвестное поле"
 	validation.MsgExpectedString = "ожидается текст"

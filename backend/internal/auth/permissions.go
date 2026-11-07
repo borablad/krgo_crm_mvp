@@ -63,6 +63,18 @@ var rolePermissions = map[Role][]Permission{
 	},
 }
 
+// Permissions — полный список прав роли; уходит фронтенду, чтобы он не дублировал матрицу.
+func (r Role) Permissions() []Permission {
+	if r == RoleAdmin {
+		return []Permission{
+			PermDirectoriesRead, PermDirectoriesWrite, PermCRMRead, PermCRMWrite,
+			PermTreasuryRead, PermTreasuryCreate, PermTreasuryApprove,
+			PermWMSRead, PermWMSWrite, PermUsersManage, PermAuditRead,
+		}
+	}
+	return rolePermissions[r]
+}
+
 // Can отвечает, есть ли у роли право.
 func (r Role) Can(p Permission) bool {
 	if r == RoleAdmin {

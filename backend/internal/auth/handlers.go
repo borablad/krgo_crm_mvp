@@ -12,14 +12,19 @@ import (
 
 // SessionUser — вошедший пользователь в ответах входа и «кто я».
 type SessionUser struct {
-	ID       int64  `json:"id"`
-	Login    string `json:"login"`
-	FullName string `json:"fullName"`
-	Role     Role   `json:"role" enum:"admin,manager,employee,accountant,storekeeper"`
+	ID          int64        `json:"id"`
+	Login       string       `json:"login"`
+	FullName    string       `json:"fullName"`
+	Role        Role         `json:"role" enum:"admin,manager,employee,accountant,storekeeper"`
+	Permissions []Permission `json:"permissions" doc:"Права роли, например crm.write"`
 }
 
 func ToDTO(u User) SessionUser {
-	return SessionUser{ID: u.ID, Login: u.Login, FullName: u.FullName, Role: u.Role}
+	perms := u.Role.Permissions()
+	if perms == nil {
+		perms = []Permission{}
+	}
+	return SessionUser{ID: u.ID, Login: u.Login, FullName: u.FullName, Role: u.Role, Permissions: perms}
 }
 
 // Тела запросов и ответов — именованные типы: Huma берёт имя схемы из имени Go-типа.
