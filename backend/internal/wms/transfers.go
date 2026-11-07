@@ -97,8 +97,8 @@ func (s *Service) ListTransfers(ctx context.Context, f TransferFilter) ([]WmsTra
 }
 
 // activeCell проверяет, что ячейка есть, активна и принадлежит складу.
-func (s *Service) activeCell(ctx context.Context, field string, f *fields, id, warehouseID int64) (directories.Cell, error) {
-	c, err := s.dirs.GetCell(ctx, id)
+func (s *Service) activeCell(ctx context.Context, tx pgx.Tx, field string, f *fields, id, warehouseID int64) (directories.Cell, error) {
+	c, err := s.dirs.GetCellTx(ctx, tx, id)
 	switch {
 	case errors.Is(err, directories.ErrNotFound):
 		f.add(field, "Выберите ячейку")
@@ -120,43 +120,45 @@ func (s *Service) CreateTransfer(ctx context.Context, in TransferInput) (WmsTran
 	if err != nil {
 		return WmsTransfer{}, err
 	}
+	// Товар, единица и количество проверяются до транзакции: из открытой транзакции в пул ходить нельзя
+	// (второе соединение при нагрузке намертво встаёт пул). Склад и ячейки читаются в транзакции с for share.
+	var f fields
+	item, msg, err := s.activeItem(ctx, in.ItemID)
+	if err != nil {
+		return WmsTransfer{}, err
+	}
+	if msg != "" {
+		f.add("itemId", msg)
+	}
+	unit := s.unitCode(ctx, item)
+	qty, qmsg := parseQty(in.Qty)
+	if qmsg != "" {
+		f.add("qty", qmsg)
+	}
 	var id int64
 	err = pg.WithTx(ctx, s.pool, func(tx pgx.Tx) error {
 		q := store.New(tx)
-		var f fields
-		wh, msg, err := s.activeWarehouse(ctx, in.WarehouseID)
+		f := f
+		wh, msg, err := s.activeWarehouse(ctx, tx, in.WarehouseID)
 		if err != nil {
 			return err
-		}
-		whOK := msg == ""
-		if !whOK {
-			f.add("warehouseId", msg)
-		}
-		item, msg, err := s.activeItem(ctx, in.ItemID)
-		if err != nil {
-			return err
-		}
-		if msg != "" {
-			f.add("itemId", msg)
 		}
 		whID := int64(0)
-		if whOK {
+		if msg != "" {
+			f.add("warehouseId", msg)
+		} else {
 			whID = wh.ID
 		}
-		from, err := s.activeCell(ctx, "fromCellId", &f, in.FromCellID, whID)
+		from, err := s.activeCell(ctx, tx, "fromCellId", &f, in.FromCellID, whID)
 		if err != nil {
 			return err
 		}
-		to, err := s.activeCell(ctx, "toCellId", &f, in.ToCellID, whID)
+		to, err := s.activeCell(ctx, tx, "toCellId", &f, in.ToCellID, whID)
 		if err != nil {
 			return err
 		}
 		if in.FromCellID == in.ToCellID && in.FromCellID != 0 {
 			f.add("toCellId", "Выберите другую ячейку назначения")
-		}
-		qty, ok := parseQty(in.Qty)
-		if !ok {
-			f.add("qty", "Введите количество больше нуля")
 		}
 		if err := f.err(); err != nil {
 			return err
@@ -166,14 +168,19 @@ func (s *Service) CreateTransfer(ctx context.Context, in TransferInput) (WmsTran
 		if err != nil {
 			return fmt.Errorf("блокировка остатков: %w", err)
 		}
-		available := decimal.Zero
+		available, atTarget := decimal.Zero, decimal.Zero
 		for _, b := range locked {
 			if b.CellID == from.ID {
 				available = b.Qty
+			} else {
+				atTarget = b.Qty
 			}
 		}
 		if available.LessThan(qty) {
-			return invalidField("qty", insufficientMsg(from.Address, available, qty, s.unitCode(ctx, item)))
+			return invalidField("qty", insufficientMsg(from.Address, available, qty, unit))
+		}
+		if atTarget.Add(qty).GreaterThan(maxQty) {
+			return invalidField("qty", "Количество в ячейке назначения превысит допустимый предел")
 		}
 
 		number, err := q.NextTransferNumber(ctx)
@@ -210,6 +217,9 @@ func (s *Service) CreateTransfer(ctx context.Context, in TransferInput) (WmsTran
 		})
 	})
 	if err != nil {
+		if numericOverflow(err) {
+			return WmsTransfer{}, invalidField("qty", "Количество в ячейке назначения превысит допустимый предел")
+		}
 		if checkViolation(err) {
 			return WmsTransfer{}, invalidField("qty", "Остаток в ячейке изменился, переместить столько нельзя. Обновите остатки")
 		}

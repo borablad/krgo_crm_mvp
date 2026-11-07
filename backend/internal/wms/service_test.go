@@ -3,6 +3,7 @@ package wms
 import (
 	"context"
 	"errors"
+	"os"
 	"strings"
 	"sync"
 	"testing"
@@ -268,7 +269,7 @@ func TestTransferValidation(t *testing.T) {
 	if _, err = e.transfer(e.item1.ID, "1", e.recv.ID, e.recv.ID); fieldMsgs(err)["body.toCellId"] != "Выберите другую ячейку назначения" {
 		t.Fatalf("та же ячейка: %v", fieldMsgs(err))
 	}
-	if _, err = e.transfer(e.item1.ID, "1.0001", e.recv.ID, e.a1.ID); fieldMsgs(err)["body.qty"] != "Введите количество больше нуля" {
+	if _, err = e.transfer(e.item1.ID, "1.0001", e.recv.ID, e.a1.ID); fieldMsgs(err)["body.qty"] != "Не больше трёх знаков после запятой" {
 		t.Fatalf("4 знака: %v", fieldMsgs(err))
 	}
 	other, _ := e.dirs.CreateWarehouse(e.ctx, directories.WarehouseInput{Name: "Второй", Code: "TWO"})
@@ -354,5 +355,92 @@ func TestBalancesAndMovements(t *testing.T) {
 	}
 	if !seen {
 		t.Fatalf("нет движения поступления с номером: %+v", moves)
+	}
+}
+
+// Внутри транзакций сервис не должен занимать второе соединение из пула: при малом пуле это взаимная блокировка.
+func TestSmallPoolNoDeadlock(t *testing.T) {
+	e := setup(t)
+	e.posted(t, e.item1, "100")
+	drafts := []WmsReceipt{
+		e.receipt(t, ReceiptLineInput{ItemID: e.item2.ID, Qty: "1"}),
+		e.receipt(t, ReceiptLineInput{ItemID: e.item2.ID, Qty: "2"}),
+	}
+	url := os.Getenv("TEST_DATABASE_URL")
+	sep := "?"
+	if strings.Contains(url, "?") {
+		sep = "&"
+	}
+	ctx, cancel := context.WithTimeout(e.ctx, 20*time.Second)
+	defer cancel()
+	small, err := pg.NewPool(ctx, url+sep+"pool_max_conns=2")
+	if err != nil {
+		t.Fatal(err)
+	}
+	defer small.Close()
+	rec := audit.NewRecorder()
+	svc := NewService(small, rec, directories.NewService(small, rec))
+
+	var wg sync.WaitGroup
+	errs := make(chan error, 8)
+	for i := 0; i < 6; i++ {
+		wg.Add(1)
+		go func() {
+			defer wg.Done()
+			_, err := svc.CreateTransfer(ctx, TransferInput{WarehouseID: e.wh.ID, ItemID: e.item1.ID, Qty: "1", FromCellID: e.recv.ID, ToCellID: e.a1.ID})
+			errs <- err
+		}()
+	}
+	for _, d := range drafts {
+		wg.Add(1)
+		go func() {
+			defer wg.Done()
+			_, err := svc.PostReceipt(ctx, d.ID)
+			errs <- err
+		}()
+	}
+	wg.Wait()
+	close(errs)
+	for err := range errs {
+		if err != nil {
+			t.Fatalf("при пуле из 2 соединений: %v", err)
+		}
+	}
+	if got := e.qtyIn(t, e.item1.ID, e.a1.ID); !got.Equal(decimal.NewFromInt(6)) {
+		t.Fatalf("размещено: %s", got)
+	}
+}
+
+func TestPostDisabledItemAndOverflow(t *testing.T) {
+	e := setup(t)
+	r := e.receipt(t, ReceiptLineInput{ItemID: e.item1.ID, Qty: "1"})
+	if _, err := e.dirs.UpdateItem(e.ctx, e.item1.ID, directories.ItemInput{Name: e.item1.Name, SKU: e.item1.SKU, UnitID: e.item1.UnitID, IsActive: false}); err != nil {
+		t.Fatal(err)
+	}
+	_, err := e.svc.PostReceipt(e.ctx, r.ID)
+	if httpStatus(err) != 422 || !strings.Contains(err.Error(), "Товар «Книга» отключён — измените черновик") || len(fieldMsgs(err)) != 0 {
+		t.Fatalf("отключённый товар: %v", err)
+	}
+
+	// Переполнение numeric(14,3): остаток у предела, ещё приход.
+	if _, err := e.dirs.UpdateItem(e.ctx, e.item1.ID, directories.ItemInput{Name: e.item1.Name, SKU: e.item1.SKU, UnitID: e.item1.UnitID, IsActive: true}); err != nil {
+		t.Fatal(err)
+	}
+	e.posted(t, e.item2, "99999999999")
+	over := e.receipt(t, ReceiptLineInput{ItemID: e.item2.ID, Qty: "1.000"})
+	if _, err := e.svc.PostReceipt(e.ctx, over.ID); httpStatus(err) != 422 {
+		t.Fatalf("переполнение при проведении: %v", err)
+	}
+	e.posted(t, e.item1, "99999999999")
+	if _, err := e.transfer(e.item1.ID, "99999999999", e.recv.ID, e.a1.ID); err != nil {
+		t.Fatal(err)
+	}
+	e.posted(t, e.item1, "5")
+	_, err = e.transfer(e.item1.ID, "5", e.recv.ID, e.a1.ID)
+	if httpStatus(err) != 422 || fieldMsgs(err)["body.qty"] == "" {
+		t.Fatalf("переполнение при перемещении: %v", err)
+	}
+	if _, err := e.transfer(e.item1.ID, "100000000000", e.recv.ID, e.a1.ID); fieldMsgs(err)["body.qty"] != "Слишком большое количество" {
+		t.Fatalf("слишком большое: %v", err)
 	}
 }

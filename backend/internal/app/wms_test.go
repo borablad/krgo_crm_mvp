@@ -4,6 +4,7 @@ import (
 	"context"
 	"net/http"
 	"strconv"
+	"strings"
 	"testing"
 
 	"github.com/borablad/krgo_crm_mvp/backend/internal/auth"
@@ -48,7 +49,7 @@ func TestWMSFlowAndPermissions(t *testing.T) {
 		t.Fatalf("создание: %d %v", resp.StatusCode, body)
 	}
 	rid := strconv.Itoa(int(body["id"].(float64)))
-	if resp, body = c.do(http.MethodPost, "/api/v1/wms/receipts", map[string]any{"warehouseId": wh.ID, "counterpartyId": cp.ID, "docDate": "07.11.2026", "lines": []any{}}); resp.StatusCode != http.StatusUnprocessableEntity {
+	if resp, body = c.do(http.MethodPost, "/api/v1/wms/receipts", map[string]any{"warehouseId": wh.ID, "counterpartyId": cp.ID, "docDate": "07.11.2026", "lines": []any{map[string]any{"itemId": item.ID, "qty": "1"}}}); resp.StatusCode != http.StatusUnprocessableEntity || !strings.Contains(toJSON(body), "body.docDate") {
 		t.Fatalf("неверная дата: %d %v", resp.StatusCode, body)
 	}
 	if resp, body = c.do(http.MethodPost, "/api/v1/wms/receipts/"+rid+"/post", nil); resp.StatusCode != http.StatusOK || body["status"] != "posted" {
@@ -63,6 +64,10 @@ func TestWMSFlowAndPermissions(t *testing.T) {
 	}
 	if resp, body = c.do(http.MethodPost, "/api/v1/wms/transfers", map[string]any{"warehouseId": wh.ID, "itemId": item.ID, "qty": "30", "fromCellId": recv.ID, "toCellId": cell.ID}); resp.StatusCode != http.StatusUnprocessableEntity {
 		t.Fatalf("сверх остатка: %d %v", resp.StatusCode, body)
+	}
+
+	if resp, body = c.do(http.MethodGet, "/api/v1/wms/movements?dateFrom=вчера", nil); resp.StatusCode != http.StatusUnprocessableEntity || !strings.Contains(toJSON(body), "query.dateFrom") {
+		t.Fatalf("неверная дата фильтра: %d %v", resp.StatusCode, body)
 	}
 
 	login("buh")

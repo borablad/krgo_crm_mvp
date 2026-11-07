@@ -9,7 +9,6 @@ import (
 	"github.com/danielgtaylor/huma/v2"
 
 	"github.com/borablad/krgo_crm_mvp/backend/internal/auth"
-	"github.com/borablad/krgo_crm_mvp/backend/internal/platform/httpx"
 )
 
 type WmsReceiptsResponse struct {
@@ -117,29 +116,34 @@ type transferCreateInput struct{ Body WmsTransferBody }
 type balancesListOutput struct{ Body WmsBalancesResponse }
 type movementsListOutput struct{ Body WmsMovementsResponse }
 
-// parseDate разбирает необязательную дату ГГГГ-ММ-ДД; field нужен для текста ошибки у поля.
-func parseDate(field, v string, required bool) (*time.Time, error) {
+// dateErr — ошибка даты с указанием, где она найдена: "body.docDate" или "query.dateFrom".
+func dateErr(location, msg string) error {
+	return huma.Error422UnprocessableEntity("Проверьте заполнение полей", &huma.ErrorDetail{Location: location, Message: msg})
+}
+
+// parseDate разбирает необязательную дату ГГГГ-ММ-ДД; location нужен для ошибки у поля или параметра.
+func parseDate(location, v string, required bool) (*time.Time, error) {
 	v = strings.TrimSpace(v)
 	if v == "" {
 		if required {
-			return nil, httpx.Invalid("Проверьте заполнение полей", httpx.FieldError(field, "Укажите дату"))
+			return nil, dateErr(location, "Укажите дату")
 		}
 		return nil, nil
 	}
 	t, err := time.Parse(dateLayout, v)
 	if err != nil {
-		return nil, httpx.Invalid("Проверьте заполнение полей", httpx.FieldError(field, "Введите дату в формате ГГГГ-ММ-ДД"))
+		return nil, dateErr(location, "Введите дату в формате ГГГГ-ММ-ДД")
 	}
 	return &t, nil
 }
 
 // queryDates разбирает пару фильтров по дате; ошибка — 422 с названием параметра.
 func queryDates(from, to string) (*time.Time, *time.Time, error) {
-	f, err := parseDate("dateFrom", from, false)
+	f, err := parseDate("query.dateFrom", from, false)
 	if err != nil {
 		return nil, nil, err
 	}
-	t, err := parseDate("dateTo", to, false)
+	t, err := parseDate("query.dateTo", to, false)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -149,7 +153,7 @@ func queryDates(from, to string) (*time.Time, *time.Time, error) {
 func receiptInput(b WmsReceiptBody) (ReceiptInput, error) {
 	in := ReceiptInput{WarehouseID: b.WarehouseID, CounterpartyID: b.CounterpartyID, Comment: b.Comment}
 	var dateErr error
-	if d, err := parseDate("docDate", b.DocDate, true); err != nil {
+	if d, err := parseDate("body.docDate", b.DocDate, true); err != nil {
 		dateErr = err
 	} else {
 		in.DocDate = *d

@@ -66,7 +66,7 @@ delete from receipt_lines where receipt_id = $1;
 insert into receipt_lines (receipt_id, item_id, qty) values ($1, $2, $3);
 
 -- name: ListReceiptLines :many
-select l.id, l.receipt_id, l.item_id, i.name as item_name, i.sku as item_sku, u.code as unit_code, l.qty
+select l.id, l.receipt_id, l.item_id, i.name as item_name, i.sku as item_sku, i.is_active as item_is_active, u.code as unit_code, l.qty
 from receipt_lines l
 join items i on i.id = l.item_id
 join units u on u.id = i.unit_id

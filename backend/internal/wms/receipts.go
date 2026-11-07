@@ -79,7 +79,7 @@ type parsedLine struct {
 	qty    decimal.Decimal
 }
 
-// validateLines проверяет строки и возвращает разобранные количества.
+// validateLines проверяет строки и возвращает разобранные количества. Обращается к пулу, поэтому вызывать только вне транзакции.
 func (s *Service) validateLines(ctx context.Context, f *fields, in []ReceiptLineInput) ([]parsedLine, error) {
 	if len(in) == 0 {
 		f.add("lines", "Добавьте хотя бы один товар")
@@ -97,9 +97,9 @@ func (s *Service) validateLines(ctx context.Context, f *fields, in []ReceiptLine
 			f.add(field+".itemId", "Товар уже есть в документе")
 		}
 		seen[l.ItemID] = true
-		q, ok := parseQty(l.Qty)
-		if !ok {
-			f.add(field+".qty", "Введите количество больше нуля")
+		q, msg := parseQty(l.Qty)
+		if msg != "" {
+			f.add(field+".qty", msg)
 		}
 		out = append(out, parsedLine{itemID: l.ItemID, qty: q})
 	}
@@ -108,7 +108,7 @@ func (s *Service) validateLines(ctx context.Context, f *fields, in []ReceiptLine
 
 func (s *Service) validateReceipt(ctx context.Context, in *ReceiptInput) ([]parsedLine, error) {
 	var f fields
-	if _, msg, err := s.activeWarehouse(ctx, in.WarehouseID); err != nil {
+	if _, msg, err := s.activeWarehouse(ctx, nil, in.WarehouseID); err != nil {
 		return nil, err
 	} else if msg != "" {
 		f.add("warehouseId", msg)
@@ -275,7 +275,18 @@ func (s *Service) UpdateReceipt(ctx context.Context, id int64, in ReceiptInput) 
 	if _, err := requireUser(ctx); err != nil {
 		return WmsReceipt{}, err
 	}
-	err := pg.WithTx(ctx, s.pool, func(tx pgx.Tx) error {
+	// Проверки справочников идут до транзакции: из открытой транзакции в пул ходить нельзя.
+	if _, err := s.q.GetReceipt(ctx, id); err != nil {
+		if isNoRows(err) {
+			return WmsReceipt{}, notFound("Поступление не найдено")
+		}
+		return WmsReceipt{}, fmt.Errorf("поступление %d: %w", id, err)
+	}
+	lines, err := s.validateReceipt(ctx, &in)
+	if err != nil {
+		return WmsReceipt{}, err
+	}
+	err = pg.WithTx(ctx, s.pool, func(tx pgx.Tx) error {
 		q := store.New(tx)
 		cur, err := q.GetReceiptForUpdate(ctx, id)
 		if err != nil {
@@ -287,9 +298,10 @@ func (s *Service) UpdateReceipt(ctx context.Context, id int64, in ReceiptInput) 
 		if cur.Status != StatusDraft {
 			return unprocessable("Изменять можно только черновик")
 		}
-		lines, err := s.validateReceipt(ctx, &in)
-		if err != nil {
+		if _, msg, err := s.activeWarehouse(ctx, tx, in.WarehouseID); err != nil {
 			return err
+		} else if msg != "" {
+			return invalidField("warehouseId", msg)
 		}
 		if err := q.UpdateReceiptHeader(ctx, store.UpdateReceiptHeaderParams{
 			ID: id, WarehouseID: in.WarehouseID, CounterpartyID: in.CounterpartyID, DocDate: in.DocDate, Comment: strPtr(in.Comment),
@@ -333,33 +345,48 @@ func (s *Service) PostReceipt(ctx context.Context, id int64) (WmsReceipt, error)
 		if err != nil {
 			return fmt.Errorf("строки поступления: %w", err)
 		}
-		inLines := make([]ReceiptLineInput, 0, len(rows))
-		for _, r := range rows {
-			inLines = append(inLines, ReceiptLineInput{ItemID: r.ItemID, Qty: r.Qty.String()})
-		}
-		var f fields
-		if _, msg, err := s.activeWarehouse(ctx, cur.WarehouseID); err != nil {
-			return err
-		} else if msg != "" {
-			return unprocessable(msg)
-		}
-		lines, err := s.validateLines(ctx, &f, inLines)
+		// Запрос на /post не несёт тела, поэтому причины отказа — в общем тексте, а не в полях.
+		wh, msg, err := s.activeWarehouse(ctx, tx, cur.WarehouseID)
 		if err != nil {
 			return err
 		}
-		if err := f.err(); err != nil {
-			return err
+		if msg != "" {
+			if wh.Name == "" {
+				return unprocessable("Склад не найден — измените черновик")
+			}
+			return unprocessable("Склад «" + wh.Name + "» отключён — измените черновик")
 		}
-		cell, err := s.dirs.ReceivingCell(ctx, cur.WarehouseID)
+		lines := make([]parsedLine, 0, len(rows))
+		for _, r := range rows {
+			if !r.ItemIsActive {
+				return unprocessable("Товар «" + r.ItemName + "» отключён — измените черновик")
+			}
+			lines = append(lines, parsedLine{itemID: r.ItemID, qty: r.Qty})
+		}
+		cell, err := s.dirs.ReceivingCellTx(ctx, tx, cur.WarehouseID)
 		if err != nil {
 			if errors.Is(err, directories.ErrNotFound) {
 				return unprocessable("У склада нет ячейки приёмки")
 			}
 			return err
 		}
+		if !cell.IsActive {
+			return unprocessable("Ячейка приёмки склада отключена")
+		}
+		names := map[int64]string{}
+		for _, r := range rows {
+			names[r.ItemID] = r.ItemName
+		}
 		// Единый порядок обновления строк остатков исключает взаимную блокировку параллельных проведений.
 		sort.Slice(lines, func(i, j int) bool { return lines[i].itemID < lines[j].itemID })
 		for _, l := range lines {
+			bal, err := q.LockBalances(ctx, store.LockBalancesParams{ItemID: l.itemID, CellIds: []int64{cell.ID}})
+			if err != nil {
+				return fmt.Errorf("блокировка остатка: %w", err)
+			}
+			if len(bal) == 1 && bal[0].Qty.Add(l.qty).GreaterThan(maxQty) {
+				return unprocessable("Остаток товара «" + names[l.itemID] + "» в приёмке превысит допустимый предел")
+			}
 			if err := q.AddBalance(ctx, store.AddBalanceParams{ItemID: l.itemID, WarehouseID: cur.WarehouseID, CellID: cell.ID, Qty: l.qty}); err != nil {
 				return fmt.Errorf("приход в ячейку: %w", err)
 			}
@@ -378,6 +405,9 @@ func (s *Service) PostReceipt(ctx context.Context, id int64) (WmsReceipt, error)
 		})
 	})
 	if err != nil {
+		if numericOverflow(err) {
+			return WmsReceipt{}, unprocessable("Остаток в приёмке превысит допустимый предел")
+		}
 		return WmsReceipt{}, err
 	}
 	return s.GetReceipt(ctx, id)

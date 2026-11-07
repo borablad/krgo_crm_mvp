@@ -137,12 +137,18 @@ func requireUser(ctx context.Context) (auth.User, error) {
 }
 
 // parseQty разбирает количество из строки: больше нуля, не больше трёх знаков после запятой.
-func parseQty(s string) (decimal.Decimal, bool) {
+// Вторым значением возвращает текст ошибки для поля или пустую строку.
+func parseQty(s string) (decimal.Decimal, string) {
 	d, err := decimal.NewFromString(strings.TrimSpace(strings.ReplaceAll(s, ",", ".")))
-	if err != nil || !d.IsPositive() || !d.Equal(d.Round(3)) || d.GreaterThan(maxQty) {
-		return decimal.Zero, false
+	switch {
+	case err != nil || !d.IsPositive():
+		return decimal.Zero, "Введите количество больше нуля"
+	case !d.Equal(d.Round(3)):
+		return decimal.Zero, "Не больше трёх знаков после запятой"
+	case d.GreaterThan(maxQty):
+		return decimal.Zero, "Слишком большое количество"
 	}
-	return d, true
+	return d, ""
 }
 
 // checkViolation — сработало ограничение check в БД (23514): для остатков это защита от минуса.
@@ -151,9 +157,22 @@ func checkViolation(err error) bool {
 	return errors.As(err, &pgErr) && pgErr.Code == "23514"
 }
 
+// numericOverflow — значение не помещается в numeric (22003): последняя линия обороны для остатков.
+func numericOverflow(err error) bool {
+	var pgErr *pgconn.PgError
+	return errors.As(err, &pgErr) && pgErr.Code == "22003"
+}
+
 // activeWarehouse и остальные проверки справочников возвращают текст для поля или пустую строку.
-func (s *Service) activeWarehouse(ctx context.Context, id int64) (directories.Warehouse, string, error) {
-	w, err := s.dirs.GetWarehouse(ctx, id)
+// Внутри транзакции передаём tx: тогда склад читается в ней с for share, а не через пул.
+func (s *Service) activeWarehouse(ctx context.Context, tx pgx.Tx, id int64) (directories.Warehouse, string, error) {
+	var w directories.Warehouse
+	var err error
+	if tx != nil {
+		w, err = s.dirs.GetWarehouseTx(ctx, tx, id)
+	} else {
+		w, err = s.dirs.GetWarehouse(ctx, id)
+	}
 	switch {
 	case errors.Is(err, directories.ErrNotFound):
 		return w, "Выберите склад", nil

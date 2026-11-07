@@ -180,7 +180,7 @@ func (q *Queries) InsertReceiptLine(ctx context.Context, arg InsertReceiptLinePa
 }
 
 const listReceiptLines = `-- name: ListReceiptLines :many
-select l.id, l.receipt_id, l.item_id, i.name as item_name, i.sku as item_sku, u.code as unit_code, l.qty
+select l.id, l.receipt_id, l.item_id, i.name as item_name, i.sku as item_sku, i.is_active as item_is_active, u.code as unit_code, l.qty
 from receipt_lines l
 join items i on i.id = l.item_id
 join units u on u.id = i.unit_id
@@ -189,13 +189,14 @@ order by l.id
 `
 
 type ListReceiptLinesRow struct {
-	ID        int64
-	ReceiptID int64
-	ItemID    int64
-	ItemName  string
-	ItemSku   string
-	UnitCode  string
-	Qty       decimal.Decimal
+	ID           int64
+	ReceiptID    int64
+	ItemID       int64
+	ItemName     string
+	ItemSku      string
+	ItemIsActive bool
+	UnitCode     string
+	Qty          decimal.Decimal
 }
 
 func (q *Queries) ListReceiptLines(ctx context.Context, receiptID int64) ([]ListReceiptLinesRow, error) {
@@ -213,6 +214,7 @@ func (q *Queries) ListReceiptLines(ctx context.Context, receiptID int64) ([]List
 			&i.ItemID,
 			&i.ItemName,
 			&i.ItemSku,
+			&i.ItemIsActive,
 			&i.UnitCode,
 			&i.Qty,
 		); err != nil {

@@ -71,3 +71,23 @@ update cells
 set address = $2, is_active = $3
 where id = $1
 returning id, warehouse_id, address, is_receiving, is_active, created_at;
+
+-- Варианты с блокировкой на чтение: используются внутри чужих транзакций (склад), чтобы
+-- склад или ячейку не отключили между проверкой и записью.
+-- name: GetWarehouseShare :one
+select id, name, code, responsible_user_id, is_active, created_at, updated_at
+from warehouses
+where id = $1
+for share;
+
+-- name: GetCellShare :one
+select id, warehouse_id, address, is_receiving, is_active, created_at
+from cells
+where id = $1
+for share;
+
+-- name: GetReceivingCellShare :one
+select id, warehouse_id, address, is_receiving, is_active, created_at
+from cells
+where warehouse_id = $1 and is_receiving
+for share;

@@ -124,6 +124,27 @@ func (q *Queries) GetCell(ctx context.Context, id int64) (Cell, error) {
 	return i, err
 }
 
+const getCellShare = `-- name: GetCellShare :one
+select id, warehouse_id, address, is_receiving, is_active, created_at
+from cells
+where id = $1
+for share
+`
+
+func (q *Queries) GetCellShare(ctx context.Context, id int64) (Cell, error) {
+	row := q.db.QueryRow(ctx, getCellShare, id)
+	var i Cell
+	err := row.Scan(
+		&i.ID,
+		&i.WarehouseID,
+		&i.Address,
+		&i.IsReceiving,
+		&i.IsActive,
+		&i.CreatedAt,
+	)
+	return i, err
+}
+
 const getReceivingCell = `-- name: GetReceivingCell :one
 select id, warehouse_id, address, is_receiving, is_active, created_at
 from cells
@@ -144,6 +165,27 @@ func (q *Queries) GetReceivingCell(ctx context.Context, warehouseID int64) (Cell
 	return i, err
 }
 
+const getReceivingCellShare = `-- name: GetReceivingCellShare :one
+select id, warehouse_id, address, is_receiving, is_active, created_at
+from cells
+where warehouse_id = $1 and is_receiving
+for share
+`
+
+func (q *Queries) GetReceivingCellShare(ctx context.Context, warehouseID int64) (Cell, error) {
+	row := q.db.QueryRow(ctx, getReceivingCellShare, warehouseID)
+	var i Cell
+	err := row.Scan(
+		&i.ID,
+		&i.WarehouseID,
+		&i.Address,
+		&i.IsReceiving,
+		&i.IsActive,
+		&i.CreatedAt,
+	)
+	return i, err
+}
+
 const getWarehouse = `-- name: GetWarehouse :one
 select id, name, code, responsible_user_id, is_active, created_at, updated_at
 from warehouses
@@ -152,6 +194,30 @@ where id = $1
 
 func (q *Queries) GetWarehouse(ctx context.Context, id int64) (Warehouse, error) {
 	row := q.db.QueryRow(ctx, getWarehouse, id)
+	var i Warehouse
+	err := row.Scan(
+		&i.ID,
+		&i.Name,
+		&i.Code,
+		&i.ResponsibleUserID,
+		&i.IsActive,
+		&i.CreatedAt,
+		&i.UpdatedAt,
+	)
+	return i, err
+}
+
+const getWarehouseShare = `-- name: GetWarehouseShare :one
+select id, name, code, responsible_user_id, is_active, created_at, updated_at
+from warehouses
+where id = $1
+for share
+`
+
+// Варианты с блокировкой на чтение: используются внутри чужих транзакций (склад), чтобы
+// склад или ячейку не отключили между проверкой и записью.
+func (q *Queries) GetWarehouseShare(ctx context.Context, id int64) (Warehouse, error) {
+	row := q.db.QueryRow(ctx, getWarehouseShare, id)
 	var i Warehouse
 	err := row.Scan(
 		&i.ID,
