@@ -93,7 +93,7 @@ docs/                   эта документация
 Таблицы по модулям (поддерживать актуальным):
 - **core:** `users`, `sessions`, `audit_log`
 - **directories:** `organizations`, `counterparties`, `items`, `units`, `warehouses`, `cells`, `cashflow_items`, `cost_centers`, `currencies`
-- **crm:** `clients`, `deals`, `deal_stage_history`, `tasks`
+- **crm:** `clients` (БИН необязателен), `deals` (сумма в тенге, этап `new…won/lost`), `deal_stage_history` (только добавление), `tasks` (привязка к клиенту/сделке необязательна)
 - **treasury:** `payment_requests`, `payment_request_history`
 - **wms:** `receipts`, `receipt_lines`, `transfers`, `stock_movements`, `stock_balances`
 

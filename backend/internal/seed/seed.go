@@ -9,6 +9,7 @@ import (
 
 	"github.com/borablad/krgo_crm_mvp/backend/internal/app"
 	"github.com/borablad/krgo_crm_mvp/backend/internal/auth"
+	"github.com/borablad/krgo_crm_mvp/backend/internal/crm"
 	"github.com/borablad/krgo_crm_mvp/backend/internal/users"
 )
 
@@ -51,6 +52,27 @@ func Run(ctx context.Context, a *app.App, out io.Writer) error {
 	}
 	for _, u := range demoUsers {
 		fmt.Fprintf(out, "  %-10s %-14s %s\n", u.Login, u.Role, u.FullName)
+	}
+
+	all, err := a.Users.List(ctx)
+	if err != nil {
+		return err
+	}
+	ids := make(map[string]int64, len(all))
+	for _, u := range all {
+		ids[u.Login] = u.ID
+	}
+	_, before, err := a.CRM.ListClients(ctx, crm.ClientFilter{Page: crm.Page{Limit: 1}})
+	if err != nil {
+		return err
+	}
+	if err := crm.SeedDemo(ctx, a.CRM, ids); err != nil {
+		return fmt.Errorf("демо-данные CRM: %w", err)
+	}
+	if before > 0 {
+		fmt.Fprintln(out, "CRM: данные уже есть, ничего не добавлено.")
+	} else {
+		fmt.Fprintln(out, "CRM: 8 клиентов, 10 сделок, 8 задач.")
 	}
 	return nil
 }
