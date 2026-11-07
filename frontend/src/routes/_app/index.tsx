@@ -1,6 +1,6 @@
 import { Link, createFileRoute } from '@tanstack/react-router'
 import { useTranslation } from 'react-i18next'
-import { Boxes, Contact, Wallet } from 'lucide-react'
+import { BookOpen, Boxes, Contact, Wallet } from 'lucide-react'
 import { can, type Permission } from '@/auth/session'
 import { PageHeader } from '@/components/page-header'
 
@@ -10,14 +10,15 @@ export const Route = createFileRoute('/_app/')({
 
 const sections: {
   to: string
-  titleKey: 'nav.crm' | 'nav.treasury' | 'nav.wms'
-  hintKey: 'home.crmHint' | 'home.treasuryHint' | 'home.wmsHint'
+  titleKey: 'nav.crm' | 'nav.treasury' | 'nav.wms' | 'nav.directories'
+  hintKey: 'home.crmHint' | 'home.treasuryHint' | 'home.wmsHint' | 'home.directoriesHint'
   icon: typeof Contact
   permission: Permission
 }[] = [
   { to: '/crm', titleKey: 'nav.crm', hintKey: 'home.crmHint', icon: Contact, permission: 'crm.read' },
   { to: '/treasury', titleKey: 'nav.treasury', hintKey: 'home.treasuryHint', icon: Wallet, permission: 'treasury.read' },
   { to: '/wms', titleKey: 'nav.wms', hintKey: 'home.wmsHint', icon: Boxes, permission: 'wms.read' },
+  { to: '/directories', titleKey: 'nav.directories', hintKey: 'home.directoriesHint', icon: BookOpen, permission: 'directories.read' },
 ]
 
 function HomePage() {
