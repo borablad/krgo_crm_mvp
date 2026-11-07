@@ -33,6 +33,7 @@ const (
 	PermTreasuryRead     Permission = "treasury.read"
 	PermTreasuryCreate   Permission = "treasury.create"
 	PermTreasuryApprove  Permission = "treasury.approve"
+	PermTreasuryPay      Permission = "treasury.pay"
 	PermWMSRead          Permission = "wms.read"
 	PermWMSWrite         Permission = "wms.write"
 	PermUsersManage      Permission = "users.manage"
@@ -44,7 +45,7 @@ var rolePermissions = map[Role][]Permission{
 	RoleManager: {
 		PermDirectoriesRead, PermDirectoriesWrite,
 		PermCRMRead, PermCRMWrite,
-		PermTreasuryRead, PermTreasuryCreate, PermTreasuryApprove,
+		PermTreasuryRead, PermTreasuryCreate, PermTreasuryApprove, PermTreasuryPay,
 		PermWMSRead,
 	},
 	RoleEmployee: {
@@ -54,7 +55,7 @@ var rolePermissions = map[Role][]Permission{
 	},
 	RoleAccountant: {
 		PermDirectoriesRead, PermDirectoriesWrite,
-		PermTreasuryRead, PermTreasuryCreate,
+		PermTreasuryRead, PermTreasuryCreate, PermTreasuryPay,
 		PermWMSRead,
 	},
 	RoleStorekeeper: {
@@ -68,7 +69,7 @@ func (r Role) Permissions() []Permission {
 	if r == RoleAdmin {
 		return []Permission{
 			PermDirectoriesRead, PermDirectoriesWrite, PermCRMRead, PermCRMWrite,
-			PermTreasuryRead, PermTreasuryCreate, PermTreasuryApprove,
+			PermTreasuryRead, PermTreasuryCreate, PermTreasuryApprove, PermTreasuryPay,
 			PermWMSRead, PermWMSWrite, PermUsersManage, PermAuditRead,
 		}
 	}

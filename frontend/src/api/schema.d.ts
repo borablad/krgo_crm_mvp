@@ -550,6 +550,161 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/v1/treasury/calendar": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Платёжный календарь */
+        get: operations["treasury-calendar"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/treasury/cashflow-report": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Плановый отчёт ДДС по заявкам */
+        get: operations["treasury-cashflow-report"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/treasury/requests": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Реестр заявок на оплату */
+        get: operations["treasury-requests-list"];
+        put?: never;
+        /** Создать заявку на оплату (черновик) */
+        post: operations["treasury-requests-create"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/treasury/requests/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Карточка заявки с историей */
+        get: operations["treasury-requests-get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        /** Изменить черновик заявки */
+        patch: operations["treasury-requests-update"];
+        trace?: never;
+    };
+    "/api/v1/treasury/requests/{id}/approve": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Согласовать заявку */
+        post: operations["treasury-requests-approve"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/treasury/requests/{id}/pay": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Отметить заявку оплаченной */
+        post: operations["treasury-requests-pay"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/treasury/requests/{id}/reject": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Отклонить заявку (причина обязательна) */
+        post: operations["treasury-requests-reject"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/treasury/requests/{id}/submit": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Отправить заявку на согласование */
+        post: operations["treasury-requests-submit"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/treasury/requests/{id}/withdraw": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Отозвать заявку в черновик */
+        post: operations["treasury-requests-withdraw"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/v1/users": {
         parameters: {
             query?: never;
@@ -1468,6 +1623,267 @@ export interface components {
             permissions: string[];
             /** @enum {string} */
             role: "admin" | "manager" | "employee" | "accountant" | "storekeeper";
+        };
+        TreasuryCalendarDay: {
+            /** @description Только согласованные, ещё не оплаченные */
+            approvedTotal: string;
+            /**
+             * Format: int64
+             * @description Число заявок за дату в этой валюте
+             */
+            count: number;
+            currency: string;
+            /** Format: date */
+            date: string;
+            /** @description Оплаченные */
+            paidTotal: string;
+            /**
+             * @description Ожидают согласования и согласованные
+             * @example 125000.00
+             */
+            plannedTotal: string;
+        };
+        TreasuryCalendarRequest: {
+            amount: string;
+            counterpartyName: string;
+            currency: string;
+            /** Format: int64 */
+            id: number;
+            number: string;
+            /** Format: date */
+            payDate: string;
+            /** @enum {string} */
+            status: "pending" | "approved" | "paid";
+        };
+        TreasuryCalendarResponse: {
+            /**
+             * Format: uri
+             * @description A URL to the JSON Schema for this object.
+             * @example https://example.com/schemas/TreasuryCalendarResponse.json
+             */
+            readonly $schema?: string;
+            days: components["schemas"]["TreasuryCalendarDay"][];
+            /** Format: date */
+            from: string;
+            requests: components["schemas"]["TreasuryCalendarRequest"][];
+            /** Format: date */
+            to: string;
+        };
+        TreasuryCashflowReportResponse: {
+            /**
+             * Format: uri
+             * @description A URL to the JSON Schema for this object.
+             * @example https://example.com/schemas/TreasuryCashflowReportResponse.json
+             */
+            readonly $schema?: string;
+            /** Format: date */
+            from: string;
+            /**
+             * @description Всегда planned: отчёт по заявкам, а не по банковским операциям
+             * @enum {string}
+             */
+            kind: "planned";
+            note: string;
+            rows: components["schemas"]["TreasuryCashflowRow"][];
+            /** Format: date */
+            to: string;
+        };
+        TreasuryCashflowRow: {
+            /** @description Согласованы, ещё не оплачены */
+            approvedTotal: string;
+            /** Format: int64 */
+            cashflowItemId: number;
+            cashflowItemName: string;
+            /** Format: int64 */
+            count: number;
+            currency: string;
+            /**
+             * Format: date
+             * @description Первый день месяца, ГГГГ-ММ-01
+             */
+            month: string;
+            /** @description Отмечены оплаченными */
+            paidTotal: string;
+            /**
+             * @description На согласовании
+             * @example 125000.00
+             */
+            pendingTotal: string;
+            /** @description Сумма трёх колонок */
+            total: string;
+        };
+        TreasuryDecisionBody: {
+            /**
+             * Format: uri
+             * @description A URL to the JSON Schema for this object.
+             * @example https://example.com/schemas/TreasuryDecisionBody.json
+             */
+            readonly $schema?: string;
+            comment?: string;
+        };
+        TreasuryHistoryEntry: {
+            /** Format: date-time */
+            at: string;
+            comment: string;
+            /** @description Пусто у первой записи */
+            fromStatus: string;
+            /** Format: int64 */
+            id: number;
+            /** @enum {string} */
+            toStatus: "draft" | "pending" | "approved" | "rejected" | "paid";
+            /**
+             * Format: int64
+             * @description 0, если автор неизвестен
+             */
+            userId: number;
+            userName: string;
+        };
+        TreasuryRequest: {
+            /** @example 125000.00 */
+            amount: string;
+            /** @description Основание: договор, счёт */
+            basis: string;
+            /** Format: int64 */
+            cashflowItemId: number;
+            cashflowItemName: string;
+            comment: string;
+            /** Format: int64 */
+            costCenterId: number;
+            costCenterName: string;
+            /** Format: int64 */
+            counterpartyId: number;
+            counterpartyName: string;
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: int64 */
+            createdBy: number;
+            createdByName: string;
+            /** @example KZT */
+            currency: string;
+            /** Format: date-time */
+            decidedAt?: string;
+            /**
+             * Format: int64
+             * @description 0, пока решения нет
+             */
+            decidedBy: number;
+            decidedByName: string;
+            /** Format: int64 */
+            id: number;
+            /** @example ЗО-000001 */
+            number: string;
+            /** Format: int64 */
+            organizationId: number;
+            organizationName: string;
+            /** Format: date-time */
+            paidAt?: string;
+            /**
+             * Format: date
+             * @description Желаемая дата оплаты, ГГГГ-ММ-ДД
+             */
+            payDate: string;
+            /** @enum {string} */
+            status: "draft" | "pending" | "approved" | "rejected" | "paid";
+            /** Format: date-time */
+            updatedAt: string;
+        };
+        TreasuryRequestBody: {
+            /**
+             * Format: uri
+             * @description A URL to the JSON Schema for this object.
+             * @example https://example.com/schemas/TreasuryRequestBody.json
+             */
+            readonly $schema?: string;
+            /**
+             * @description Сумма строкой, больше нуля, не больше двух знаков после запятой
+             * @example 125000.00
+             */
+            amount: string;
+            /** @description Основание: договор, счёт */
+            basis: string;
+            /**
+             * Format: int64
+             * @description Статья ДДС типа «расход»
+             */
+            cashflowItemId: number;
+            comment?: string;
+            /** Format: int64 */
+            costCenterId: number;
+            /** Format: int64 */
+            counterpartyId: number;
+            /** @example KZT */
+            currency: string;
+            /** Format: int64 */
+            organizationId: number;
+            /** @description Желаемая дата оплаты, ГГГГ-ММ-ДД */
+            payDate: string;
+        };
+        TreasuryRequestDetail: {
+            /**
+             * Format: uri
+             * @description A URL to the JSON Schema for this object.
+             * @example https://example.com/schemas/TreasuryRequestDetail.json
+             */
+            readonly $schema?: string;
+            /** @example 125000.00 */
+            amount: string;
+            /** @description Основание: договор, счёт */
+            basis: string;
+            /** Format: int64 */
+            cashflowItemId: number;
+            cashflowItemName: string;
+            comment: string;
+            /** Format: int64 */
+            costCenterId: number;
+            costCenterName: string;
+            /** Format: int64 */
+            counterpartyId: number;
+            counterpartyName: string;
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: int64 */
+            createdBy: number;
+            createdByName: string;
+            /** @example KZT */
+            currency: string;
+            /** Format: date-time */
+            decidedAt?: string;
+            /**
+             * Format: int64
+             * @description 0, пока решения нет
+             */
+            decidedBy: number;
+            decidedByName: string;
+            history: components["schemas"]["TreasuryHistoryEntry"][];
+            /** Format: int64 */
+            id: number;
+            /** @example ЗО-000001 */
+            number: string;
+            /** Format: int64 */
+            organizationId: number;
+            organizationName: string;
+            /** Format: date-time */
+            paidAt?: string;
+            /**
+             * Format: date
+             * @description Желаемая дата оплаты, ГГГГ-ММ-ДД
+             */
+            payDate: string;
+            /** @enum {string} */
+            status: "draft" | "pending" | "approved" | "rejected" | "paid";
+            /** Format: date-time */
+            updatedAt: string;
+        };
+        TreasuryRequestsResponse: {
+            /**
+             * Format: uri
+             * @description A URL to the JSON Schema for this object.
+             * @example https://example.com/schemas/TreasuryRequestsResponse.json
+             */
+            readonly $schema?: string;
+            items: components["schemas"]["TreasuryRequest"][];
+            /** Format: int64 */
+            total: number;
         };
         UserAccount: {
             /**
@@ -3220,6 +3636,390 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["HealthResponse"];
+                };
+            };
+            /** @description Error */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["ErrorModel"];
+                };
+            };
+        };
+    };
+    "treasury-calendar": {
+        parameters: {
+            query: {
+                /** @description Начало периода, ГГГГ-ММ-ДД */
+                from: string;
+                /** @description Конец периода включительно, не больше 92 дней */
+                to: string;
+                organizationId?: number;
+                currency?: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["TreasuryCalendarResponse"];
+                };
+            };
+            /** @description Error */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["ErrorModel"];
+                };
+            };
+        };
+    };
+    "treasury-cashflow-report": {
+        parameters: {
+            query: {
+                from: string;
+                /** @description Не больше 13 месяцев от начала */
+                to: string;
+                organizationId?: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["TreasuryCashflowReportResponse"];
+                };
+            };
+            /** @description Error */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["ErrorModel"];
+                };
+            };
+        };
+    };
+    "treasury-requests-list": {
+        parameters: {
+            query?: {
+                /** @description Поиск по номеру, основанию и названию контрагента */
+                q?: string;
+                status?: "draft" | "pending" | "approved" | "rejected" | "paid" | "";
+                organizationId?: number;
+                counterpartyId?: number;
+                currency?: string;
+                payDateFrom?: string;
+                payDateTo?: string;
+                limit?: number;
+                offset?: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["TreasuryRequestsResponse"];
+                };
+            };
+            /** @description Error */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["ErrorModel"];
+                };
+            };
+        };
+    };
+    "treasury-requests-create": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["TreasuryRequestBody"];
+            };
+        };
+        responses: {
+            /** @description Created */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["TreasuryRequestDetail"];
+                };
+            };
+            /** @description Error */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["ErrorModel"];
+                };
+            };
+        };
+    };
+    "treasury-requests-get": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["TreasuryRequestDetail"];
+                };
+            };
+            /** @description Error */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["ErrorModel"];
+                };
+            };
+        };
+    };
+    "treasury-requests-update": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["TreasuryRequestBody"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["TreasuryRequestDetail"];
+                };
+            };
+            /** @description Error */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["ErrorModel"];
+                };
+            };
+        };
+    };
+    "treasury-requests-approve": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: {
+            content: {
+                "application/json": components["schemas"]["TreasuryDecisionBody"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["TreasuryRequestDetail"];
+                };
+            };
+            /** @description Error */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["ErrorModel"];
+                };
+            };
+        };
+    };
+    "treasury-requests-pay": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: {
+            content: {
+                "application/json": components["schemas"]["TreasuryDecisionBody"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["TreasuryRequestDetail"];
+                };
+            };
+            /** @description Error */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["ErrorModel"];
+                };
+            };
+        };
+    };
+    "treasury-requests-reject": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: {
+            content: {
+                "application/json": components["schemas"]["TreasuryDecisionBody"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["TreasuryRequestDetail"];
+                };
+            };
+            /** @description Error */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["ErrorModel"];
+                };
+            };
+        };
+    };
+    "treasury-requests-submit": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: {
+            content: {
+                "application/json": components["schemas"]["TreasuryDecisionBody"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["TreasuryRequestDetail"];
+                };
+            };
+            /** @description Error */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["ErrorModel"];
+                };
+            };
+        };
+    };
+    "treasury-requests-withdraw": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: {
+            content: {
+                "application/json": components["schemas"]["TreasuryDecisionBody"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["TreasuryRequestDetail"];
                 };
             };
             /** @description Error */

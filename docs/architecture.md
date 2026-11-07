@@ -87,6 +87,7 @@ docs/                   эта документация
 | treasury.read | ✓ | ✓ | ✓ (свои) | ✓ | |
 | treasury.create | ✓ | ✓ | ✓ | ✓ | |
 | treasury.approve | ✓ | ✓ | | | |
+| treasury.pay (отметка «Оплачена») | ✓ | ✓ | | ✓ | |
 | wms.read | ✓ | ✓ | | ✓ | ✓ |
 | wms.write (документы, проведение) | ✓ | | | | ✓ |
 | users.manage, audit.read | ✓ | | | | |
@@ -98,13 +99,13 @@ docs/                   эта документация
 - **core:** `users`, `sessions`, `audit_log`
 - **directories:** `organizations`, `counterparties`, `items`, `units`, `warehouses`, `cells`, `cashflow_items`, `cost_centers`, `currencies`
 - **crm:** `clients` (БИН необязателен), `deals` (сумма в тенге, этап `new…won/lost`), `deal_stage_history` (только добавление), `tasks` (привязка к клиенту/сделке необязательна)
-- **treasury:** `payment_requests`, `payment_request_history`
+- **treasury:** `payment_requests` (номер `ЗО-000001` из последовательности `payment_request_number_seq`, сумма > 0, валюта из справочника), `payment_request_history` (только добавление: статус до/после, автор, комментарий)
 - **wms:** `receipts`, `receipt_lines`, `transfers`, `stock_movements`, `stock_balances`
 
 ## Инварианты, которые нельзя нарушать
 1. **Остаток не бывает отрицательным.** `stock_balances.qty numeric(14,3) check (qty >= 0)`. Любое движение: в одной транзакции `select ... for update` строк остатков → проверка → запись в `stock_movements` (только добавление) → обновление `stock_balances`. Ошибка БД по `CHECK` — последняя линия обороны, а не основная проверка.
 2. **Проведение идемпотентно.** Документ блокируется `for update`, проверяется `status = 'draft'`, иначе ошибка «уже проведён». Движения ссылаются на документ (`document_type`, `document_id`).
-3. **Статусы заявки — конечный автомат:** `draft → pending → approved | rejected`, `approved → paid` (ручная отметка). Переходы только через `treasury.Service`, каждый пишется в `payment_request_history` с автором и комментарием.
+3. **Статусы заявки — конечный автомат:** `draft → pending → approved | rejected`, `pending → draft` (отзыв автором), `approved → paid` (ручная отметка, право `treasury.pay`). Переходы только через `treasury.Service`, каждый пишется в `payment_request_history` с автором и комментарием.
 4. **Журнал пишется в той же транзакции**, что и действие (`audit.Record(ctx, tx, ...)`).
 5. **БИН/ИИН** — 12 цифр с проверкой контрольной суммы по алгоритму РК; уникальность контрагентов по БИН/ИИН.
 6. **Суммы заявок > 0**, валюта — из справочника; календарь и отчёт ДДС считают суммы по каждой валюте отдельно, без пересчёта по курсу.

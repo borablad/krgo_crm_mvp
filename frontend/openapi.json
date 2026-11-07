@@ -2211,6 +2211,680 @@
         ],
         "type": "object"
       },
+      "TreasuryCalendarDay": {
+        "additionalProperties": false,
+        "properties": {
+          "approvedTotal": {
+            "description": "Только согласованные, ещё не оплаченные",
+            "type": "string"
+          },
+          "count": {
+            "description": "Число заявок за дату в этой валюте",
+            "format": "int64",
+            "type": "integer"
+          },
+          "currency": {
+            "type": "string"
+          },
+          "date": {
+            "format": "date",
+            "type": "string"
+          },
+          "paidTotal": {
+            "description": "Оплаченные",
+            "type": "string"
+          },
+          "plannedTotal": {
+            "description": "Ожидают согласования и согласованные",
+            "examples": [
+              "125000.00"
+            ],
+            "type": "string"
+          }
+        },
+        "required": [
+          "date",
+          "currency",
+          "plannedTotal",
+          "approvedTotal",
+          "paidTotal",
+          "count"
+        ],
+        "type": "object"
+      },
+      "TreasuryCalendarRequest": {
+        "additionalProperties": false,
+        "properties": {
+          "amount": {
+            "type": "string"
+          },
+          "counterpartyName": {
+            "type": "string"
+          },
+          "currency": {
+            "type": "string"
+          },
+          "id": {
+            "format": "int64",
+            "type": "integer"
+          },
+          "number": {
+            "type": "string"
+          },
+          "payDate": {
+            "format": "date",
+            "type": "string"
+          },
+          "status": {
+            "enum": [
+              "pending",
+              "approved",
+              "paid"
+            ],
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "number",
+          "payDate",
+          "counterpartyName",
+          "amount",
+          "currency",
+          "status"
+        ],
+        "type": "object"
+      },
+      "TreasuryCalendarResponse": {
+        "additionalProperties": false,
+        "properties": {
+          "$schema": {
+            "description": "A URL to the JSON Schema for this object.",
+            "examples": [
+              "https://example.com/schemas/TreasuryCalendarResponse.json"
+            ],
+            "format": "uri",
+            "readOnly": true,
+            "type": "string"
+          },
+          "days": {
+            "items": {
+              "$ref": "#/components/schemas/TreasuryCalendarDay"
+            },
+            "type": "array"
+          },
+          "from": {
+            "format": "date",
+            "type": "string"
+          },
+          "requests": {
+            "items": {
+              "$ref": "#/components/schemas/TreasuryCalendarRequest"
+            },
+            "type": "array"
+          },
+          "to": {
+            "format": "date",
+            "type": "string"
+          }
+        },
+        "required": [
+          "from",
+          "to",
+          "days",
+          "requests"
+        ],
+        "type": "object"
+      },
+      "TreasuryCashflowReportResponse": {
+        "additionalProperties": false,
+        "properties": {
+          "$schema": {
+            "description": "A URL to the JSON Schema for this object.",
+            "examples": [
+              "https://example.com/schemas/TreasuryCashflowReportResponse.json"
+            ],
+            "format": "uri",
+            "readOnly": true,
+            "type": "string"
+          },
+          "from": {
+            "format": "date",
+            "type": "string"
+          },
+          "kind": {
+            "description": "Всегда planned: отчёт по заявкам, а не по банковским операциям",
+            "enum": [
+              "planned"
+            ],
+            "type": "string"
+          },
+          "note": {
+            "type": "string"
+          },
+          "rows": {
+            "items": {
+              "$ref": "#/components/schemas/TreasuryCashflowRow"
+            },
+            "type": "array"
+          },
+          "to": {
+            "format": "date",
+            "type": "string"
+          }
+        },
+        "required": [
+          "kind",
+          "note",
+          "from",
+          "to",
+          "rows"
+        ],
+        "type": "object"
+      },
+      "TreasuryCashflowRow": {
+        "additionalProperties": false,
+        "properties": {
+          "approvedTotal": {
+            "description": "Согласованы, ещё не оплачены",
+            "type": "string"
+          },
+          "cashflowItemId": {
+            "format": "int64",
+            "type": "integer"
+          },
+          "cashflowItemName": {
+            "type": "string"
+          },
+          "count": {
+            "format": "int64",
+            "type": "integer"
+          },
+          "currency": {
+            "type": "string"
+          },
+          "month": {
+            "description": "Первый день месяца, ГГГГ-ММ-01",
+            "format": "date",
+            "type": "string"
+          },
+          "paidTotal": {
+            "description": "Отмечены оплаченными",
+            "type": "string"
+          },
+          "pendingTotal": {
+            "description": "На согласовании",
+            "examples": [
+              "125000.00"
+            ],
+            "type": "string"
+          },
+          "total": {
+            "description": "Сумма трёх колонок",
+            "type": "string"
+          }
+        },
+        "required": [
+          "cashflowItemId",
+          "cashflowItemName",
+          "month",
+          "currency",
+          "pendingTotal",
+          "approvedTotal",
+          "paidTotal",
+          "total",
+          "count"
+        ],
+        "type": "object"
+      },
+      "TreasuryDecisionBody": {
+        "additionalProperties": false,
+        "properties": {
+          "$schema": {
+            "description": "A URL to the JSON Schema for this object.",
+            "examples": [
+              "https://example.com/schemas/TreasuryDecisionBody.json"
+            ],
+            "format": "uri",
+            "readOnly": true,
+            "type": "string"
+          },
+          "comment": {
+            "maxLength": 2000,
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "TreasuryHistoryEntry": {
+        "additionalProperties": false,
+        "properties": {
+          "at": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "comment": {
+            "type": "string"
+          },
+          "fromStatus": {
+            "description": "Пусто у первой записи",
+            "type": "string"
+          },
+          "id": {
+            "format": "int64",
+            "type": "integer"
+          },
+          "toStatus": {
+            "enum": [
+              "draft",
+              "pending",
+              "approved",
+              "rejected",
+              "paid"
+            ],
+            "type": "string"
+          },
+          "userId": {
+            "description": "0, если автор неизвестен",
+            "format": "int64",
+            "type": "integer"
+          },
+          "userName": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "fromStatus",
+          "toStatus",
+          "userId",
+          "userName",
+          "at",
+          "comment"
+        ],
+        "type": "object"
+      },
+      "TreasuryRequest": {
+        "additionalProperties": false,
+        "properties": {
+          "amount": {
+            "examples": [
+              "125000.00"
+            ],
+            "type": "string"
+          },
+          "basis": {
+            "description": "Основание: договор, счёт",
+            "type": "string"
+          },
+          "cashflowItemId": {
+            "format": "int64",
+            "type": "integer"
+          },
+          "cashflowItemName": {
+            "type": "string"
+          },
+          "comment": {
+            "type": "string"
+          },
+          "costCenterId": {
+            "format": "int64",
+            "type": "integer"
+          },
+          "costCenterName": {
+            "type": "string"
+          },
+          "counterpartyId": {
+            "format": "int64",
+            "type": "integer"
+          },
+          "counterpartyName": {
+            "type": "string"
+          },
+          "createdAt": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "createdBy": {
+            "format": "int64",
+            "type": "integer"
+          },
+          "createdByName": {
+            "type": "string"
+          },
+          "currency": {
+            "examples": [
+              "KZT"
+            ],
+            "type": "string"
+          },
+          "decidedAt": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "decidedBy": {
+            "description": "0, пока решения нет",
+            "format": "int64",
+            "type": "integer"
+          },
+          "decidedByName": {
+            "type": "string"
+          },
+          "id": {
+            "format": "int64",
+            "type": "integer"
+          },
+          "number": {
+            "examples": [
+              "ЗО-000001"
+            ],
+            "type": "string"
+          },
+          "organizationId": {
+            "format": "int64",
+            "type": "integer"
+          },
+          "organizationName": {
+            "type": "string"
+          },
+          "paidAt": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "payDate": {
+            "description": "Желаемая дата оплаты, ГГГГ-ММ-ДД",
+            "format": "date",
+            "type": "string"
+          },
+          "status": {
+            "enum": [
+              "draft",
+              "pending",
+              "approved",
+              "rejected",
+              "paid"
+            ],
+            "type": "string"
+          },
+          "updatedAt": {
+            "format": "date-time",
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "number",
+          "organizationId",
+          "organizationName",
+          "counterpartyId",
+          "counterpartyName",
+          "basis",
+          "amount",
+          "currency",
+          "payDate",
+          "cashflowItemId",
+          "cashflowItemName",
+          "costCenterId",
+          "costCenterName",
+          "comment",
+          "status",
+          "createdBy",
+          "createdByName",
+          "decidedBy",
+          "decidedByName",
+          "createdAt",
+          "updatedAt"
+        ],
+        "type": "object"
+      },
+      "TreasuryRequestBody": {
+        "additionalProperties": false,
+        "properties": {
+          "$schema": {
+            "description": "A URL to the JSON Schema for this object.",
+            "examples": [
+              "https://example.com/schemas/TreasuryRequestBody.json"
+            ],
+            "format": "uri",
+            "readOnly": true,
+            "type": "string"
+          },
+          "amount": {
+            "description": "Сумма строкой, больше нуля, не больше двух знаков после запятой",
+            "examples": [
+              "125000.00"
+            ],
+            "maxLength": 30,
+            "type": "string"
+          },
+          "basis": {
+            "description": "Основание: договор, счёт",
+            "maxLength": 500,
+            "type": "string"
+          },
+          "cashflowItemId": {
+            "description": "Статья ДДС типа «расход»",
+            "format": "int64",
+            "type": "integer"
+          },
+          "comment": {
+            "maxLength": 2000,
+            "type": "string"
+          },
+          "costCenterId": {
+            "format": "int64",
+            "type": "integer"
+          },
+          "counterpartyId": {
+            "format": "int64",
+            "type": "integer"
+          },
+          "currency": {
+            "examples": [
+              "KZT"
+            ],
+            "maxLength": 3,
+            "type": "string"
+          },
+          "organizationId": {
+            "format": "int64",
+            "type": "integer"
+          },
+          "payDate": {
+            "description": "Желаемая дата оплаты, ГГГГ-ММ-ДД",
+            "type": "string"
+          }
+        },
+        "required": [
+          "organizationId",
+          "counterpartyId",
+          "basis",
+          "amount",
+          "currency",
+          "payDate",
+          "cashflowItemId",
+          "costCenterId"
+        ],
+        "type": "object"
+      },
+      "TreasuryRequestDetail": {
+        "additionalProperties": false,
+        "properties": {
+          "$schema": {
+            "description": "A URL to the JSON Schema for this object.",
+            "examples": [
+              "https://example.com/schemas/TreasuryRequestDetail.json"
+            ],
+            "format": "uri",
+            "readOnly": true,
+            "type": "string"
+          },
+          "amount": {
+            "examples": [
+              "125000.00"
+            ],
+            "type": "string"
+          },
+          "basis": {
+            "description": "Основание: договор, счёт",
+            "type": "string"
+          },
+          "cashflowItemId": {
+            "format": "int64",
+            "type": "integer"
+          },
+          "cashflowItemName": {
+            "type": "string"
+          },
+          "comment": {
+            "type": "string"
+          },
+          "costCenterId": {
+            "format": "int64",
+            "type": "integer"
+          },
+          "costCenterName": {
+            "type": "string"
+          },
+          "counterpartyId": {
+            "format": "int64",
+            "type": "integer"
+          },
+          "counterpartyName": {
+            "type": "string"
+          },
+          "createdAt": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "createdBy": {
+            "format": "int64",
+            "type": "integer"
+          },
+          "createdByName": {
+            "type": "string"
+          },
+          "currency": {
+            "examples": [
+              "KZT"
+            ],
+            "type": "string"
+          },
+          "decidedAt": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "decidedBy": {
+            "description": "0, пока решения нет",
+            "format": "int64",
+            "type": "integer"
+          },
+          "decidedByName": {
+            "type": "string"
+          },
+          "history": {
+            "items": {
+              "$ref": "#/components/schemas/TreasuryHistoryEntry"
+            },
+            "type": "array"
+          },
+          "id": {
+            "format": "int64",
+            "type": "integer"
+          },
+          "number": {
+            "examples": [
+              "ЗО-000001"
+            ],
+            "type": "string"
+          },
+          "organizationId": {
+            "format": "int64",
+            "type": "integer"
+          },
+          "organizationName": {
+            "type": "string"
+          },
+          "paidAt": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "payDate": {
+            "description": "Желаемая дата оплаты, ГГГГ-ММ-ДД",
+            "format": "date",
+            "type": "string"
+          },
+          "status": {
+            "enum": [
+              "draft",
+              "pending",
+              "approved",
+              "rejected",
+              "paid"
+            ],
+            "type": "string"
+          },
+          "updatedAt": {
+            "format": "date-time",
+            "type": "string"
+          }
+        },
+        "required": [
+          "history",
+          "id",
+          "number",
+          "organizationId",
+          "organizationName",
+          "counterpartyId",
+          "counterpartyName",
+          "basis",
+          "amount",
+          "currency",
+          "payDate",
+          "cashflowItemId",
+          "cashflowItemName",
+          "costCenterId",
+          "costCenterName",
+          "comment",
+          "status",
+          "createdBy",
+          "createdByName",
+          "decidedBy",
+          "decidedByName",
+          "createdAt",
+          "updatedAt"
+        ],
+        "type": "object"
+      },
+      "TreasuryRequestsResponse": {
+        "additionalProperties": false,
+        "properties": {
+          "$schema": {
+            "description": "A URL to the JSON Schema for this object.",
+            "examples": [
+              "https://example.com/schemas/TreasuryRequestsResponse.json"
+            ],
+            "format": "uri",
+            "readOnly": true,
+            "type": "string"
+          },
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/TreasuryRequest"
+            },
+            "type": "array"
+          },
+          "total": {
+            "format": "int64",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "items",
+          "total"
+        ],
+        "type": "object"
+      },
       "UserAccount": {
         "additionalProperties": false,
         "properties": {
@@ -5103,6 +5777,648 @@
         "summary": "Проверка работоспособности",
         "tags": [
           "system"
+        ]
+      }
+    },
+    "/api/v1/treasury/calendar": {
+      "get": {
+        "operationId": "treasury-calendar",
+        "parameters": [
+          {
+            "description": "Начало периода, ГГГГ-ММ-ДД",
+            "explode": false,
+            "in": "query",
+            "name": "from",
+            "required": true,
+            "schema": {
+              "description": "Начало периода, ГГГГ-ММ-ДД",
+              "type": "string"
+            }
+          },
+          {
+            "description": "Конец периода включительно, не больше 92 дней",
+            "explode": false,
+            "in": "query",
+            "name": "to",
+            "required": true,
+            "schema": {
+              "description": "Конец периода включительно, не больше 92 дней",
+              "type": "string"
+            }
+          },
+          {
+            "explode": false,
+            "in": "query",
+            "name": "organizationId",
+            "schema": {
+              "format": "int64",
+              "type": "integer"
+            }
+          },
+          {
+            "explode": false,
+            "in": "query",
+            "name": "currency",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TreasuryCalendarResponse"
+                }
+              }
+            },
+            "description": "OK"
+          },
+          "default": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorModel"
+                }
+              }
+            },
+            "description": "Error"
+          }
+        },
+        "summary": "Платёжный календарь",
+        "tags": [
+          "treasury"
+        ]
+      }
+    },
+    "/api/v1/treasury/cashflow-report": {
+      "get": {
+        "operationId": "treasury-cashflow-report",
+        "parameters": [
+          {
+            "explode": false,
+            "in": "query",
+            "name": "from",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "Не больше 13 месяцев от начала",
+            "explode": false,
+            "in": "query",
+            "name": "to",
+            "required": true,
+            "schema": {
+              "description": "Не больше 13 месяцев от начала",
+              "type": "string"
+            }
+          },
+          {
+            "explode": false,
+            "in": "query",
+            "name": "organizationId",
+            "schema": {
+              "format": "int64",
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TreasuryCashflowReportResponse"
+                }
+              }
+            },
+            "description": "OK"
+          },
+          "default": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorModel"
+                }
+              }
+            },
+            "description": "Error"
+          }
+        },
+        "summary": "Плановый отчёт ДДС по заявкам",
+        "tags": [
+          "treasury"
+        ]
+      }
+    },
+    "/api/v1/treasury/requests": {
+      "get": {
+        "operationId": "treasury-requests-list",
+        "parameters": [
+          {
+            "description": "Поиск по номеру, основанию и названию контрагента",
+            "explode": false,
+            "in": "query",
+            "name": "q",
+            "schema": {
+              "description": "Поиск по номеру, основанию и названию контрагента",
+              "type": "string"
+            }
+          },
+          {
+            "explode": false,
+            "in": "query",
+            "name": "status",
+            "schema": {
+              "enum": [
+                "draft",
+                "pending",
+                "approved",
+                "rejected",
+                "paid",
+                ""
+              ],
+              "type": "string"
+            }
+          },
+          {
+            "explode": false,
+            "in": "query",
+            "name": "organizationId",
+            "schema": {
+              "format": "int64",
+              "type": "integer"
+            }
+          },
+          {
+            "explode": false,
+            "in": "query",
+            "name": "counterpartyId",
+            "schema": {
+              "format": "int64",
+              "type": "integer"
+            }
+          },
+          {
+            "explode": false,
+            "in": "query",
+            "name": "currency",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "explode": false,
+            "in": "query",
+            "name": "payDateFrom",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "explode": false,
+            "in": "query",
+            "name": "payDateTo",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "explode": false,
+            "in": "query",
+            "name": "limit",
+            "schema": {
+              "format": "int32",
+              "maximum": 200,
+              "minimum": 1,
+              "type": "integer"
+            }
+          },
+          {
+            "explode": false,
+            "in": "query",
+            "name": "offset",
+            "schema": {
+              "format": "int32",
+              "minimum": 0,
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TreasuryRequestsResponse"
+                }
+              }
+            },
+            "description": "OK"
+          },
+          "default": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorModel"
+                }
+              }
+            },
+            "description": "Error"
+          }
+        },
+        "summary": "Реестр заявок на оплату",
+        "tags": [
+          "treasury"
+        ]
+      },
+      "post": {
+        "operationId": "treasury-requests-create",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TreasuryRequestBody"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TreasuryRequestDetail"
+                }
+              }
+            },
+            "description": "Created"
+          },
+          "default": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorModel"
+                }
+              }
+            },
+            "description": "Error"
+          }
+        },
+        "summary": "Создать заявку на оплату (черновик)",
+        "tags": [
+          "treasury"
+        ]
+      }
+    },
+    "/api/v1/treasury/requests/{id}": {
+      "get": {
+        "operationId": "treasury-requests-get",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "format": "int64",
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TreasuryRequestDetail"
+                }
+              }
+            },
+            "description": "OK"
+          },
+          "default": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorModel"
+                }
+              }
+            },
+            "description": "Error"
+          }
+        },
+        "summary": "Карточка заявки с историей",
+        "tags": [
+          "treasury"
+        ]
+      },
+      "patch": {
+        "operationId": "treasury-requests-update",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "format": "int64",
+              "type": "integer"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TreasuryRequestBody"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TreasuryRequestDetail"
+                }
+              }
+            },
+            "description": "OK"
+          },
+          "default": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorModel"
+                }
+              }
+            },
+            "description": "Error"
+          }
+        },
+        "summary": "Изменить черновик заявки",
+        "tags": [
+          "treasury"
+        ]
+      }
+    },
+    "/api/v1/treasury/requests/{id}/approve": {
+      "post": {
+        "operationId": "treasury-requests-approve",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "format": "int64",
+              "type": "integer"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TreasuryDecisionBody"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TreasuryRequestDetail"
+                }
+              }
+            },
+            "description": "OK"
+          },
+          "default": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorModel"
+                }
+              }
+            },
+            "description": "Error"
+          }
+        },
+        "summary": "Согласовать заявку",
+        "tags": [
+          "treasury"
+        ]
+      }
+    },
+    "/api/v1/treasury/requests/{id}/pay": {
+      "post": {
+        "operationId": "treasury-requests-pay",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "format": "int64",
+              "type": "integer"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TreasuryDecisionBody"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TreasuryRequestDetail"
+                }
+              }
+            },
+            "description": "OK"
+          },
+          "default": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorModel"
+                }
+              }
+            },
+            "description": "Error"
+          }
+        },
+        "summary": "Отметить заявку оплаченной",
+        "tags": [
+          "treasury"
+        ]
+      }
+    },
+    "/api/v1/treasury/requests/{id}/reject": {
+      "post": {
+        "operationId": "treasury-requests-reject",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "format": "int64",
+              "type": "integer"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TreasuryDecisionBody"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TreasuryRequestDetail"
+                }
+              }
+            },
+            "description": "OK"
+          },
+          "default": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorModel"
+                }
+              }
+            },
+            "description": "Error"
+          }
+        },
+        "summary": "Отклонить заявку (причина обязательна)",
+        "tags": [
+          "treasury"
+        ]
+      }
+    },
+    "/api/v1/treasury/requests/{id}/submit": {
+      "post": {
+        "operationId": "treasury-requests-submit",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "format": "int64",
+              "type": "integer"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TreasuryDecisionBody"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TreasuryRequestDetail"
+                }
+              }
+            },
+            "description": "OK"
+          },
+          "default": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorModel"
+                }
+              }
+            },
+            "description": "Error"
+          }
+        },
+        "summary": "Отправить заявку на согласование",
+        "tags": [
+          "treasury"
+        ]
+      }
+    },
+    "/api/v1/treasury/requests/{id}/withdraw": {
+      "post": {
+        "operationId": "treasury-requests-withdraw",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "format": "int64",
+              "type": "integer"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TreasuryDecisionBody"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TreasuryRequestDetail"
+                }
+              }
+            },
+            "description": "OK"
+          },
+          "default": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorModel"
+                }
+              }
+            },
+            "description": "Error"
+          }
+        },
+        "summary": "Отозвать заявку в черновик",
+        "tags": [
+          "treasury"
         ]
       }
     },
