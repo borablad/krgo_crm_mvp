@@ -14,6 +14,7 @@ import { Route as LoginRouteImport } from './routes/login'
 import { Route as AppIndexRouteImport } from './routes/_app/index'
 import { Route as AppCrmRouteImport } from './routes/_app/crm'
 import { Route as AppDirectoriesRouteImport } from './routes/_app/directories'
+import { Route as AppTreasuryRouteImport } from './routes/_app/treasury'
 import { Route as AppAuditIndexRouteImport } from './routes/_app/audit/index'
 import { Route as AppCrmIndexRouteImport } from './routes/_app/crm/index'
 import { Route as AppDirectoriesIndexRouteImport } from './routes/_app/directories/index'
@@ -23,6 +24,8 @@ import { Route as AppDirectoriesCounterpartiesRouteImport } from './routes/_app/
 import { Route as AppDirectoriesItemsRouteImport } from './routes/_app/directories/items'
 import { Route as AppDirectoriesOrganizationsRouteImport } from './routes/_app/directories/organizations'
 import { Route as AppTreasuryIndexRouteImport } from './routes/_app/treasury/index'
+import { Route as AppTreasuryCalendarRouteImport } from './routes/_app/treasury/calendar'
+import { Route as AppTreasuryReportRouteImport } from './routes/_app/treasury/report'
 import { Route as AppUsersIndexRouteImport } from './routes/_app/users/index'
 import { Route as AppWmsIndexRouteImport } from './routes/_app/wms/index'
 import { Route as AppCrmClientsIndexRouteImport } from './routes/_app/crm/clients/index'
@@ -32,6 +35,8 @@ import { Route as AppCrmDealsIdRouteImport } from './routes/_app/crm/deals/$id'
 import { Route as AppCrmTasksIndexRouteImport } from './routes/_app/crm/tasks/index'
 import { Route as AppDirectoriesWarehousesIndexRouteImport } from './routes/_app/directories/warehouses.index'
 import { Route as AppDirectoriesWarehousesIdRouteImport } from './routes/_app/directories/warehouses.$id'
+import { Route as AppTreasuryRequestsIndexRouteImport } from './routes/_app/treasury/requests/index'
+import { Route as AppTreasuryRequestsIdRouteImport } from './routes/_app/treasury/requests/$id'
 
 const AppRoute = AppRouteImport.update({
   id: '/_app',
@@ -55,6 +60,11 @@ const AppCrmRoute = AppCrmRouteImport.update({
 const AppDirectoriesRoute = AppDirectoriesRouteImport.update({
   id: '/directories',
   path: '/directories',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppTreasuryRoute = AppTreasuryRouteImport.update({
+  id: '/treasury',
+  path: '/treasury',
   getParentRoute: () => AppRoute,
 } as any)
 const AppAuditIndexRoute = AppAuditIndexRouteImport.update({
@@ -102,9 +112,19 @@ const AppDirectoriesOrganizationsRoute =
     getParentRoute: () => AppDirectoriesRoute,
   } as any)
 const AppTreasuryIndexRoute = AppTreasuryIndexRouteImport.update({
-  id: '/treasury/',
-  path: '/treasury/',
-  getParentRoute: () => AppRoute,
+  id: '/',
+  path: '/',
+  getParentRoute: () => AppTreasuryRoute,
+} as any)
+const AppTreasuryCalendarRoute = AppTreasuryCalendarRouteImport.update({
+  id: '/calendar',
+  path: '/calendar',
+  getParentRoute: () => AppTreasuryRoute,
+} as any)
+const AppTreasuryReportRoute = AppTreasuryReportRouteImport.update({
+  id: '/report',
+  path: '/report',
+  getParentRoute: () => AppTreasuryRoute,
 } as any)
 const AppUsersIndexRoute = AppUsersIndexRouteImport.update({
   id: '/users/',
@@ -153,17 +173,31 @@ const AppDirectoriesWarehousesIdRoute =
     path: '/warehouses/$id',
     getParentRoute: () => AppDirectoriesRoute,
   } as any)
+const AppTreasuryRequestsIndexRoute =
+  AppTreasuryRequestsIndexRouteImport.update({
+    id: '/requests/',
+    path: '/requests/',
+    getParentRoute: () => AppTreasuryRoute,
+  } as any)
+const AppTreasuryRequestsIdRoute = AppTreasuryRequestsIdRouteImport.update({
+  id: '/requests/$id',
+  path: '/requests/$id',
+  getParentRoute: () => AppTreasuryRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof AppIndexRoute
   '/login': typeof LoginRoute
   '/crm': typeof AppCrmRouteWithChildren
   '/directories': typeof AppDirectoriesRouteWithChildren
+  '/treasury': typeof AppTreasuryRouteWithChildren
   '/directories/cashflow-items': typeof AppDirectoriesCashflowItemsRoute
   '/directories/cost-centers': typeof AppDirectoriesCostCentersRoute
   '/directories/counterparties': typeof AppDirectoriesCounterpartiesRoute
   '/directories/items': typeof AppDirectoriesItemsRoute
   '/directories/organizations': typeof AppDirectoriesOrganizationsRoute
+  '/treasury/calendar': typeof AppTreasuryCalendarRoute
+  '/treasury/report': typeof AppTreasuryReportRoute
   '/audit/': typeof AppAuditIndexRoute
   '/crm/': typeof AppCrmIndexRoute
   '/directories/': typeof AppDirectoriesIndexRoute
@@ -173,10 +207,12 @@ export interface FileRoutesByFullPath {
   '/crm/clients/$id': typeof AppCrmClientsIdRoute
   '/crm/deals/$id': typeof AppCrmDealsIdRoute
   '/directories/warehouses/$id': typeof AppDirectoriesWarehousesIdRoute
+  '/treasury/requests/$id': typeof AppTreasuryRequestsIdRoute
   '/crm/clients/': typeof AppCrmClientsIndexRoute
   '/crm/deals/': typeof AppCrmDealsIndexRoute
   '/crm/tasks/': typeof AppCrmTasksIndexRoute
   '/directories/warehouses/': typeof AppDirectoriesWarehousesIndexRoute
+  '/treasury/requests/': typeof AppTreasuryRequestsIndexRoute
 }
 export interface FileRoutesByTo {
   '/login': typeof LoginRoute
@@ -186,6 +222,8 @@ export interface FileRoutesByTo {
   '/directories/counterparties': typeof AppDirectoriesCounterpartiesRoute
   '/directories/items': typeof AppDirectoriesItemsRoute
   '/directories/organizations': typeof AppDirectoriesOrganizationsRoute
+  '/treasury/calendar': typeof AppTreasuryCalendarRoute
+  '/treasury/report': typeof AppTreasuryReportRoute
   '/audit': typeof AppAuditIndexRoute
   '/crm': typeof AppCrmIndexRoute
   '/directories': typeof AppDirectoriesIndexRoute
@@ -195,10 +233,12 @@ export interface FileRoutesByTo {
   '/crm/clients/$id': typeof AppCrmClientsIdRoute
   '/crm/deals/$id': typeof AppCrmDealsIdRoute
   '/directories/warehouses/$id': typeof AppDirectoriesWarehousesIdRoute
+  '/treasury/requests/$id': typeof AppTreasuryRequestsIdRoute
   '/crm/clients': typeof AppCrmClientsIndexRoute
   '/crm/deals': typeof AppCrmDealsIndexRoute
   '/crm/tasks': typeof AppCrmTasksIndexRoute
   '/directories/warehouses': typeof AppDirectoriesWarehousesIndexRoute
+  '/treasury/requests': typeof AppTreasuryRequestsIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -206,12 +246,15 @@ export interface FileRoutesById {
   '/login': typeof LoginRoute
   '/_app/crm': typeof AppCrmRouteWithChildren
   '/_app/directories': typeof AppDirectoriesRouteWithChildren
+  '/_app/treasury': typeof AppTreasuryRouteWithChildren
   '/_app/': typeof AppIndexRoute
   '/_app/directories/cashflow-items': typeof AppDirectoriesCashflowItemsRoute
   '/_app/directories/cost-centers': typeof AppDirectoriesCostCentersRoute
   '/_app/directories/counterparties': typeof AppDirectoriesCounterpartiesRoute
   '/_app/directories/items': typeof AppDirectoriesItemsRoute
   '/_app/directories/organizations': typeof AppDirectoriesOrganizationsRoute
+  '/_app/treasury/calendar': typeof AppTreasuryCalendarRoute
+  '/_app/treasury/report': typeof AppTreasuryReportRoute
   '/_app/audit/': typeof AppAuditIndexRoute
   '/_app/crm/': typeof AppCrmIndexRoute
   '/_app/directories/': typeof AppDirectoriesIndexRoute
@@ -221,10 +264,12 @@ export interface FileRoutesById {
   '/_app/crm/clients/$id': typeof AppCrmClientsIdRoute
   '/_app/crm/deals/$id': typeof AppCrmDealsIdRoute
   '/_app/directories/warehouses/$id': typeof AppDirectoriesWarehousesIdRoute
+  '/_app/treasury/requests/$id': typeof AppTreasuryRequestsIdRoute
   '/_app/crm/clients/': typeof AppCrmClientsIndexRoute
   '/_app/crm/deals/': typeof AppCrmDealsIndexRoute
   '/_app/crm/tasks/': typeof AppCrmTasksIndexRoute
   '/_app/directories/warehouses/': typeof AppDirectoriesWarehousesIndexRoute
+  '/_app/treasury/requests/': typeof AppTreasuryRequestsIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -233,11 +278,14 @@ export interface FileRouteTypes {
     | '/login'
     | '/crm'
     | '/directories'
+    | '/treasury'
     | '/directories/cashflow-items'
     | '/directories/cost-centers'
     | '/directories/counterparties'
     | '/directories/items'
     | '/directories/organizations'
+    | '/treasury/calendar'
+    | '/treasury/report'
     | '/audit/'
     | '/crm/'
     | '/directories/'
@@ -247,10 +295,12 @@ export interface FileRouteTypes {
     | '/crm/clients/$id'
     | '/crm/deals/$id'
     | '/directories/warehouses/$id'
+    | '/treasury/requests/$id'
     | '/crm/clients/'
     | '/crm/deals/'
     | '/crm/tasks/'
     | '/directories/warehouses/'
+    | '/treasury/requests/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/login'
@@ -260,6 +310,8 @@ export interface FileRouteTypes {
     | '/directories/counterparties'
     | '/directories/items'
     | '/directories/organizations'
+    | '/treasury/calendar'
+    | '/treasury/report'
     | '/audit'
     | '/crm'
     | '/directories'
@@ -269,22 +321,27 @@ export interface FileRouteTypes {
     | '/crm/clients/$id'
     | '/crm/deals/$id'
     | '/directories/warehouses/$id'
+    | '/treasury/requests/$id'
     | '/crm/clients'
     | '/crm/deals'
     | '/crm/tasks'
     | '/directories/warehouses'
+    | '/treasury/requests'
   id:
     | '__root__'
     | '/_app'
     | '/login'
     | '/_app/crm'
     | '/_app/directories'
+    | '/_app/treasury'
     | '/_app/'
     | '/_app/directories/cashflow-items'
     | '/_app/directories/cost-centers'
     | '/_app/directories/counterparties'
     | '/_app/directories/items'
     | '/_app/directories/organizations'
+    | '/_app/treasury/calendar'
+    | '/_app/treasury/report'
     | '/_app/audit/'
     | '/_app/crm/'
     | '/_app/directories/'
@@ -294,10 +351,12 @@ export interface FileRouteTypes {
     | '/_app/crm/clients/$id'
     | '/_app/crm/deals/$id'
     | '/_app/directories/warehouses/$id'
+    | '/_app/treasury/requests/$id'
     | '/_app/crm/clients/'
     | '/_app/crm/deals/'
     | '/_app/crm/tasks/'
     | '/_app/directories/warehouses/'
+    | '/_app/treasury/requests/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -340,6 +399,13 @@ declare module '@tanstack/react-router' {
       path: '/directories'
       fullPath: '/directories'
       preLoaderRoute: typeof AppDirectoriesRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/treasury': {
+      id: '/_app/treasury'
+      path: '/treasury'
+      fullPath: '/treasury'
+      preLoaderRoute: typeof AppTreasuryRouteImport
       parentRoute: typeof AppRoute
     }
     '/_app/audit/': {
@@ -400,10 +466,24 @@ declare module '@tanstack/react-router' {
     }
     '/_app/treasury/': {
       id: '/_app/treasury/'
-      path: '/treasury'
+      path: '/'
       fullPath: '/treasury/'
       preLoaderRoute: typeof AppTreasuryIndexRouteImport
-      parentRoute: typeof AppRoute
+      parentRoute: typeof AppTreasuryRoute
+    }
+    '/_app/treasury/calendar': {
+      id: '/_app/treasury/calendar'
+      path: '/calendar'
+      fullPath: '/treasury/calendar'
+      preLoaderRoute: typeof AppTreasuryCalendarRouteImport
+      parentRoute: typeof AppTreasuryRoute
+    }
+    '/_app/treasury/report': {
+      id: '/_app/treasury/report'
+      path: '/report'
+      fullPath: '/treasury/report'
+      preLoaderRoute: typeof AppTreasuryReportRouteImport
+      parentRoute: typeof AppTreasuryRoute
     }
     '/_app/users/': {
       id: '/_app/users/'
@@ -468,6 +548,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppDirectoriesWarehousesIdRouteImport
       parentRoute: typeof AppDirectoriesRoute
     }
+    '/_app/treasury/requests/': {
+      id: '/_app/treasury/requests/'
+      path: '/requests'
+      fullPath: '/treasury/requests/'
+      preLoaderRoute: typeof AppTreasuryRequestsIndexRouteImport
+      parentRoute: typeof AppTreasuryRoute
+    }
+    '/_app/treasury/requests/$id': {
+      id: '/_app/treasury/requests/$id'
+      path: '/requests/$id'
+      fullPath: '/treasury/requests/$id'
+      preLoaderRoute: typeof AppTreasuryRequestsIdRouteImport
+      parentRoute: typeof AppTreasuryRoute
+    }
   }
 }
 
@@ -518,12 +612,32 @@ const AppDirectoriesRouteWithChildren = AppDirectoriesRoute._addFileChildren(
   AppDirectoriesRouteChildren,
 )
 
+interface AppTreasuryRouteChildren {
+  AppTreasuryCalendarRoute: typeof AppTreasuryCalendarRoute
+  AppTreasuryReportRoute: typeof AppTreasuryReportRoute
+  AppTreasuryIndexRoute: typeof AppTreasuryIndexRoute
+  AppTreasuryRequestsIdRoute: typeof AppTreasuryRequestsIdRoute
+  AppTreasuryRequestsIndexRoute: typeof AppTreasuryRequestsIndexRoute
+}
+
+const AppTreasuryRouteChildren: AppTreasuryRouteChildren = {
+  AppTreasuryCalendarRoute: AppTreasuryCalendarRoute,
+  AppTreasuryReportRoute: AppTreasuryReportRoute,
+  AppTreasuryIndexRoute: AppTreasuryIndexRoute,
+  AppTreasuryRequestsIdRoute: AppTreasuryRequestsIdRoute,
+  AppTreasuryRequestsIndexRoute: AppTreasuryRequestsIndexRoute,
+}
+
+const AppTreasuryRouteWithChildren = AppTreasuryRoute._addFileChildren(
+  AppTreasuryRouteChildren,
+)
+
 interface AppRouteChildren {
   AppCrmRoute: typeof AppCrmRouteWithChildren
   AppDirectoriesRoute: typeof AppDirectoriesRouteWithChildren
+  AppTreasuryRoute: typeof AppTreasuryRouteWithChildren
   AppIndexRoute: typeof AppIndexRoute
   AppAuditIndexRoute: typeof AppAuditIndexRoute
-  AppTreasuryIndexRoute: typeof AppTreasuryIndexRoute
   AppUsersIndexRoute: typeof AppUsersIndexRoute
   AppWmsIndexRoute: typeof AppWmsIndexRoute
 }
@@ -531,9 +645,9 @@ interface AppRouteChildren {
 const AppRouteChildren: AppRouteChildren = {
   AppCrmRoute: AppCrmRouteWithChildren,
   AppDirectoriesRoute: AppDirectoriesRouteWithChildren,
+  AppTreasuryRoute: AppTreasuryRouteWithChildren,
   AppIndexRoute: AppIndexRoute,
   AppAuditIndexRoute: AppAuditIndexRoute,
-  AppTreasuryIndexRoute: AppTreasuryIndexRoute,
   AppUsersIndexRoute: AppUsersIndexRoute,
   AppWmsIndexRoute: AppWmsIndexRoute,
 }
