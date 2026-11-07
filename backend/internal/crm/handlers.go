@@ -46,8 +46,8 @@ type CrmDealBody struct {
 	ClientID          int64  `json:"clientId"`
 	Title             string `json:"title" maxLength:"300"`
 	Amount            string `json:"amount" maxLength:"30" example:"125000.00" doc:"Сумма в тенге строкой"`
-	Probability       int    `json:"probability,omitempty" default:"50" doc:"0–100"`
-	ExpectedCloseDate string `json:"expectedCloseDate,omitempty" format:"date" doc:"ГГГГ-ММ-ДД"`
+	Probability       *int   `json:"probability,omitempty" doc:"0–100, по умолчанию 50"`
+	ExpectedCloseDate string `json:"expectedCloseDate,omitempty" doc:"ГГГГ-ММ-ДД"`
 	OwnerUserID       int64  `json:"ownerUserId"`
 }
 
@@ -55,8 +55,8 @@ type CrmDealBody struct {
 type CrmDealUpdateBody struct {
 	Title             string `json:"title" maxLength:"300"`
 	Amount            string `json:"amount" maxLength:"30" example:"125000.00"`
-	Probability       int    `json:"probability,omitempty" default:"50"`
-	ExpectedCloseDate string `json:"expectedCloseDate,omitempty" format:"date" doc:"ГГГГ-ММ-ДД"`
+	Probability       *int   `json:"probability,omitempty" doc:"0–100; без поля — без изменений"`
+	ExpectedCloseDate string `json:"expectedCloseDate,omitempty" doc:"ГГГГ-ММ-ДД"`
 	OwnerUserID       int64  `json:"ownerUserId"`
 }
 
@@ -70,7 +70,7 @@ type CrmTaskBody struct {
 	Title          string `json:"title" maxLength:"300"`
 	Description    string `json:"description,omitempty" maxLength:"5000"`
 	AssigneeUserID int64  `json:"assigneeUserId"`
-	DueDate        string `json:"dueDate" format:"date" doc:"ГГГГ-ММ-ДД"`
+	DueDate        string `json:"dueDate" doc:"ГГГГ-ММ-ДД"`
 	ClientID       int64  `json:"clientId,omitempty" doc:"Если указана только сделка, клиент берётся из сделки"`
 	DealID         int64  `json:"dealId,omitempty"`
 }
@@ -79,7 +79,8 @@ type idPath struct {
 	ID int64 `path:"id"`
 }
 
-type pageQuery struct {
+// PageQuery — постраничный вывод. Тип экспортируемый: встроенные неэкспортируемые структуры Huma не видит.
+type PageQuery struct {
 	Limit  int32 `query:"limit" default:"50" minimum:"1" maximum:"200"`
 	Offset int32 `query:"offset" default:"0" minimum:"0"`
 }
@@ -88,7 +89,7 @@ type clientsListInput struct {
 	Q           string `query:"q" doc:"Поиск по названию, БИН и контакту"`
 	OwnerUserID int64  `query:"ownerUserId"`
 	Status      string `query:"status" enum:"potential,active,inactive,"`
-	pageQuery
+	PageQuery
 }
 
 type dealsListInput struct {
@@ -96,7 +97,7 @@ type dealsListInput struct {
 	ClientID    int64  `query:"clientId"`
 	Stage       string `query:"stage" enum:"new,contact,negotiation,proposal,approval,won,lost,"`
 	OwnerUserID int64  `query:"ownerUserId"`
-	pageQuery
+	PageQuery
 }
 
 type tasksListInput struct {
@@ -105,7 +106,7 @@ type tasksListInput struct {
 	ClientID       int64  `query:"clientId"`
 	DealID         int64  `query:"dealId"`
 	Overdue        bool   `query:"overdue" doc:"Только просроченные открытые задачи"`
-	pageQuery
+	PageQuery
 }
 
 type clientsListOutput struct{ Body CrmClientsResponse }
@@ -269,7 +270,7 @@ func Register(api huma.API, svc *Service) {
 			return nil, err
 		}
 		d, err := svc.CreateDeal(ctx, DealInput{
-			ClientID: in.Body.ClientID, Title: in.Body.Title, Amount: in.Body.Amount, Probability: in.Body.Probability,
+			ClientID: in.Body.ClientID, Title: in.Body.Title, Amount: in.Body.Amount, Probability: probabilityOr(in.Body.Probability, 50),
 			ExpectedCloseDate: cd, OwnerUserID: in.Body.OwnerUserID,
 		})
 		if err != nil {
@@ -289,8 +290,18 @@ func Register(api huma.API, svc *Service) {
 		if err != nil {
 			return nil, err
 		}
+		prob := 0
+		if in.Body.Probability != nil {
+			prob = *in.Body.Probability
+		} else {
+			cur, err := svc.GetDeal(ctx, in.ID)
+			if err != nil {
+				return nil, err
+			}
+			prob = cur.Probability
+		}
 		d, err := svc.UpdateDeal(ctx, in.ID, DealInput{
-			Title: in.Body.Title, Amount: in.Body.Amount, Probability: in.Body.Probability,
+			Title: in.Body.Title, Amount: in.Body.Amount, Probability: prob,
 			ExpectedCloseDate: cd, OwnerUserID: in.Body.OwnerUserID,
 		})
 		if err != nil {
@@ -421,4 +432,13 @@ func Register(api huma.API, svc *Service) {
 		}
 		return &metricsOutput{Body: m}, nil
 	})
+}
+
+// probabilityOr подставляет значение по умолчанию, только если поле не пришло.
+// Тег default у int не годится: Huma подставляет его и при явном 0.
+func probabilityOr(p *int, def int) int {
+	if p == nil {
+		return def
+	}
+	return *p
 }

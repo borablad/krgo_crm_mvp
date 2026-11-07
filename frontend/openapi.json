@@ -419,7 +419,6 @@
           },
           "expectedCloseDate": {
             "description": "ГГГГ-ММ-ДД",
-            "format": "date",
             "type": "string"
           },
           "ownerUserId": {
@@ -427,8 +426,7 @@
             "type": "integer"
           },
           "probability": {
-            "default": 50,
-            "description": "0–100",
+            "description": "0–100, по умолчанию 50",
             "format": "int64",
             "type": "integer"
           },
@@ -647,7 +645,6 @@
           },
           "expectedCloseDate": {
             "description": "ГГГГ-ММ-ДД",
-            "format": "date",
             "type": "string"
           },
           "ownerUserId": {
@@ -655,7 +652,7 @@
             "type": "integer"
           },
           "probability": {
-            "default": 50,
+            "description": "0–100; без поля — без изменений",
             "format": "int64",
             "type": "integer"
           },
@@ -881,7 +878,6 @@
           },
           "dueDate": {
             "description": "ГГГГ-ММ-ДД",
-            "format": "date",
             "type": "string"
           },
           "title": {
@@ -2708,6 +2704,29 @@
               ],
               "type": "string"
             }
+          },
+          {
+            "explode": false,
+            "in": "query",
+            "name": "limit",
+            "schema": {
+              "default": 50,
+              "format": "int32",
+              "maximum": 200,
+              "minimum": 1,
+              "type": "integer"
+            }
+          },
+          {
+            "explode": false,
+            "in": "query",
+            "name": "offset",
+            "schema": {
+              "default": 0,
+              "format": "int32",
+              "minimum": 0,
+              "type": "integer"
+            }
           }
         ],
         "responses": {
@@ -2916,6 +2935,29 @@
             "name": "ownerUserId",
             "schema": {
               "format": "int64",
+              "type": "integer"
+            }
+          },
+          {
+            "explode": false,
+            "in": "query",
+            "name": "limit",
+            "schema": {
+              "default": 50,
+              "format": "int32",
+              "maximum": 200,
+              "minimum": 1,
+              "type": "integer"
+            }
+          },
+          {
+            "explode": false,
+            "in": "query",
+            "name": "offset",
+            "schema": {
+              "default": 0,
+              "format": "int32",
+              "minimum": 0,
               "type": "integer"
             }
           }
@@ -3216,6 +3258,29 @@
               "description": "Только просроченные открытые задачи",
               "type": "boolean"
             }
+          },
+          {
+            "explode": false,
+            "in": "query",
+            "name": "limit",
+            "schema": {
+              "default": 50,
+              "format": "int32",
+              "maximum": 200,
+              "minimum": 1,
+              "type": "integer"
+            }
+          },
+          {
+            "explode": false,
+            "in": "query",
+            "name": "offset",
+            "schema": {
+              "default": 0,
+              "format": "int32",
+              "minimum": 0,
+              "type": "integer"
+            }
           }
         ],
         "responses": {
@@ -3465,6 +3530,53 @@
       "get": {
         "operationId": "directories-cashflow-items-list",
         "parameters": [
+          {
+            "description": "Поиск по наименованию и коду",
+            "explode": false,
+            "in": "query",
+            "name": "q",
+            "schema": {
+              "description": "Поиск по наименованию и коду",
+              "type": "string"
+            }
+          },
+          {
+            "description": "true — только активные, false — только отключённые; без параметра — все",
+            "explode": false,
+            "in": "query",
+            "name": "isActive",
+            "schema": {
+              "description": "true — только активные, false — только отключённые; без параметра — все",
+              "enum": [
+                "true",
+                "false"
+              ],
+              "type": "string"
+            }
+          },
+          {
+            "explode": false,
+            "in": "query",
+            "name": "limit",
+            "schema": {
+              "default": 50,
+              "format": "int32",
+              "maximum": 200,
+              "minimum": 1,
+              "type": "integer"
+            }
+          },
+          {
+            "explode": false,
+            "in": "query",
+            "name": "offset",
+            "schema": {
+              "default": 0,
+              "format": "int32",
+              "minimum": 0,
+              "type": "integer"
+            }
+          },
           {
             "description": "Фильтр по типу",
             "explode": false,
@@ -3850,6 +3962,53 @@
       "get": {
         "operationId": "directories-counterparties-list",
         "parameters": [
+          {
+            "description": "Поиск по наименованию и коду",
+            "explode": false,
+            "in": "query",
+            "name": "q",
+            "schema": {
+              "description": "Поиск по наименованию и коду",
+              "type": "string"
+            }
+          },
+          {
+            "description": "true — только активные, false — только отключённые; без параметра — все",
+            "explode": false,
+            "in": "query",
+            "name": "isActive",
+            "schema": {
+              "description": "true — только активные, false — только отключённые; без параметра — все",
+              "enum": [
+                "true",
+                "false"
+              ],
+              "type": "string"
+            }
+          },
+          {
+            "explode": false,
+            "in": "query",
+            "name": "limit",
+            "schema": {
+              "default": 50,
+              "format": "int32",
+              "maximum": 200,
+              "minimum": 1,
+              "type": "integer"
+            }
+          },
+          {
+            "explode": false,
+            "in": "query",
+            "name": "offset",
+            "schema": {
+              "default": 0,
+              "format": "int32",
+              "minimum": 0,
+              "type": "integer"
+            }
+          },
           {
             "description": "Фильтр по типу",
             "explode": false,
@@ -4725,6 +4884,53 @@
             "required": true,
             "schema": {
               "format": "int64",
+              "type": "integer"
+            }
+          },
+          {
+            "description": "Поиск по наименованию и коду",
+            "explode": false,
+            "in": "query",
+            "name": "q",
+            "schema": {
+              "description": "Поиск по наименованию и коду",
+              "type": "string"
+            }
+          },
+          {
+            "description": "true — только активные, false — только отключённые; без параметра — все",
+            "explode": false,
+            "in": "query",
+            "name": "isActive",
+            "schema": {
+              "description": "true — только активные, false — только отключённые; без параметра — все",
+              "enum": [
+                "true",
+                "false"
+              ],
+              "type": "string"
+            }
+          },
+          {
+            "explode": false,
+            "in": "query",
+            "name": "limit",
+            "schema": {
+              "default": 50,
+              "format": "int32",
+              "maximum": 200,
+              "minimum": 1,
+              "type": "integer"
+            }
+          },
+          {
+            "explode": false,
+            "in": "query",
+            "name": "offset",
+            "schema": {
+              "default": 0,
+              "format": "int32",
+              "minimum": 0,
               "type": "integer"
             }
           }

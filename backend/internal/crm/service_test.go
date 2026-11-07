@@ -251,3 +251,28 @@ func TestSeedDemoIsIdempotent(t *testing.T) {
 		t.Fatalf("демо-данные: %+v", m)
 	}
 }
+
+// Регрессии из ревью: сделка чужого клиента в задаче и сумма с тремя знаками после запятой.
+func TestReviewRegressions(t *testing.T) {
+	s, _, uid := newSvc(t)
+	ctx := context.Background()
+	c1 := mustClient(t, s, uid, "Первый")
+	c2 := mustClient(t, s, uid, "Второй")
+	d2, err := s.CreateDeal(ctx, DealInput{ClientID: c2.ID, Title: "Сделка второго", Amount: "100", Probability: 50, OwnerUserID: uid})
+	if err != nil {
+		t.Fatal(err)
+	}
+	_, err = s.CreateTask(ctx, TaskInput{Title: "Позвонить", AssigneeUserID: uid, DueDate: s.today(), ClientID: c1.ID, DealID: d2.ID})
+	if _, ok := fieldErrors(err)["body.dealId"]; !ok {
+		t.Fatalf("сделка другого клиента должна давать ошибку у dealId: %v", err)
+	}
+
+	_, err = s.CreateDeal(ctx, DealInput{ClientID: c1.ID, Title: "Копейки", Amount: "10.345", Probability: 50, OwnerUserID: uid})
+	if _, ok := fieldErrors(err)["body.amount"]; !ok {
+		t.Fatalf("три знака после запятой должны давать ошибку у amount: %v", err)
+	}
+	d, err := s.CreateDeal(ctx, DealInput{ClientID: c1.ID, Title: "Ровно", Amount: "10.340", Probability: 50, OwnerUserID: uid})
+	if err != nil || d.Amount != "10.34" {
+		t.Fatalf("10.340 должно сохраниться как 10.34: %q %v", d.Amount, err)
+	}
+}
