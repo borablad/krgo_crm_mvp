@@ -40,9 +40,10 @@ mkdir -p /opt/cargo-crm/backups
 В `/opt/cargo-crm/.env`: `SITE_ADDRESS=crm.example.kz`, `SECURE_COOKIES=true`; DNS A-запись на IP сервера; `docker compose up -d`. Caddy получит сертификат Let's Encrypt сам.
 
 ## Резервные копии
-> Статус на 08.11.2026: скрипты лежат на сервере, крон ещё не установлен, восстановление на сервере не проверялось (AT-13).
+> Статус на 08.11.2026: крон установлен (02:30 UTC), восстановление проверено в отдельную базу `cargo_restore_check` — данные совпали (AT-13).
 
 - `backup.sh` снимает `pg_dump` в `backups/cargo-ДАТА.sql.gz`, хранит 14 дней. Крон на сервере: `30 2 * * * /opt/cargo-crm/backup.sh >> /opt/cargo-crm/backups/backup.log 2>&1`.
+- Проверка копии без остановки стенда: `createdb cargo_restore_check`, загрузить дамп, сравнить количество строк, `dropdb`.
 - `restore.sh <файл>` останавливает приложение, пересоздаёт базу и загружает дамп. Проверка восстановления — сценарий приёмки AT-13.
 
 ## Полезное на сервере
