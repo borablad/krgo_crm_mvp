@@ -1,14 +1,14 @@
 import type { ReactNode } from 'react'
 import { Link, useNavigate } from '@tanstack/react-router'
 import { useTranslation } from 'react-i18next'
-import { Boxes, ClipboardList, Contact, Home, LogOut, ScrollText, Users, Wallet } from 'lucide-react'
+import { Boxes, BookOpen, ClipboardList, Contact, Home, LogOut, ScrollText, Users, Wallet } from 'lucide-react'
 import { can, useSessionActions, type Permission, type SessionUser } from '@/auth/session'
 import { Button } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
 
 type NavItem = {
   to: string
-  labelKey: 'nav.home' | 'nav.crm' | 'nav.treasury' | 'nav.wms' | 'nav.users' | 'nav.audit'
+  labelKey: 'nav.home' | 'nav.crm' | 'nav.treasury' | 'nav.wms' | 'nav.directories' | 'nav.users' | 'nav.audit'
   icon: typeof Home
   permission?: Permission
   /** Показывать в нижней панели на телефоне. */
@@ -20,6 +20,7 @@ const navItems: NavItem[] = [
   { to: '/crm', labelKey: 'nav.crm', icon: Contact, permission: 'crm.read', mobile: true },
   { to: '/treasury', labelKey: 'nav.treasury', icon: Wallet, permission: 'treasury.read', mobile: true },
   { to: '/wms', labelKey: 'nav.wms', icon: Boxes, permission: 'wms.read', mobile: true },
+  { to: '/directories', labelKey: 'nav.directories', icon: BookOpen, permission: 'directories.read' },
   { to: '/users', labelKey: 'nav.users', icon: Users, permission: 'users.manage' },
   { to: '/audit', labelKey: 'nav.audit', icon: ScrollText, permission: 'audit.read' },
 ]
