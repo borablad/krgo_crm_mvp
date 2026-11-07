@@ -775,6 +775,128 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/v1/wms/balances": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Остатки по ячейкам */
+        get: operations["wms-balances-list"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/wms/movements": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** История движений */
+        get: operations["wms-movements-list"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/wms/receipts": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Список поступлений */
+        get: operations["wms-receipts-list"];
+        put?: never;
+        /** Создать поступление (черновик) */
+        post: operations["wms-receipts-create"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/wms/receipts/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Поступление со строками */
+        get: operations["wms-receipts-get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        /** Изменить черновик поступления */
+        patch: operations["wms-receipts-update"];
+        trace?: never;
+    };
+    "/api/v1/wms/receipts/{id}/post": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Провести поступление */
+        post: operations["wms-receipts-post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/wms/transfers": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Список перемещений */
+        get: operations["wms-transfers-list"];
+        put?: never;
+        /** Переместить товар между ячейками */
+        post: operations["wms-transfers-create"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/wms/transfers/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Перемещение */
+        get: operations["wms-transfers-get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
 }
 export type webhooks = Record<string, never>;
 export interface components {
@@ -1964,6 +2086,233 @@ export interface components {
             isActive: boolean;
             /** @enum {string} */
             role: "admin" | "manager" | "employee" | "accountant" | "storekeeper";
+        };
+        WmsBalance: {
+            cellAddress: string;
+            /** Format: int64 */
+            cellId: number;
+            /** @description Служебная ячейка приёмки: товар ещё не размещён */
+            isReceiving: boolean;
+            /** Format: int64 */
+            itemId: number;
+            itemName: string;
+            itemSku: string;
+            /** @example 5.000 */
+            qty: string;
+            unitCode: string;
+            /** Format: date-time */
+            updatedAt: string;
+            /** Format: int64 */
+            warehouseId: number;
+            warehouseName: string;
+        };
+        WmsBalancesResponse: {
+            /**
+             * Format: uri
+             * @description A URL to the JSON Schema for this object.
+             * @example https://example.com/schemas/WmsBalancesResponse.json
+             */
+            readonly $schema?: string;
+            items: components["schemas"]["WmsBalance"][];
+            /** Format: int64 */
+            total: number;
+        };
+        WmsMovement: {
+            /** Format: date-time */
+            at: string;
+            cellAddress: string;
+            /** Format: int64 */
+            cellId: number;
+            /** Format: int64 */
+            documentId: number;
+            /** @example ПС-000001 */
+            documentNumber: string;
+            /** @enum {string} */
+            documentType: "receipt" | "transfer";
+            /** Format: int64 */
+            id: number;
+            /** Format: int64 */
+            itemId: number;
+            itemName: string;
+            itemSku: string;
+            /** @example -5.000 */
+            qtyDelta: string;
+            unitCode: string;
+            /**
+             * Format: int64
+             * @description 0, если пользователь неизвестен
+             */
+            userId: number;
+            userName: string;
+            /** Format: int64 */
+            warehouseId: number;
+            warehouseName: string;
+        };
+        WmsMovementsResponse: {
+            /**
+             * Format: uri
+             * @description A URL to the JSON Schema for this object.
+             * @example https://example.com/schemas/WmsMovementsResponse.json
+             */
+            readonly $schema?: string;
+            items: components["schemas"]["WmsMovement"][];
+            /** Format: int64 */
+            total: number;
+        };
+        WmsReceipt: {
+            /**
+             * Format: uri
+             * @description A URL to the JSON Schema for this object.
+             * @example https://example.com/schemas/WmsReceipt.json
+             */
+            readonly $schema?: string;
+            comment: string;
+            /** Format: int64 */
+            counterpartyId: number;
+            counterpartyName: string;
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: int64 */
+            createdBy: number;
+            createdByName: string;
+            /**
+             * Format: date
+             * @description ГГГГ-ММ-ДД
+             */
+            docDate: string;
+            /** Format: int64 */
+            id: number;
+            lines: components["schemas"]["WmsReceiptLine"][];
+            /** Format: int64 */
+            linesCount: number;
+            /** @example ПС-000001 */
+            number: string;
+            /** Format: date-time */
+            postedAt?: string;
+            /**
+             * Format: int64
+             * @description 0, пока не проведено
+             */
+            postedBy: number;
+            postedByName: string;
+            /** @enum {string} */
+            status: "draft" | "posted";
+            /** Format: date-time */
+            updatedAt: string;
+            /** Format: int64 */
+            warehouseId: number;
+            warehouseName: string;
+        };
+        WmsReceiptBody: {
+            /**
+             * Format: uri
+             * @description A URL to the JSON Schema for this object.
+             * @example https://example.com/schemas/WmsReceiptBody.json
+             */
+            readonly $schema?: string;
+            comment?: string;
+            /**
+             * Format: int64
+             * @description Поставщик
+             */
+            counterpartyId: number;
+            /** @description ГГГГ-ММ-ДД */
+            docDate: string;
+            lines: components["schemas"]["WmsReceiptLineBody"][];
+            /** Format: int64 */
+            warehouseId: number;
+        };
+        WmsReceiptLine: {
+            /** Format: int64 */
+            id: number;
+            /** Format: int64 */
+            itemId: number;
+            itemName: string;
+            itemSku: string;
+            /** @example 5.000 */
+            qty: string;
+            unitCode: string;
+        };
+        WmsReceiptLineBody: {
+            /** Format: int64 */
+            itemId: number;
+            /** @example 5.000 */
+            qty: string;
+        };
+        WmsReceiptsResponse: {
+            /**
+             * Format: uri
+             * @description A URL to the JSON Schema for this object.
+             * @example https://example.com/schemas/WmsReceiptsResponse.json
+             */
+            readonly $schema?: string;
+            items: components["schemas"]["WmsReceipt"][];
+            /** Format: int64 */
+            total: number;
+        };
+        WmsTransfer: {
+            /**
+             * Format: uri
+             * @description A URL to the JSON Schema for this object.
+             * @example https://example.com/schemas/WmsTransfer.json
+             */
+            readonly $schema?: string;
+            comment: string;
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: int64 */
+            createdBy: number;
+            createdByName: string;
+            fromCellAddress: string;
+            /** Format: int64 */
+            fromCellId: number;
+            /** Format: int64 */
+            id: number;
+            /** Format: int64 */
+            itemId: number;
+            itemName: string;
+            itemSku: string;
+            /** @example ПМ-000001 */
+            number: string;
+            /** @example 5.000 */
+            qty: string;
+            toCellAddress: string;
+            /** Format: int64 */
+            toCellId: number;
+            unitCode: string;
+            /** Format: int64 */
+            warehouseId: number;
+            warehouseName: string;
+        };
+        WmsTransferBody: {
+            /**
+             * Format: uri
+             * @description A URL to the JSON Schema for this object.
+             * @example https://example.com/schemas/WmsTransferBody.json
+             */
+            readonly $schema?: string;
+            comment?: string;
+            /** Format: int64 */
+            fromCellId: number;
+            /** Format: int64 */
+            itemId: number;
+            /** @example 5.000 */
+            qty: string;
+            /** Format: int64 */
+            toCellId: number;
+            /** Format: int64 */
+            warehouseId: number;
+        };
+        WmsTransfersResponse: {
+            /**
+             * Format: uri
+             * @description A URL to the JSON Schema for this object.
+             * @example https://example.com/schemas/WmsTransfersResponse.json
+             */
+            readonly $schema?: string;
+            items: components["schemas"]["WmsTransfer"][];
+            /** Format: int64 */
+            total: number;
         };
     };
     responses: never;
@@ -4211,6 +4560,359 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content?: never;
+            };
+            /** @description Error */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["ErrorModel"];
+                };
+            };
+        };
+    };
+    "wms-balances-list": {
+        parameters: {
+            query?: {
+                /** @description Поиск по названию или артикулу товара */
+                q?: string;
+                warehouseId?: number;
+                cellId?: number;
+                itemId?: number;
+                /** @description true — показывать и нулевые остатки */
+                includeZero?: "true" | "false" | "";
+                limit?: number;
+                offset?: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["WmsBalancesResponse"];
+                };
+            };
+            /** @description Error */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["ErrorModel"];
+                };
+            };
+        };
+    };
+    "wms-movements-list": {
+        parameters: {
+            query?: {
+                warehouseId?: number;
+                itemId?: number;
+                cellId?: number;
+                documentType?: "receipt" | "transfer" | "";
+                /** @description ГГГГ-ММ-ДД */
+                dateFrom?: string;
+                /** @description ГГГГ-ММ-ДД */
+                dateTo?: string;
+                limit?: number;
+                offset?: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["WmsMovementsResponse"];
+                };
+            };
+            /** @description Error */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["ErrorModel"];
+                };
+            };
+        };
+    };
+    "wms-receipts-list": {
+        parameters: {
+            query?: {
+                /** @description Поиск по номеру и поставщику */
+                q?: string;
+                warehouseId?: number;
+                status?: "draft" | "posted" | "";
+                /** @description ГГГГ-ММ-ДД */
+                dateFrom?: string;
+                /** @description ГГГГ-ММ-ДД */
+                dateTo?: string;
+                limit?: number;
+                offset?: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["WmsReceiptsResponse"];
+                };
+            };
+            /** @description Error */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["ErrorModel"];
+                };
+            };
+        };
+    };
+    "wms-receipts-create": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["WmsReceiptBody"];
+            };
+        };
+        responses: {
+            /** @description Created */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["WmsReceipt"];
+                };
+            };
+            /** @description Error */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["ErrorModel"];
+                };
+            };
+        };
+    };
+    "wms-receipts-get": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["WmsReceipt"];
+                };
+            };
+            /** @description Error */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["ErrorModel"];
+                };
+            };
+        };
+    };
+    "wms-receipts-update": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["WmsReceiptBody"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["WmsReceipt"];
+                };
+            };
+            /** @description Error */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["ErrorModel"];
+                };
+            };
+        };
+    };
+    "wms-receipts-post": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["WmsReceipt"];
+                };
+            };
+            /** @description Error */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["ErrorModel"];
+                };
+            };
+        };
+    };
+    "wms-transfers-list": {
+        parameters: {
+            query?: {
+                warehouseId?: number;
+                itemId?: number;
+                /** @description Ячейка-источник или ячейка-назначение */
+                cellId?: number;
+                /** @description ГГГГ-ММ-ДД */
+                dateFrom?: string;
+                /** @description ГГГГ-ММ-ДД */
+                dateTo?: string;
+                limit?: number;
+                offset?: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["WmsTransfersResponse"];
+                };
+            };
+            /** @description Error */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["ErrorModel"];
+                };
+            };
+        };
+    };
+    "wms-transfers-create": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["WmsTransferBody"];
+            };
+        };
+        responses: {
+            /** @description Created */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["WmsTransfer"];
+                };
+            };
+            /** @description Error */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["ErrorModel"];
+                };
+            };
+        };
+    };
+    "wms-transfers-get": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["WmsTransfer"];
+                };
             };
             /** @description Error */
             default: {

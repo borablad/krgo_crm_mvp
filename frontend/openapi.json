@@ -3119,6 +3119,631 @@
           "isActive"
         ],
         "type": "object"
+      },
+      "WmsBalance": {
+        "additionalProperties": false,
+        "properties": {
+          "cellAddress": {
+            "type": "string"
+          },
+          "cellId": {
+            "format": "int64",
+            "type": "integer"
+          },
+          "isReceiving": {
+            "description": "Служебная ячейка приёмки: товар ещё не размещён",
+            "type": "boolean"
+          },
+          "itemId": {
+            "format": "int64",
+            "type": "integer"
+          },
+          "itemName": {
+            "type": "string"
+          },
+          "itemSku": {
+            "type": "string"
+          },
+          "qty": {
+            "examples": [
+              "5.000"
+            ],
+            "type": "string"
+          },
+          "unitCode": {
+            "type": "string"
+          },
+          "updatedAt": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "warehouseId": {
+            "format": "int64",
+            "type": "integer"
+          },
+          "warehouseName": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "itemId",
+          "itemName",
+          "itemSku",
+          "unitCode",
+          "warehouseId",
+          "warehouseName",
+          "cellId",
+          "cellAddress",
+          "isReceiving",
+          "qty",
+          "updatedAt"
+        ],
+        "type": "object"
+      },
+      "WmsBalancesResponse": {
+        "additionalProperties": false,
+        "properties": {
+          "$schema": {
+            "description": "A URL to the JSON Schema for this object.",
+            "examples": [
+              "https://example.com/schemas/WmsBalancesResponse.json"
+            ],
+            "format": "uri",
+            "readOnly": true,
+            "type": "string"
+          },
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/WmsBalance"
+            },
+            "type": "array"
+          },
+          "total": {
+            "format": "int64",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "items",
+          "total"
+        ],
+        "type": "object"
+      },
+      "WmsMovement": {
+        "additionalProperties": false,
+        "properties": {
+          "at": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "cellAddress": {
+            "type": "string"
+          },
+          "cellId": {
+            "format": "int64",
+            "type": "integer"
+          },
+          "documentId": {
+            "format": "int64",
+            "type": "integer"
+          },
+          "documentNumber": {
+            "examples": [
+              "ПС-000001"
+            ],
+            "type": "string"
+          },
+          "documentType": {
+            "enum": [
+              "receipt",
+              "transfer"
+            ],
+            "type": "string"
+          },
+          "id": {
+            "format": "int64",
+            "type": "integer"
+          },
+          "itemId": {
+            "format": "int64",
+            "type": "integer"
+          },
+          "itemName": {
+            "type": "string"
+          },
+          "itemSku": {
+            "type": "string"
+          },
+          "qtyDelta": {
+            "examples": [
+              "-5.000"
+            ],
+            "type": "string"
+          },
+          "unitCode": {
+            "type": "string"
+          },
+          "userId": {
+            "description": "0, если пользователь неизвестен",
+            "format": "int64",
+            "type": "integer"
+          },
+          "userName": {
+            "type": "string"
+          },
+          "warehouseId": {
+            "format": "int64",
+            "type": "integer"
+          },
+          "warehouseName": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "at",
+          "warehouseId",
+          "warehouseName",
+          "itemId",
+          "itemName",
+          "itemSku",
+          "unitCode",
+          "cellId",
+          "cellAddress",
+          "qtyDelta",
+          "documentType",
+          "documentId",
+          "documentNumber",
+          "userId",
+          "userName"
+        ],
+        "type": "object"
+      },
+      "WmsMovementsResponse": {
+        "additionalProperties": false,
+        "properties": {
+          "$schema": {
+            "description": "A URL to the JSON Schema for this object.",
+            "examples": [
+              "https://example.com/schemas/WmsMovementsResponse.json"
+            ],
+            "format": "uri",
+            "readOnly": true,
+            "type": "string"
+          },
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/WmsMovement"
+            },
+            "type": "array"
+          },
+          "total": {
+            "format": "int64",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "items",
+          "total"
+        ],
+        "type": "object"
+      },
+      "WmsReceipt": {
+        "additionalProperties": false,
+        "properties": {
+          "$schema": {
+            "description": "A URL to the JSON Schema for this object.",
+            "examples": [
+              "https://example.com/schemas/WmsReceipt.json"
+            ],
+            "format": "uri",
+            "readOnly": true,
+            "type": "string"
+          },
+          "comment": {
+            "type": "string"
+          },
+          "counterpartyId": {
+            "format": "int64",
+            "type": "integer"
+          },
+          "counterpartyName": {
+            "type": "string"
+          },
+          "createdAt": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "createdBy": {
+            "format": "int64",
+            "type": "integer"
+          },
+          "createdByName": {
+            "type": "string"
+          },
+          "docDate": {
+            "description": "ГГГГ-ММ-ДД",
+            "format": "date",
+            "type": "string"
+          },
+          "id": {
+            "format": "int64",
+            "type": "integer"
+          },
+          "lines": {
+            "items": {
+              "$ref": "#/components/schemas/WmsReceiptLine"
+            },
+            "type": "array"
+          },
+          "linesCount": {
+            "format": "int64",
+            "type": "integer"
+          },
+          "number": {
+            "examples": [
+              "ПС-000001"
+            ],
+            "type": "string"
+          },
+          "postedAt": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "postedBy": {
+            "description": "0, пока не проведено",
+            "format": "int64",
+            "type": "integer"
+          },
+          "postedByName": {
+            "type": "string"
+          },
+          "status": {
+            "enum": [
+              "draft",
+              "posted"
+            ],
+            "type": "string"
+          },
+          "updatedAt": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "warehouseId": {
+            "format": "int64",
+            "type": "integer"
+          },
+          "warehouseName": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "number",
+          "warehouseId",
+          "warehouseName",
+          "counterpartyId",
+          "counterpartyName",
+          "docDate",
+          "comment",
+          "status",
+          "createdBy",
+          "createdByName",
+          "postedBy",
+          "postedByName",
+          "linesCount",
+          "lines",
+          "createdAt",
+          "updatedAt"
+        ],
+        "type": "object"
+      },
+      "WmsReceiptBody": {
+        "additionalProperties": false,
+        "properties": {
+          "$schema": {
+            "description": "A URL to the JSON Schema for this object.",
+            "examples": [
+              "https://example.com/schemas/WmsReceiptBody.json"
+            ],
+            "format": "uri",
+            "readOnly": true,
+            "type": "string"
+          },
+          "comment": {
+            "maxLength": 1000,
+            "type": "string"
+          },
+          "counterpartyId": {
+            "description": "Поставщик",
+            "format": "int64",
+            "type": "integer"
+          },
+          "docDate": {
+            "description": "ГГГГ-ММ-ДД",
+            "type": "string"
+          },
+          "lines": {
+            "items": {
+              "$ref": "#/components/schemas/WmsReceiptLineBody"
+            },
+            "type": "array"
+          },
+          "warehouseId": {
+            "format": "int64",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "warehouseId",
+          "counterpartyId",
+          "docDate",
+          "lines"
+        ],
+        "type": "object"
+      },
+      "WmsReceiptLine": {
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "format": "int64",
+            "type": "integer"
+          },
+          "itemId": {
+            "format": "int64",
+            "type": "integer"
+          },
+          "itemName": {
+            "type": "string"
+          },
+          "itemSku": {
+            "type": "string"
+          },
+          "qty": {
+            "examples": [
+              "5.000"
+            ],
+            "type": "string"
+          },
+          "unitCode": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "itemId",
+          "itemName",
+          "itemSku",
+          "unitCode",
+          "qty"
+        ],
+        "type": "object"
+      },
+      "WmsReceiptLineBody": {
+        "additionalProperties": false,
+        "properties": {
+          "itemId": {
+            "format": "int64",
+            "type": "integer"
+          },
+          "qty": {
+            "examples": [
+              "5.000"
+            ],
+            "maxLength": 30,
+            "type": "string"
+          }
+        },
+        "required": [
+          "itemId",
+          "qty"
+        ],
+        "type": "object"
+      },
+      "WmsReceiptsResponse": {
+        "additionalProperties": false,
+        "properties": {
+          "$schema": {
+            "description": "A URL to the JSON Schema for this object.",
+            "examples": [
+              "https://example.com/schemas/WmsReceiptsResponse.json"
+            ],
+            "format": "uri",
+            "readOnly": true,
+            "type": "string"
+          },
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/WmsReceipt"
+            },
+            "type": "array"
+          },
+          "total": {
+            "format": "int64",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "items",
+          "total"
+        ],
+        "type": "object"
+      },
+      "WmsTransfer": {
+        "additionalProperties": false,
+        "properties": {
+          "$schema": {
+            "description": "A URL to the JSON Schema for this object.",
+            "examples": [
+              "https://example.com/schemas/WmsTransfer.json"
+            ],
+            "format": "uri",
+            "readOnly": true,
+            "type": "string"
+          },
+          "comment": {
+            "type": "string"
+          },
+          "createdAt": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "createdBy": {
+            "format": "int64",
+            "type": "integer"
+          },
+          "createdByName": {
+            "type": "string"
+          },
+          "fromCellAddress": {
+            "type": "string"
+          },
+          "fromCellId": {
+            "format": "int64",
+            "type": "integer"
+          },
+          "id": {
+            "format": "int64",
+            "type": "integer"
+          },
+          "itemId": {
+            "format": "int64",
+            "type": "integer"
+          },
+          "itemName": {
+            "type": "string"
+          },
+          "itemSku": {
+            "type": "string"
+          },
+          "number": {
+            "examples": [
+              "ПМ-000001"
+            ],
+            "type": "string"
+          },
+          "qty": {
+            "examples": [
+              "5.000"
+            ],
+            "type": "string"
+          },
+          "toCellAddress": {
+            "type": "string"
+          },
+          "toCellId": {
+            "format": "int64",
+            "type": "integer"
+          },
+          "unitCode": {
+            "type": "string"
+          },
+          "warehouseId": {
+            "format": "int64",
+            "type": "integer"
+          },
+          "warehouseName": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "number",
+          "warehouseId",
+          "warehouseName",
+          "itemId",
+          "itemName",
+          "itemSku",
+          "unitCode",
+          "qty",
+          "fromCellId",
+          "fromCellAddress",
+          "toCellId",
+          "toCellAddress",
+          "comment",
+          "createdBy",
+          "createdByName",
+          "createdAt"
+        ],
+        "type": "object"
+      },
+      "WmsTransferBody": {
+        "additionalProperties": false,
+        "properties": {
+          "$schema": {
+            "description": "A URL to the JSON Schema for this object.",
+            "examples": [
+              "https://example.com/schemas/WmsTransferBody.json"
+            ],
+            "format": "uri",
+            "readOnly": true,
+            "type": "string"
+          },
+          "comment": {
+            "maxLength": 1000,
+            "type": "string"
+          },
+          "fromCellId": {
+            "format": "int64",
+            "type": "integer"
+          },
+          "itemId": {
+            "format": "int64",
+            "type": "integer"
+          },
+          "qty": {
+            "examples": [
+              "5.000"
+            ],
+            "maxLength": 30,
+            "type": "string"
+          },
+          "toCellId": {
+            "format": "int64",
+            "type": "integer"
+          },
+          "warehouseId": {
+            "format": "int64",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "warehouseId",
+          "itemId",
+          "qty",
+          "fromCellId",
+          "toCellId"
+        ],
+        "type": "object"
+      },
+      "WmsTransfersResponse": {
+        "additionalProperties": false,
+        "properties": {
+          "$schema": {
+            "description": "A URL to the JSON Schema for this object.",
+            "examples": [
+              "https://example.com/schemas/WmsTransfersResponse.json"
+            ],
+            "format": "uri",
+            "readOnly": true,
+            "type": "string"
+          },
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/WmsTransfer"
+            },
+            "type": "array"
+          },
+          "total": {
+            "format": "int64",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "items",
+          "total"
+        ],
+        "type": "object"
       }
     },
     "securitySchemes": {
@@ -6657,6 +7282,697 @@
         "summary": "Задать новый пароль",
         "tags": [
           "users"
+        ]
+      }
+    },
+    "/api/v1/wms/balances": {
+      "get": {
+        "operationId": "wms-balances-list",
+        "parameters": [
+          {
+            "description": "Поиск по названию или артикулу товара",
+            "explode": false,
+            "in": "query",
+            "name": "q",
+            "schema": {
+              "description": "Поиск по названию или артикулу товара",
+              "type": "string"
+            }
+          },
+          {
+            "explode": false,
+            "in": "query",
+            "name": "warehouseId",
+            "schema": {
+              "format": "int64",
+              "type": "integer"
+            }
+          },
+          {
+            "explode": false,
+            "in": "query",
+            "name": "cellId",
+            "schema": {
+              "format": "int64",
+              "type": "integer"
+            }
+          },
+          {
+            "explode": false,
+            "in": "query",
+            "name": "itemId",
+            "schema": {
+              "format": "int64",
+              "type": "integer"
+            }
+          },
+          {
+            "description": "true — показывать и нулевые остатки",
+            "explode": false,
+            "in": "query",
+            "name": "includeZero",
+            "schema": {
+              "description": "true — показывать и нулевые остатки",
+              "enum": [
+                "true",
+                "false",
+                ""
+              ],
+              "type": "string"
+            }
+          },
+          {
+            "explode": false,
+            "in": "query",
+            "name": "limit",
+            "schema": {
+              "default": 50,
+              "format": "int32",
+              "maximum": 200,
+              "minimum": 1,
+              "type": "integer"
+            }
+          },
+          {
+            "explode": false,
+            "in": "query",
+            "name": "offset",
+            "schema": {
+              "default": 0,
+              "format": "int32",
+              "minimum": 0,
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WmsBalancesResponse"
+                }
+              }
+            },
+            "description": "OK"
+          },
+          "default": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorModel"
+                }
+              }
+            },
+            "description": "Error"
+          }
+        },
+        "summary": "Остатки по ячейкам",
+        "tags": [
+          "wms"
+        ]
+      }
+    },
+    "/api/v1/wms/movements": {
+      "get": {
+        "operationId": "wms-movements-list",
+        "parameters": [
+          {
+            "explode": false,
+            "in": "query",
+            "name": "warehouseId",
+            "schema": {
+              "format": "int64",
+              "type": "integer"
+            }
+          },
+          {
+            "explode": false,
+            "in": "query",
+            "name": "itemId",
+            "schema": {
+              "format": "int64",
+              "type": "integer"
+            }
+          },
+          {
+            "explode": false,
+            "in": "query",
+            "name": "cellId",
+            "schema": {
+              "format": "int64",
+              "type": "integer"
+            }
+          },
+          {
+            "explode": false,
+            "in": "query",
+            "name": "documentType",
+            "schema": {
+              "enum": [
+                "receipt",
+                "transfer",
+                ""
+              ],
+              "type": "string"
+            }
+          },
+          {
+            "description": "ГГГГ-ММ-ДД",
+            "explode": false,
+            "in": "query",
+            "name": "dateFrom",
+            "schema": {
+              "description": "ГГГГ-ММ-ДД",
+              "type": "string"
+            }
+          },
+          {
+            "description": "ГГГГ-ММ-ДД",
+            "explode": false,
+            "in": "query",
+            "name": "dateTo",
+            "schema": {
+              "description": "ГГГГ-ММ-ДД",
+              "type": "string"
+            }
+          },
+          {
+            "explode": false,
+            "in": "query",
+            "name": "limit",
+            "schema": {
+              "default": 50,
+              "format": "int32",
+              "maximum": 200,
+              "minimum": 1,
+              "type": "integer"
+            }
+          },
+          {
+            "explode": false,
+            "in": "query",
+            "name": "offset",
+            "schema": {
+              "default": 0,
+              "format": "int32",
+              "minimum": 0,
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WmsMovementsResponse"
+                }
+              }
+            },
+            "description": "OK"
+          },
+          "default": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorModel"
+                }
+              }
+            },
+            "description": "Error"
+          }
+        },
+        "summary": "История движений",
+        "tags": [
+          "wms"
+        ]
+      }
+    },
+    "/api/v1/wms/receipts": {
+      "get": {
+        "operationId": "wms-receipts-list",
+        "parameters": [
+          {
+            "description": "Поиск по номеру и поставщику",
+            "explode": false,
+            "in": "query",
+            "name": "q",
+            "schema": {
+              "description": "Поиск по номеру и поставщику",
+              "type": "string"
+            }
+          },
+          {
+            "explode": false,
+            "in": "query",
+            "name": "warehouseId",
+            "schema": {
+              "format": "int64",
+              "type": "integer"
+            }
+          },
+          {
+            "explode": false,
+            "in": "query",
+            "name": "status",
+            "schema": {
+              "enum": [
+                "draft",
+                "posted",
+                ""
+              ],
+              "type": "string"
+            }
+          },
+          {
+            "description": "ГГГГ-ММ-ДД",
+            "explode": false,
+            "in": "query",
+            "name": "dateFrom",
+            "schema": {
+              "description": "ГГГГ-ММ-ДД",
+              "type": "string"
+            }
+          },
+          {
+            "description": "ГГГГ-ММ-ДД",
+            "explode": false,
+            "in": "query",
+            "name": "dateTo",
+            "schema": {
+              "description": "ГГГГ-ММ-ДД",
+              "type": "string"
+            }
+          },
+          {
+            "explode": false,
+            "in": "query",
+            "name": "limit",
+            "schema": {
+              "default": 50,
+              "format": "int32",
+              "maximum": 200,
+              "minimum": 1,
+              "type": "integer"
+            }
+          },
+          {
+            "explode": false,
+            "in": "query",
+            "name": "offset",
+            "schema": {
+              "default": 0,
+              "format": "int32",
+              "minimum": 0,
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WmsReceiptsResponse"
+                }
+              }
+            },
+            "description": "OK"
+          },
+          "default": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorModel"
+                }
+              }
+            },
+            "description": "Error"
+          }
+        },
+        "summary": "Список поступлений",
+        "tags": [
+          "wms"
+        ]
+      },
+      "post": {
+        "operationId": "wms-receipts-create",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/WmsReceiptBody"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WmsReceipt"
+                }
+              }
+            },
+            "description": "Created"
+          },
+          "default": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorModel"
+                }
+              }
+            },
+            "description": "Error"
+          }
+        },
+        "summary": "Создать поступление (черновик)",
+        "tags": [
+          "wms"
+        ]
+      }
+    },
+    "/api/v1/wms/receipts/{id}": {
+      "get": {
+        "operationId": "wms-receipts-get",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "format": "int64",
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WmsReceipt"
+                }
+              }
+            },
+            "description": "OK"
+          },
+          "default": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorModel"
+                }
+              }
+            },
+            "description": "Error"
+          }
+        },
+        "summary": "Поступление со строками",
+        "tags": [
+          "wms"
+        ]
+      },
+      "patch": {
+        "operationId": "wms-receipts-update",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "format": "int64",
+              "type": "integer"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/WmsReceiptBody"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WmsReceipt"
+                }
+              }
+            },
+            "description": "OK"
+          },
+          "default": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorModel"
+                }
+              }
+            },
+            "description": "Error"
+          }
+        },
+        "summary": "Изменить черновик поступления",
+        "tags": [
+          "wms"
+        ]
+      }
+    },
+    "/api/v1/wms/receipts/{id}/post": {
+      "post": {
+        "operationId": "wms-receipts-post",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "format": "int64",
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WmsReceipt"
+                }
+              }
+            },
+            "description": "OK"
+          },
+          "default": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorModel"
+                }
+              }
+            },
+            "description": "Error"
+          }
+        },
+        "summary": "Провести поступление",
+        "tags": [
+          "wms"
+        ]
+      }
+    },
+    "/api/v1/wms/transfers": {
+      "get": {
+        "operationId": "wms-transfers-list",
+        "parameters": [
+          {
+            "explode": false,
+            "in": "query",
+            "name": "warehouseId",
+            "schema": {
+              "format": "int64",
+              "type": "integer"
+            }
+          },
+          {
+            "explode": false,
+            "in": "query",
+            "name": "itemId",
+            "schema": {
+              "format": "int64",
+              "type": "integer"
+            }
+          },
+          {
+            "description": "Ячейка-источник или ячейка-назначение",
+            "explode": false,
+            "in": "query",
+            "name": "cellId",
+            "schema": {
+              "description": "Ячейка-источник или ячейка-назначение",
+              "format": "int64",
+              "type": "integer"
+            }
+          },
+          {
+            "description": "ГГГГ-ММ-ДД",
+            "explode": false,
+            "in": "query",
+            "name": "dateFrom",
+            "schema": {
+              "description": "ГГГГ-ММ-ДД",
+              "type": "string"
+            }
+          },
+          {
+            "description": "ГГГГ-ММ-ДД",
+            "explode": false,
+            "in": "query",
+            "name": "dateTo",
+            "schema": {
+              "description": "ГГГГ-ММ-ДД",
+              "type": "string"
+            }
+          },
+          {
+            "explode": false,
+            "in": "query",
+            "name": "limit",
+            "schema": {
+              "default": 50,
+              "format": "int32",
+              "maximum": 200,
+              "minimum": 1,
+              "type": "integer"
+            }
+          },
+          {
+            "explode": false,
+            "in": "query",
+            "name": "offset",
+            "schema": {
+              "default": 0,
+              "format": "int32",
+              "minimum": 0,
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WmsTransfersResponse"
+                }
+              }
+            },
+            "description": "OK"
+          },
+          "default": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorModel"
+                }
+              }
+            },
+            "description": "Error"
+          }
+        },
+        "summary": "Список перемещений",
+        "tags": [
+          "wms"
+        ]
+      },
+      "post": {
+        "operationId": "wms-transfers-create",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/WmsTransferBody"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WmsTransfer"
+                }
+              }
+            },
+            "description": "Created"
+          },
+          "default": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorModel"
+                }
+              }
+            },
+            "description": "Error"
+          }
+        },
+        "summary": "Переместить товар между ячейками",
+        "tags": [
+          "wms"
+        ]
+      }
+    },
+    "/api/v1/wms/transfers/{id}": {
+      "get": {
+        "operationId": "wms-transfers-get",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "format": "int64",
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WmsTransfer"
+                }
+              }
+            },
+            "description": "OK"
+          },
+          "default": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorModel"
+                }
+              }
+            },
+            "description": "Error"
+          }
+        },
+        "summary": "Перемещение",
+        "tags": [
+          "wms"
         ]
       }
     }
