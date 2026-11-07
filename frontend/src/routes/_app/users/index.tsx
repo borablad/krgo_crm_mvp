@@ -9,6 +9,7 @@ import { toast } from 'sonner'
 import { Plus } from 'lucide-react'
 import { api, type Schemas } from '@/api/client'
 import { ApiError, toApiError } from '@/api/errors'
+import { applyServerErrors } from '@/lib/forms'
 import { can } from '@/auth/session'
 import { DataList, type Column } from '@/components/data-list'
 import { EmptyState } from '@/components/empty-state'
@@ -97,19 +98,6 @@ function UsersPage() {
   )
 }
 
-/** Ошибки полей с сервера раскладываем по форме; общую ошибку показываем баннером. */
-function applyServerErrors<T extends Record<string, unknown>>(
-  err: unknown,
-  setError: (name: keyof T & string, error: { message: string }) => void,
-): string | null {
-  if (err instanceof ApiError) {
-    const names = Object.keys(err.fields)
-    for (const name of names) setError(name as keyof T & string, { message: err.fields[name] })
-    return names.length > 0 ? null : err.message
-  }
-  return err instanceof Error ? err.message : i18n.t('app.unknownError')
-}
-
 const createSchema = z.object({
   login: z
     .string()
@@ -142,7 +130,7 @@ function CreateUserDialog({ open, onClose }: { open: boolean; onClose: () => voi
       toast.success(t('users.created'))
       close()
     },
-    onError: (err) => setFormError(applyServerErrors<CreateValues>(err, form.setError)),
+    onError: (err) => setFormError(applyServerErrors(err, form.setError)),
   })
 
   function close() {
@@ -223,7 +211,7 @@ function EditUserDialog({ user, onClose }: { user: UserAccount | null; onClose: 
       toast.success(t('users.saved'))
       close()
     },
-    onError: (err) => setFormError(applyServerErrors<EditValues>(err, form.setError)),
+    onError: (err) => setFormError(applyServerErrors(err, form.setError)),
   })
 
   const setPassword = useMutation({

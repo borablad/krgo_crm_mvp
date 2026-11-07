@@ -150,6 +150,8 @@ func (s *Service) validateTask(ctx context.Context, in *TaskInput) error {
 			return fmt.Errorf("проверка сделки: %w", err)
 		case in.ClientID == 0:
 			in.ClientID = clientID
+		case in.ClientID != clientID:
+			f.add("dealId", "Сделка относится к другому клиенту")
 		}
 	}
 	return f.err()

@@ -779,19 +779,15 @@ export interface components {
             amount: string;
             /** Format: int64 */
             clientId: number;
-            /**
-             * Format: date
-             * @description ГГГГ-ММ-ДД
-             */
+            /** @description ГГГГ-ММ-ДД */
             expectedCloseDate?: string;
             /** Format: int64 */
             ownerUserId: number;
             /**
              * Format: int64
-             * @description 0–100
-             * @default 50
+             * @description 0–100, по умолчанию 50
              */
-            probability: number;
+            probability?: number;
             title: string;
         };
         CrmDealDetail: {
@@ -866,18 +862,15 @@ export interface components {
             readonly $schema?: string;
             /** @example 125000.00 */
             amount: string;
-            /**
-             * Format: date
-             * @description ГГГГ-ММ-ДД
-             */
+            /** @description ГГГГ-ММ-ДД */
             expectedCloseDate?: string;
             /** Format: int64 */
             ownerUserId: number;
             /**
              * Format: int64
-             * @default 50
+             * @description 0–100; без поля — без изменений
              */
-            probability: number;
+            probability?: number;
             title: string;
         };
         CrmDealsResponse: {
@@ -975,10 +968,7 @@ export interface components {
             /** Format: int64 */
             dealId?: number;
             description?: string;
-            /**
-             * Format: date
-             * @description ГГГГ-ММ-ДД
-             */
+            /** @description ГГГГ-ММ-ДД */
             dueDate: string;
             title: string;
         };
@@ -1706,6 +1696,8 @@ export interface operations {
                 q?: string;
                 ownerUserId?: number;
                 status?: "potential" | "active" | "inactive" | "";
+                limit?: number;
+                offset?: number;
             };
             header?: never;
             path?: never;
@@ -1840,6 +1832,8 @@ export interface operations {
                 clientId?: number;
                 stage?: "new" | "contact" | "negotiation" | "proposal" | "approval" | "won" | "lost" | "";
                 ownerUserId?: number;
+                limit?: number;
+                offset?: number;
             };
             header?: never;
             path?: never;
@@ -2039,6 +2033,8 @@ export interface operations {
                 dealId?: number;
                 /** @description Только просроченные открытые задачи */
                 overdue?: boolean;
+                limit?: number;
+                offset?: number;
             };
             header?: never;
             path?: never;
@@ -2230,6 +2226,12 @@ export interface operations {
     "directories-cashflow-items-list": {
         parameters: {
             query?: {
+                /** @description Поиск по наименованию и коду */
+                q?: string;
+                /** @description true — только активные, false — только отключённые; без параметра — все */
+                isActive?: "true" | "false";
+                limit?: number;
+                offset?: number;
                 /** @description Фильтр по типу */
                 kind?: string;
             };
@@ -2496,6 +2498,12 @@ export interface operations {
     "directories-counterparties-list": {
         parameters: {
             query?: {
+                /** @description Поиск по наименованию и коду */
+                q?: string;
+                /** @description true — только активные, false — только отключённые; без параметра — все */
+                isActive?: "true" | "false";
+                limit?: number;
+                offset?: number;
                 /** @description Фильтр по типу */
                 kind?: string;
             };
@@ -3089,7 +3097,14 @@ export interface operations {
     };
     "directories-cells-list": {
         parameters: {
-            query?: never;
+            query?: {
+                /** @description Поиск по наименованию и коду */
+                q?: string;
+                /** @description true — только активные, false — только отключённые; без параметра — все */
+                isActive?: "true" | "false";
+                limit?: number;
+                offset?: number;
+            };
             header?: never;
             path: {
                 id: number;

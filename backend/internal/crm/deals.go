@@ -150,8 +150,10 @@ func (s *Service) validateDeal(ctx context.Context, in *DealInput, checkClient b
 		f.add("amount", "Сумма не может быть меньше нуля")
 	case amount.GreaterThanOrEqual(maxAmount):
 		f.add("amount", "Слишком большая сумма")
+	case !amount.Equal(amount.Round(2)):
+		f.add("amount", "Не больше двух знаков после запятой")
 	default:
-		v.amount = amount.Round(2)
+		v.amount = amount
 	}
 	if in.Probability < 0 || in.Probability > 100 {
 		f.add("probability", "Вероятность — число от 0 до 100")
