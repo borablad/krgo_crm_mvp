@@ -9,6 +9,7 @@ import (
 
 	"github.com/borablad/krgo_crm_mvp/backend/internal/app"
 	"github.com/borablad/krgo_crm_mvp/backend/internal/auth"
+	"github.com/borablad/krgo_crm_mvp/backend/internal/directories"
 	"github.com/borablad/krgo_crm_mvp/backend/internal/users"
 )
 
@@ -52,5 +53,31 @@ func Run(ctx context.Context, a *app.App, out io.Writer) error {
 	for _, u := range demoUsers {
 		fmt.Fprintf(out, "  %-10s %-14s %s\n", u.Login, u.Role, u.FullName)
 	}
+
+	if err := directories.SeedDemo(ctx, a.Directories); err != nil {
+		return err
+	}
+	return printDirectories(ctx, a, out)
+}
+
+func printDirectories(ctx context.Context, a *app.App, out io.Writer) error {
+	all := directories.ListParams{Limit: 1}
+	orgs, err := a.Directories.ListOrganizations(ctx, all)
+	if err != nil {
+		return err
+	}
+	cps, err := a.Directories.ListCounterparties(ctx, all)
+	if err != nil {
+		return err
+	}
+	items, err := a.Directories.ListItems(ctx, all)
+	if err != nil {
+		return err
+	}
+	whs, err := a.Directories.ListWarehouses(ctx, all)
+	if err != nil {
+		return err
+	}
+	fmt.Fprintf(out, "Справочники: организаций %d, контрагентов %d, товаров %d, складов %d\n", orgs.Total, cps.Total, items.Total, whs.Total)
 	return nil
 }
