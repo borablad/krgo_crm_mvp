@@ -23,3 +23,6 @@ deploy/backups/
 .idea/
 .vscode/
 .DS_Store
+
+# Служебные worktree агентов
+.claude/worktrees/
