@@ -99,7 +99,7 @@ docs/                   эта документация
 - **directories:** `organizations`, `counterparties`, `items`, `units`, `warehouses`, `cells`, `cashflow_items`, `cost_centers`, `currencies`
 - **crm:** `clients` (БИН необязателен), `deals` (сумма в тенге, этап `new…won/lost`), `deal_stage_history` (только добавление), `tasks` (привязка к клиенту/сделке необязательна)
 - **treasury:** `payment_requests`, `payment_request_history`
-- **wms:** `receipts`, `receipt_lines`, `transfers`, `stock_movements`, `stock_balances`
+- **wms:** `receipts` (черновик → проведено, номер `ПС-…`), `receipt_lines` (уникальный товар в документе), `transfers` (проводятся сразу, номер `ПМ-…`), `stock_movements` (журнал, только добавление; ссылка на документ по `document_type`+`document_id`), `stock_balances` (остаток по паре товар+ячейка, `check (qty >= 0)`)
 
 ## Инварианты, которые нельзя нарушать
 1. **Остаток не бывает отрицательным.** `stock_balances.qty numeric(14,3) check (qty >= 0)`. Любое движение: в одной транзакции `select ... for update` строк остатков → проверка → запись в `stock_movements` (только добавление) → обновление `stock_balances`. Ошибка БД по `CHECK` — последняя линия обороны, а не основная проверка.

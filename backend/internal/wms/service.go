@@ -12,9 +12,9 @@ package wms
 import (
 	"context"
 	"errors"
-	"fmt"
 	"strings"
 	"time"
+	_ "time/tzdata"
 
 	"github.com/danielgtaylor/huma/v2"
 	"github.com/jackc/pgx/v5"
@@ -67,7 +67,7 @@ func dateOnly(t time.Time) time.Time {
 
 func fmtQty(d decimal.Decimal) string { return d.StringFixed(3) }
 
-func notFound(msg string) error     { return huma.Error404NotFound(msg) }
+func notFound(msg string) error      { return huma.Error404NotFound(msg) }
 func unprocessable(msg string) error { return huma.Error422UnprocessableEntity(msg) }
 
 // fields накапливает ошибки полей формы, чтобы вернуть их все сразу.
@@ -176,4 +176,17 @@ func (s *Service) activeItem(ctx context.Context, id int64) (directories.Item, s
 		return it, "Товар отключён, выберите другой", nil
 	}
 	return it, "", nil
+}
+
+// almaty нужен для «сегодня» в демо-данных: дата документа — календарный день в Алматы.
+var almaty = func() *time.Location {
+	if loc, err := time.LoadLocation("Asia/Almaty"); err == nil {
+		return loc
+	}
+	return time.FixedZone("Asia/Almaty", 5*3600)
+}()
+
+func (s *Service) today() time.Time {
+	n := time.Now().In(almaty)
+	return time.Date(n.Year(), n.Month(), n.Day(), 0, 0, 0, 0, time.UTC)
 }

@@ -237,12 +237,12 @@ func (q *Queries) ListTransfers(ctx context.Context, arg ListTransfersParams) ([
 }
 
 const nextTransferNumber = `-- name: NextTransferNumber :one
-select 'ПМ-' || lpad(nextval('transfer_number_seq')::text, 6, '0') as number
+select ('ПМ-' || (lpad(nextval('transfer_number_seq')::text, 6, '0'))::text)::text as number
 `
 
-func (q *Queries) NextTransferNumber(ctx context.Context) (interface{}, error) {
+func (q *Queries) NextTransferNumber(ctx context.Context) (string, error) {
 	row := q.db.QueryRow(ctx, nextTransferNumber)
-	var number interface{}
+	var number string
 	err := row.Scan(&number)
 	return number, err
 }

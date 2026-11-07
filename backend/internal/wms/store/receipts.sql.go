@@ -335,12 +335,12 @@ func (q *Queries) MarkReceiptPosted(ctx context.Context, arg MarkReceiptPostedPa
 }
 
 const nextReceiptNumber = `-- name: NextReceiptNumber :one
-select 'ПС-' || lpad(nextval('receipt_number_seq')::text, 6, '0') as number
+select ('ПС-' || (lpad(nextval('receipt_number_seq')::text, 6, '0'))::text)::text as number
 `
 
-func (q *Queries) NextReceiptNumber(ctx context.Context) (interface{}, error) {
+func (q *Queries) NextReceiptNumber(ctx context.Context) (string, error) {
 	row := q.db.QueryRow(ctx, nextReceiptNumber)
-	var number interface{}
+	var number string
 	err := row.Scan(&number)
 	return number, err
 }

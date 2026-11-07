@@ -12,6 +12,7 @@ import (
 	"github.com/borablad/krgo_crm_mvp/backend/internal/crm"
 	"github.com/borablad/krgo_crm_mvp/backend/internal/directories"
 	"github.com/borablad/krgo_crm_mvp/backend/internal/users"
+	"github.com/borablad/krgo_crm_mvp/backend/internal/wms"
 )
 
 // Пароль у всех демо-пользователей один, он печатается в конце.
@@ -50,6 +51,19 @@ func Run(ctx context.Context, a *app.App, out io.Writer) error {
 		fmt.Fprintln(out, "CRM: данные уже есть, ничего не добавлено.")
 	} else {
 		fmt.Fprintln(out, "CRM: 8 клиентов, 10 сделок, 8 задач.")
+	}
+
+	_, receiptsBefore, err := a.WMS.ListReceipts(ctx, wms.ReceiptFilter{Page: wms.Page{Limit: 1}})
+	if err != nil {
+		return err
+	}
+	if err := wms.SeedDemo(ctx, a.WMS, ids); err != nil {
+		return fmt.Errorf("демо-данные склада: %w", err)
+	}
+	if receiptsBefore > 0 {
+		fmt.Fprintln(out, "Склад: данные уже есть, ничего не добавлено.")
+	} else {
+		fmt.Fprintln(out, "Склад: 3 поступления (2 проведены, 1 черновик), 6 перемещений по ячейкам.")
 	}
 	return nil
 }

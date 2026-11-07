@@ -382,4 +382,3 @@ func (s *Service) PostReceipt(ctx context.Context, id int64) (WmsReceipt, error)
 	}
 	return s.GetReceipt(ctx, id)
 }
-

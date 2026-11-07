@@ -1,5 +1,5 @@
 -- name: NextReceiptNumber :one
-select 'ПС-' || lpad(nextval('receipt_number_seq')::text, 6, '0') as number;
+select ('ПС-' || (lpad(nextval('receipt_number_seq')::text, 6, '0'))::text)::text as number;
 
 -- name: InsertReceipt :one
 insert into receipts (number, warehouse_id, counterparty_id, doc_date, comment, created_by)

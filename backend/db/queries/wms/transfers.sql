@@ -1,5 +1,5 @@
 -- name: NextTransferNumber :one
-select 'ПМ-' || lpad(nextval('transfer_number_seq')::text, 6, '0') as number;
+select ('ПМ-' || (lpad(nextval('transfer_number_seq')::text, 6, '0'))::text)::text as number;
 
 -- name: InsertTransfer :one
 insert into transfers (number, warehouse_id, item_id, qty, from_cell_id, to_cell_id, comment, created_by)
