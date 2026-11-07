@@ -1,0 +1,25 @@
+# Go
+backend/bin/
+backend/tmp/
+*.test
+*.out
+
+# Node
+node_modules/
+frontend/dist/
+frontend/.vite/
+
+# Встроенная сборка фронта: кладётся туда CI/Dockerfile, в git только заглушка
+backend/internal/web/dist/*
+!backend/internal/web/dist/index.html
+
+# Окружение
+.env
+.env.*
+!.env.example
+deploy/backups/
+
+# Редакторы и ОС
+.idea/
+.vscode/
+.DS_Store
