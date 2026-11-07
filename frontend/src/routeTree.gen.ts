@@ -15,6 +15,7 @@ import { Route as AppIndexRouteImport } from './routes/_app/index'
 import { Route as AppCrmRouteImport } from './routes/_app/crm'
 import { Route as AppDirectoriesRouteImport } from './routes/_app/directories'
 import { Route as AppTreasuryRouteImport } from './routes/_app/treasury'
+import { Route as AppWmsRouteImport } from './routes/_app/wms'
 import { Route as AppAuditIndexRouteImport } from './routes/_app/audit/index'
 import { Route as AppCrmIndexRouteImport } from './routes/_app/crm/index'
 import { Route as AppDirectoriesIndexRouteImport } from './routes/_app/directories/index'
@@ -28,6 +29,8 @@ import { Route as AppTreasuryCalendarRouteImport } from './routes/_app/treasury/
 import { Route as AppTreasuryReportRouteImport } from './routes/_app/treasury/report'
 import { Route as AppUsersIndexRouteImport } from './routes/_app/users/index'
 import { Route as AppWmsIndexRouteImport } from './routes/_app/wms/index'
+import { Route as AppWmsMovementsRouteImport } from './routes/_app/wms/movements'
+import { Route as AppWmsStockRouteImport } from './routes/_app/wms/stock'
 import { Route as AppCrmClientsIndexRouteImport } from './routes/_app/crm/clients/index'
 import { Route as AppCrmClientsIdRouteImport } from './routes/_app/crm/clients/$id'
 import { Route as AppCrmDealsIndexRouteImport } from './routes/_app/crm/deals/index'
@@ -37,6 +40,11 @@ import { Route as AppDirectoriesWarehousesIndexRouteImport } from './routes/_app
 import { Route as AppDirectoriesWarehousesIdRouteImport } from './routes/_app/directories/warehouses.$id'
 import { Route as AppTreasuryRequestsIndexRouteImport } from './routes/_app/treasury/requests/index'
 import { Route as AppTreasuryRequestsIdRouteImport } from './routes/_app/treasury/requests/$id'
+import { Route as AppWmsReceiptsIndexRouteImport } from './routes/_app/wms/receipts/index'
+import { Route as AppWmsReceiptsIdRouteImport } from './routes/_app/wms/receipts/$id'
+import { Route as AppWmsReceiptsNewRouteImport } from './routes/_app/wms/receipts/new'
+import { Route as AppWmsTransfersIndexRouteImport } from './routes/_app/wms/transfers/index'
+import { Route as AppWmsTransfersNewRouteImport } from './routes/_app/wms/transfers/new'
 
 const AppRoute = AppRouteImport.update({
   id: '/_app',
@@ -65,6 +73,11 @@ const AppDirectoriesRoute = AppDirectoriesRouteImport.update({
 const AppTreasuryRoute = AppTreasuryRouteImport.update({
   id: '/treasury',
   path: '/treasury',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppWmsRoute = AppWmsRouteImport.update({
+  id: '/wms',
+  path: '/wms',
   getParentRoute: () => AppRoute,
 } as any)
 const AppAuditIndexRoute = AppAuditIndexRouteImport.update({
@@ -132,9 +145,19 @@ const AppUsersIndexRoute = AppUsersIndexRouteImport.update({
   getParentRoute: () => AppRoute,
 } as any)
 const AppWmsIndexRoute = AppWmsIndexRouteImport.update({
-  id: '/wms/',
-  path: '/wms/',
-  getParentRoute: () => AppRoute,
+  id: '/',
+  path: '/',
+  getParentRoute: () => AppWmsRoute,
+} as any)
+const AppWmsMovementsRoute = AppWmsMovementsRouteImport.update({
+  id: '/movements',
+  path: '/movements',
+  getParentRoute: () => AppWmsRoute,
+} as any)
+const AppWmsStockRoute = AppWmsStockRouteImport.update({
+  id: '/stock',
+  path: '/stock',
+  getParentRoute: () => AppWmsRoute,
 } as any)
 const AppCrmClientsIndexRoute = AppCrmClientsIndexRouteImport.update({
   id: '/clients/',
@@ -184,6 +207,31 @@ const AppTreasuryRequestsIdRoute = AppTreasuryRequestsIdRouteImport.update({
   path: '/requests/$id',
   getParentRoute: () => AppTreasuryRoute,
 } as any)
+const AppWmsReceiptsIndexRoute = AppWmsReceiptsIndexRouteImport.update({
+  id: '/receipts/',
+  path: '/receipts/',
+  getParentRoute: () => AppWmsRoute,
+} as any)
+const AppWmsReceiptsIdRoute = AppWmsReceiptsIdRouteImport.update({
+  id: '/receipts/$id',
+  path: '/receipts/$id',
+  getParentRoute: () => AppWmsRoute,
+} as any)
+const AppWmsReceiptsNewRoute = AppWmsReceiptsNewRouteImport.update({
+  id: '/receipts/new',
+  path: '/receipts/new',
+  getParentRoute: () => AppWmsRoute,
+} as any)
+const AppWmsTransfersIndexRoute = AppWmsTransfersIndexRouteImport.update({
+  id: '/transfers/',
+  path: '/transfers/',
+  getParentRoute: () => AppWmsRoute,
+} as any)
+const AppWmsTransfersNewRoute = AppWmsTransfersNewRouteImport.update({
+  id: '/transfers/new',
+  path: '/transfers/new',
+  getParentRoute: () => AppWmsRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof AppIndexRoute
@@ -191,6 +239,7 @@ export interface FileRoutesByFullPath {
   '/crm': typeof AppCrmRouteWithChildren
   '/directories': typeof AppDirectoriesRouteWithChildren
   '/treasury': typeof AppTreasuryRouteWithChildren
+  '/wms': typeof AppWmsRouteWithChildren
   '/directories/cashflow-items': typeof AppDirectoriesCashflowItemsRoute
   '/directories/cost-centers': typeof AppDirectoriesCostCentersRoute
   '/directories/counterparties': typeof AppDirectoriesCounterpartiesRoute
@@ -198,6 +247,8 @@ export interface FileRoutesByFullPath {
   '/directories/organizations': typeof AppDirectoriesOrganizationsRoute
   '/treasury/calendar': typeof AppTreasuryCalendarRoute
   '/treasury/report': typeof AppTreasuryReportRoute
+  '/wms/movements': typeof AppWmsMovementsRoute
+  '/wms/stock': typeof AppWmsStockRoute
   '/audit/': typeof AppAuditIndexRoute
   '/crm/': typeof AppCrmIndexRoute
   '/directories/': typeof AppDirectoriesIndexRoute
@@ -208,11 +259,16 @@ export interface FileRoutesByFullPath {
   '/crm/deals/$id': typeof AppCrmDealsIdRoute
   '/directories/warehouses/$id': typeof AppDirectoriesWarehousesIdRoute
   '/treasury/requests/$id': typeof AppTreasuryRequestsIdRoute
+  '/wms/receipts/$id': typeof AppWmsReceiptsIdRoute
+  '/wms/receipts/new': typeof AppWmsReceiptsNewRoute
+  '/wms/transfers/new': typeof AppWmsTransfersNewRoute
   '/crm/clients/': typeof AppCrmClientsIndexRoute
   '/crm/deals/': typeof AppCrmDealsIndexRoute
   '/crm/tasks/': typeof AppCrmTasksIndexRoute
   '/directories/warehouses/': typeof AppDirectoriesWarehousesIndexRoute
   '/treasury/requests/': typeof AppTreasuryRequestsIndexRoute
+  '/wms/receipts/': typeof AppWmsReceiptsIndexRoute
+  '/wms/transfers/': typeof AppWmsTransfersIndexRoute
 }
 export interface FileRoutesByTo {
   '/login': typeof LoginRoute
@@ -224,6 +280,8 @@ export interface FileRoutesByTo {
   '/directories/organizations': typeof AppDirectoriesOrganizationsRoute
   '/treasury/calendar': typeof AppTreasuryCalendarRoute
   '/treasury/report': typeof AppTreasuryReportRoute
+  '/wms/movements': typeof AppWmsMovementsRoute
+  '/wms/stock': typeof AppWmsStockRoute
   '/audit': typeof AppAuditIndexRoute
   '/crm': typeof AppCrmIndexRoute
   '/directories': typeof AppDirectoriesIndexRoute
@@ -234,11 +292,16 @@ export interface FileRoutesByTo {
   '/crm/deals/$id': typeof AppCrmDealsIdRoute
   '/directories/warehouses/$id': typeof AppDirectoriesWarehousesIdRoute
   '/treasury/requests/$id': typeof AppTreasuryRequestsIdRoute
+  '/wms/receipts/$id': typeof AppWmsReceiptsIdRoute
+  '/wms/receipts/new': typeof AppWmsReceiptsNewRoute
+  '/wms/transfers/new': typeof AppWmsTransfersNewRoute
   '/crm/clients': typeof AppCrmClientsIndexRoute
   '/crm/deals': typeof AppCrmDealsIndexRoute
   '/crm/tasks': typeof AppCrmTasksIndexRoute
   '/directories/warehouses': typeof AppDirectoriesWarehousesIndexRoute
   '/treasury/requests': typeof AppTreasuryRequestsIndexRoute
+  '/wms/receipts': typeof AppWmsReceiptsIndexRoute
+  '/wms/transfers': typeof AppWmsTransfersIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -247,6 +310,7 @@ export interface FileRoutesById {
   '/_app/crm': typeof AppCrmRouteWithChildren
   '/_app/directories': typeof AppDirectoriesRouteWithChildren
   '/_app/treasury': typeof AppTreasuryRouteWithChildren
+  '/_app/wms': typeof AppWmsRouteWithChildren
   '/_app/': typeof AppIndexRoute
   '/_app/directories/cashflow-items': typeof AppDirectoriesCashflowItemsRoute
   '/_app/directories/cost-centers': typeof AppDirectoriesCostCentersRoute
@@ -255,6 +319,8 @@ export interface FileRoutesById {
   '/_app/directories/organizations': typeof AppDirectoriesOrganizationsRoute
   '/_app/treasury/calendar': typeof AppTreasuryCalendarRoute
   '/_app/treasury/report': typeof AppTreasuryReportRoute
+  '/_app/wms/movements': typeof AppWmsMovementsRoute
+  '/_app/wms/stock': typeof AppWmsStockRoute
   '/_app/audit/': typeof AppAuditIndexRoute
   '/_app/crm/': typeof AppCrmIndexRoute
   '/_app/directories/': typeof AppDirectoriesIndexRoute
@@ -265,11 +331,16 @@ export interface FileRoutesById {
   '/_app/crm/deals/$id': typeof AppCrmDealsIdRoute
   '/_app/directories/warehouses/$id': typeof AppDirectoriesWarehousesIdRoute
   '/_app/treasury/requests/$id': typeof AppTreasuryRequestsIdRoute
+  '/_app/wms/receipts/$id': typeof AppWmsReceiptsIdRoute
+  '/_app/wms/receipts/new': typeof AppWmsReceiptsNewRoute
+  '/_app/wms/transfers/new': typeof AppWmsTransfersNewRoute
   '/_app/crm/clients/': typeof AppCrmClientsIndexRoute
   '/_app/crm/deals/': typeof AppCrmDealsIndexRoute
   '/_app/crm/tasks/': typeof AppCrmTasksIndexRoute
   '/_app/directories/warehouses/': typeof AppDirectoriesWarehousesIndexRoute
   '/_app/treasury/requests/': typeof AppTreasuryRequestsIndexRoute
+  '/_app/wms/receipts/': typeof AppWmsReceiptsIndexRoute
+  '/_app/wms/transfers/': typeof AppWmsTransfersIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -279,6 +350,7 @@ export interface FileRouteTypes {
     | '/crm'
     | '/directories'
     | '/treasury'
+    | '/wms'
     | '/directories/cashflow-items'
     | '/directories/cost-centers'
     | '/directories/counterparties'
@@ -286,6 +358,8 @@ export interface FileRouteTypes {
     | '/directories/organizations'
     | '/treasury/calendar'
     | '/treasury/report'
+    | '/wms/movements'
+    | '/wms/stock'
     | '/audit/'
     | '/crm/'
     | '/directories/'
@@ -296,11 +370,16 @@ export interface FileRouteTypes {
     | '/crm/deals/$id'
     | '/directories/warehouses/$id'
     | '/treasury/requests/$id'
+    | '/wms/receipts/$id'
+    | '/wms/receipts/new'
+    | '/wms/transfers/new'
     | '/crm/clients/'
     | '/crm/deals/'
     | '/crm/tasks/'
     | '/directories/warehouses/'
     | '/treasury/requests/'
+    | '/wms/receipts/'
+    | '/wms/transfers/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/login'
@@ -312,6 +391,8 @@ export interface FileRouteTypes {
     | '/directories/organizations'
     | '/treasury/calendar'
     | '/treasury/report'
+    | '/wms/movements'
+    | '/wms/stock'
     | '/audit'
     | '/crm'
     | '/directories'
@@ -322,11 +403,16 @@ export interface FileRouteTypes {
     | '/crm/deals/$id'
     | '/directories/warehouses/$id'
     | '/treasury/requests/$id'
+    | '/wms/receipts/$id'
+    | '/wms/receipts/new'
+    | '/wms/transfers/new'
     | '/crm/clients'
     | '/crm/deals'
     | '/crm/tasks'
     | '/directories/warehouses'
     | '/treasury/requests'
+    | '/wms/receipts'
+    | '/wms/transfers'
   id:
     | '__root__'
     | '/_app'
@@ -334,6 +420,7 @@ export interface FileRouteTypes {
     | '/_app/crm'
     | '/_app/directories'
     | '/_app/treasury'
+    | '/_app/wms'
     | '/_app/'
     | '/_app/directories/cashflow-items'
     | '/_app/directories/cost-centers'
@@ -342,6 +429,8 @@ export interface FileRouteTypes {
     | '/_app/directories/organizations'
     | '/_app/treasury/calendar'
     | '/_app/treasury/report'
+    | '/_app/wms/movements'
+    | '/_app/wms/stock'
     | '/_app/audit/'
     | '/_app/crm/'
     | '/_app/directories/'
@@ -352,11 +441,16 @@ export interface FileRouteTypes {
     | '/_app/crm/deals/$id'
     | '/_app/directories/warehouses/$id'
     | '/_app/treasury/requests/$id'
+    | '/_app/wms/receipts/$id'
+    | '/_app/wms/receipts/new'
+    | '/_app/wms/transfers/new'
     | '/_app/crm/clients/'
     | '/_app/crm/deals/'
     | '/_app/crm/tasks/'
     | '/_app/directories/warehouses/'
     | '/_app/treasury/requests/'
+    | '/_app/wms/receipts/'
+    | '/_app/wms/transfers/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -406,6 +500,13 @@ declare module '@tanstack/react-router' {
       path: '/treasury'
       fullPath: '/treasury'
       preLoaderRoute: typeof AppTreasuryRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/wms': {
+      id: '/_app/wms'
+      path: '/wms'
+      fullPath: '/wms'
+      preLoaderRoute: typeof AppWmsRouteImport
       parentRoute: typeof AppRoute
     }
     '/_app/audit/': {
@@ -494,10 +595,24 @@ declare module '@tanstack/react-router' {
     }
     '/_app/wms/': {
       id: '/_app/wms/'
-      path: '/wms'
+      path: '/'
       fullPath: '/wms/'
       preLoaderRoute: typeof AppWmsIndexRouteImport
-      parentRoute: typeof AppRoute
+      parentRoute: typeof AppWmsRoute
+    }
+    '/_app/wms/movements': {
+      id: '/_app/wms/movements'
+      path: '/movements'
+      fullPath: '/wms/movements'
+      preLoaderRoute: typeof AppWmsMovementsRouteImport
+      parentRoute: typeof AppWmsRoute
+    }
+    '/_app/wms/stock': {
+      id: '/_app/wms/stock'
+      path: '/stock'
+      fullPath: '/wms/stock'
+      preLoaderRoute: typeof AppWmsStockRouteImport
+      parentRoute: typeof AppWmsRoute
     }
     '/_app/crm/clients/': {
       id: '/_app/crm/clients/'
@@ -561,6 +676,41 @@ declare module '@tanstack/react-router' {
       fullPath: '/treasury/requests/$id'
       preLoaderRoute: typeof AppTreasuryRequestsIdRouteImport
       parentRoute: typeof AppTreasuryRoute
+    }
+    '/_app/wms/receipts/': {
+      id: '/_app/wms/receipts/'
+      path: '/receipts'
+      fullPath: '/wms/receipts/'
+      preLoaderRoute: typeof AppWmsReceiptsIndexRouteImport
+      parentRoute: typeof AppWmsRoute
+    }
+    '/_app/wms/receipts/$id': {
+      id: '/_app/wms/receipts/$id'
+      path: '/receipts/$id'
+      fullPath: '/wms/receipts/$id'
+      preLoaderRoute: typeof AppWmsReceiptsIdRouteImport
+      parentRoute: typeof AppWmsRoute
+    }
+    '/_app/wms/receipts/new': {
+      id: '/_app/wms/receipts/new'
+      path: '/receipts/new'
+      fullPath: '/wms/receipts/new'
+      preLoaderRoute: typeof AppWmsReceiptsNewRouteImport
+      parentRoute: typeof AppWmsRoute
+    }
+    '/_app/wms/transfers/': {
+      id: '/_app/wms/transfers/'
+      path: '/transfers'
+      fullPath: '/wms/transfers/'
+      preLoaderRoute: typeof AppWmsTransfersIndexRouteImport
+      parentRoute: typeof AppWmsRoute
+    }
+    '/_app/wms/transfers/new': {
+      id: '/_app/wms/transfers/new'
+      path: '/transfers/new'
+      fullPath: '/wms/transfers/new'
+      preLoaderRoute: typeof AppWmsTransfersNewRouteImport
+      parentRoute: typeof AppWmsRoute
     }
   }
 }
@@ -632,24 +782,49 @@ const AppTreasuryRouteWithChildren = AppTreasuryRoute._addFileChildren(
   AppTreasuryRouteChildren,
 )
 
+interface AppWmsRouteChildren {
+  AppWmsMovementsRoute: typeof AppWmsMovementsRoute
+  AppWmsStockRoute: typeof AppWmsStockRoute
+  AppWmsIndexRoute: typeof AppWmsIndexRoute
+  AppWmsReceiptsIdRoute: typeof AppWmsReceiptsIdRoute
+  AppWmsReceiptsNewRoute: typeof AppWmsReceiptsNewRoute
+  AppWmsTransfersNewRoute: typeof AppWmsTransfersNewRoute
+  AppWmsReceiptsIndexRoute: typeof AppWmsReceiptsIndexRoute
+  AppWmsTransfersIndexRoute: typeof AppWmsTransfersIndexRoute
+}
+
+const AppWmsRouteChildren: AppWmsRouteChildren = {
+  AppWmsMovementsRoute: AppWmsMovementsRoute,
+  AppWmsStockRoute: AppWmsStockRoute,
+  AppWmsIndexRoute: AppWmsIndexRoute,
+  AppWmsReceiptsIdRoute: AppWmsReceiptsIdRoute,
+  AppWmsReceiptsNewRoute: AppWmsReceiptsNewRoute,
+  AppWmsTransfersNewRoute: AppWmsTransfersNewRoute,
+  AppWmsReceiptsIndexRoute: AppWmsReceiptsIndexRoute,
+  AppWmsTransfersIndexRoute: AppWmsTransfersIndexRoute,
+}
+
+const AppWmsRouteWithChildren =
+  AppWmsRoute._addFileChildren(AppWmsRouteChildren)
+
 interface AppRouteChildren {
   AppCrmRoute: typeof AppCrmRouteWithChildren
   AppDirectoriesRoute: typeof AppDirectoriesRouteWithChildren
   AppTreasuryRoute: typeof AppTreasuryRouteWithChildren
+  AppWmsRoute: typeof AppWmsRouteWithChildren
   AppIndexRoute: typeof AppIndexRoute
   AppAuditIndexRoute: typeof AppAuditIndexRoute
   AppUsersIndexRoute: typeof AppUsersIndexRoute
-  AppWmsIndexRoute: typeof AppWmsIndexRoute
 }
 
 const AppRouteChildren: AppRouteChildren = {
   AppCrmRoute: AppCrmRouteWithChildren,
   AppDirectoriesRoute: AppDirectoriesRouteWithChildren,
   AppTreasuryRoute: AppTreasuryRouteWithChildren,
+  AppWmsRoute: AppWmsRouteWithChildren,
   AppIndexRoute: AppIndexRoute,
   AppAuditIndexRoute: AppAuditIndexRoute,
   AppUsersIndexRoute: AppUsersIndexRoute,
-  AppWmsIndexRoute: AppWmsIndexRoute,
 }
 
 const AppRouteWithChildren = AppRoute._addFileChildren(AppRouteChildren)

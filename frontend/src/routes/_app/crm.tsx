@@ -29,7 +29,10 @@ function CrmLayout() {
     <>
       <Metrics />
       <Tabs value={active ?? ''} className="mb-6">
-        <TabsList aria-label={t('crm.tabsLabel')} className="h-10 w-full justify-start overflow-x-auto overflow-y-hidden sm:w-fit">
+        <TabsList
+          aria-label={t('crm.tabsLabel')}
+          className="h-10 w-full justify-start overflow-x-auto overflow-y-hidden [scrollbar-width:none] sm:w-fit"
+        >
           {tabs.map((x) => (
             <TabsTrigger key={x.to} value={x.to} asChild className="h-full flex-none px-4 text-base">
               <Link to={x.to}>{t(`crm.${x.key}`)}</Link>
