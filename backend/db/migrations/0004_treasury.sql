@@ -23,6 +23,9 @@ create table payment_requests (
     created_at       timestamptz   not null default now(),
     updated_at       timestamptz   not null default now()
 );
+-- Последовательность привязана к колонке, чтобы очистка таблицы с restart identity сбрасывала и её.
+alter sequence payment_request_number_seq owned by payment_requests.number;
+
 create index payment_requests_status_idx on payment_requests (status);
 create index payment_requests_pay_date_idx on payment_requests (pay_date);
 create index payment_requests_organization_id_idx on payment_requests (organization_id);

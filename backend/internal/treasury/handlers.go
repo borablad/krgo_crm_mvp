@@ -21,7 +21,7 @@ type TreasuryRequestBody struct {
 	Basis          string `json:"basis" maxLength:"500" doc:"Основание: договор, счёт"`
 	Amount         string `json:"amount" maxLength:"30" example:"125000.00" doc:"Сумма строкой, больше нуля, не больше двух знаков после запятой"`
 	Currency       string `json:"currency" maxLength:"3" example:"KZT"`
-	PayDate        string `json:"payDate" format:"date" doc:"Желаемая дата оплаты, ГГГГ-ММ-ДД"`
+	PayDate        string `json:"payDate" doc:"Желаемая дата оплаты, ГГГГ-ММ-ДД"`
 	CashflowItemID int64  `json:"cashflowItemId" doc:"Статья ДДС типа «расход»"`
 	CostCenterID   int64  `json:"costCenterId"`
 	Comment        string `json:"comment,omitempty" maxLength:"2000"`
@@ -38,10 +38,16 @@ type requestsListInput struct {
 	OrganizationID int64  `query:"organizationId"`
 	CounterpartyID int64  `query:"counterpartyId"`
 	Currency       string `query:"currency"`
-	PayDateFrom    string `query:"payDateFrom" format:"date"`
-	PayDateTo      string `query:"payDateTo" format:"date"`
-	Limit          int32  `query:"limit" default:"50" minimum:"1" maximum:"200"`
-	Offset         int32  `query:"offset" default:"0" minimum:"0"`
+	PayDateFrom    string `query:"payDateFrom"`
+	PayDateTo      string `query:"payDateTo"`
+	TreasuryPageQuery
+}
+
+// TreasuryPageQuery — постраничный вывод. Тип экспортируемый: встроенные неэкспортируемые структуры Huma не видит.
+// Без default: сервис сам подставляет 50.
+type TreasuryPageQuery struct {
+	Limit  int32 `query:"limit" minimum:"1" maximum:"200"`
+	Offset int32 `query:"offset" minimum:"0"`
 }
 
 type idPath struct {
@@ -56,21 +62,21 @@ type requestUpdateInput struct {
 	Body TreasuryRequestBody
 }
 type decisionInput struct {
-	ID   int64                `path:"id"`
-	Body TreasuryDecisionBody `required:"false"`
+	ID   int64                 `path:"id"`
+	Body *TreasuryDecisionBody // указатель: тело необязательно
 }
 
 type calendarInput struct {
-	From           string `query:"from" required:"true" format:"date" doc:"Начало периода, ГГГГ-ММ-ДД"`
-	To             string `query:"to" required:"true" format:"date" doc:"Конец периода включительно, не больше 92 дней"`
+	From           string `query:"from" required:"true" doc:"Начало периода, ГГГГ-ММ-ДД"`
+	To             string `query:"to" required:"true" doc:"Конец периода включительно, не больше 92 дней"`
 	OrganizationID int64  `query:"organizationId"`
 	Currency       string `query:"currency"`
 }
 type calendarOutput struct{ Body TreasuryCalendarResponse }
 
 type reportInput struct {
-	From           string `query:"from" required:"true" format:"date"`
-	To             string `query:"to" required:"true" format:"date" doc:"Не больше 13 месяцев от начала"`
+	From           string `query:"from" required:"true"`
+	To             string `query:"to" required:"true" doc:"Не больше 13 месяцев от начала"`
 	OrganizationID int64  `query:"organizationId"`
 }
 type reportOutput struct {
@@ -168,7 +174,11 @@ func Register(api huma.API, svc *Service) {
 			if err := tr.perm(ctx); err != nil {
 				return nil, err
 			}
-			d, err := tr.run(ctx, in.ID, in.Body.Comment)
+			comment := ""
+			if in.Body != nil {
+				comment = in.Body.Comment
+			}
+			d, err := tr.run(ctx, in.ID, comment)
 			if err != nil {
 				return nil, err
 			}

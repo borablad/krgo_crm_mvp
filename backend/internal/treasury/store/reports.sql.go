@@ -78,9 +78,9 @@ func (q *Queries) CalendarRequests(ctx context.Context, arg CalendarRequestsPara
 
 const calendarTotals = `-- name: CalendarTotals :many
 select r.pay_date, r.currency,
-       coalesce(sum(r.amount) filter (where r.status in ('pending', 'approved')), 0)::numeric(18,2) as planned_total,
-       coalesce(sum(r.amount) filter (where r.status = 'approved'), 0)::numeric(18,2) as approved_total,
-       coalesce(sum(r.amount) filter (where r.status = 'paid'), 0)::numeric(18,2) as paid_total,
+       coalesce(sum(r.amount) filter (where r.status in ('pending', 'approved')), 0)::numeric as planned_total,
+       coalesce(sum(r.amount) filter (where r.status = 'approved'), 0)::numeric as approved_total,
+       coalesce(sum(r.amount) filter (where r.status = 'paid'), 0)::numeric as paid_total,
        count(*) as cnt
 from payment_requests r
 where r.pay_date between $1::date and $2::date
@@ -146,10 +146,10 @@ func (q *Queries) CalendarTotals(ctx context.Context, arg CalendarTotalsParams) 
 const cashflowReport = `-- name: CashflowReport :many
 select r.cashflow_item_id, ci.name as cashflow_item_name,
        date_trunc('month', r.pay_date)::date as month, r.currency,
-       coalesce(sum(r.amount) filter (where r.status = 'pending'), 0)::numeric(18,2) as pending_total,
-       coalesce(sum(r.amount) filter (where r.status = 'approved'), 0)::numeric(18,2) as approved_total,
-       coalesce(sum(r.amount) filter (where r.status = 'paid'), 0)::numeric(18,2) as paid_total,
-       coalesce(sum(r.amount), 0)::numeric(18,2) as total,
+       coalesce(sum(r.amount) filter (where r.status = 'pending'), 0)::numeric as pending_total,
+       coalesce(sum(r.amount) filter (where r.status = 'approved'), 0)::numeric as approved_total,
+       coalesce(sum(r.amount) filter (where r.status = 'paid'), 0)::numeric as paid_total,
+       coalesce(sum(r.amount), 0)::numeric as total,
        count(*) as cnt
 from payment_requests r
 join cashflow_items ci on ci.id = r.cashflow_item_id

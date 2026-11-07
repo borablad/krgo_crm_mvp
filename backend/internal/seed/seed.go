@@ -11,6 +11,7 @@ import (
 	"github.com/borablad/krgo_crm_mvp/backend/internal/auth"
 	"github.com/borablad/krgo_crm_mvp/backend/internal/crm"
 	"github.com/borablad/krgo_crm_mvp/backend/internal/directories"
+	"github.com/borablad/krgo_crm_mvp/backend/internal/treasury"
 	"github.com/borablad/krgo_crm_mvp/backend/internal/users"
 )
 
@@ -50,6 +51,19 @@ func Run(ctx context.Context, a *app.App, out io.Writer) error {
 		fmt.Fprintln(out, "CRM: данные уже есть, ничего не добавлено.")
 	} else {
 		fmt.Fprintln(out, "CRM: 8 клиентов, 10 сделок, 8 задач.")
+	}
+
+	_, reqsBefore, err := a.Treasury.List(auth.WithUser(ctx, auth.User{Role: auth.RoleAdmin}), treasury.RequestFilter{Limit: 1})
+	if err != nil {
+		return err
+	}
+	if err := treasury.SeedDemo(ctx, a.Treasury, ids); err != nil {
+		return fmt.Errorf("демо-данные казначейства: %w", err)
+	}
+	if reqsBefore > 0 {
+		fmt.Fprintln(out, "Казначейство: данные уже есть, ничего не добавлено.")
+	} else {
+		fmt.Fprintln(out, "Казначейство: 12 заявок на оплату (3 черновика, 4 на согласовании, 3 согласованы, 1 отклонена, 1 оплачена).")
 	}
 	return nil
 }
