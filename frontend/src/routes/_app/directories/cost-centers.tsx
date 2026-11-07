@@ -107,7 +107,7 @@ function CostCenterDialog({ target, onClose }: { target: 'new' | CostCenter | nu
     <FormDialog
       open={target !== null}
       title={t(editing ? 'directories.costCenters.formEdit' : 'directories.costCenters.formCreate')}
-      submitLabel={t('app.save')}
+      submitLabel={t(editing ? 'app.saveChanges' : 'directories.costCenters.create')}
       pending={save.pending}
       formError={save.formError}
       onSubmit={save.submit}

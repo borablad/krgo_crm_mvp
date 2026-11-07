@@ -129,7 +129,7 @@ function ItemDialog({ target, onClose }: { target: 'new' | Item | null; onClose:
     <FormDialog
       open={target !== null}
       title={t(editing ? 'directories.items.formEdit' : 'directories.items.formCreate')}
-      submitLabel={t('app.save')}
+      submitLabel={t(editing ? 'app.saveChanges' : 'directories.items.create')}
       pending={save.pending}
       formError={save.formError}
       onSubmit={save.submit}

@@ -76,7 +76,7 @@ export function WarehouseDialog({ target, onClose }: { target: 'new' | Warehouse
     <FormDialog
       open={target !== null}
       title={t(editing ? 'directories.warehouses.formEdit' : 'directories.warehouses.formCreate')}
-      submitLabel={t('app.save')}
+      submitLabel={t(editing ? 'app.saveChanges' : 'directories.warehouses.create')}
       pending={save.pending}
       formError={save.formError}
       onSubmit={save.submit}

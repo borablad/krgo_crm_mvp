@@ -5,6 +5,7 @@ const ru = {
     loading: 'Загрузка…',
     retry: 'Повторить',
     save: 'Сохранить',
+    saveChanges: 'Сохранить изменения',
     cancel: 'Отмена',
     close: 'Закрыть',
     search: 'Поиск',

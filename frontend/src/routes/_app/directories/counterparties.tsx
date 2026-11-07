@@ -155,7 +155,7 @@ function CounterpartyDialog({ target, onClose }: { target: 'new' | Counterparty 
     <FormDialog
       open={target !== null}
       title={t(editing ? 'directories.counterparties.formEdit' : 'directories.counterparties.formCreate')}
-      submitLabel={t('app.save')}
+      submitLabel={t(editing ? 'app.saveChanges' : 'directories.counterparties.create')}
       pending={save.pending}
       formError={save.formError}
       onSubmit={save.submit}

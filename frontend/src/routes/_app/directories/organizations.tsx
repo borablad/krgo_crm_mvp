@@ -113,7 +113,7 @@ function OrganizationDialog({ target, onClose }: { target: 'new' | Organization 
     <FormDialog
       open={target !== null}
       title={t(editing ? 'directories.organizations.formEdit' : 'directories.organizations.formCreate')}
-      submitLabel={t('app.save')}
+      submitLabel={t(editing ? 'app.saveChanges' : 'directories.organizations.create')}
       pending={save.pending}
       formError={save.formError}
       onSubmit={save.submit}

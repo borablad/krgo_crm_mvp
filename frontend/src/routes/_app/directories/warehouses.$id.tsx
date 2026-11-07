@@ -238,7 +238,7 @@ function CellDialog({ warehouseId, target, onClose }: { warehouseId: number; tar
       open={target !== null}
       title={t(editing ? 'directories.cells.formEdit' : 'directories.cells.formCreate')}
       description={locked ? t('directories.cells.receivingLocked') : undefined}
-      submitLabel={locked ? t('app.close') : t('app.save')}
+      submitLabel={locked ? t('app.close') : t(editing ? 'app.saveChanges' : 'directories.cells.create')}
       pending={save.pending}
       formError={save.formError}
       onSubmit={locked ? close : save.submit}

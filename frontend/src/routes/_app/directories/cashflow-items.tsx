@@ -110,7 +110,7 @@ function CashflowItemDialog({ target, onClose }: { target: 'new' | CashflowItem 
     <FormDialog
       open={target !== null}
       title={t(editing ? 'directories.cashflowItems.formEdit' : 'directories.cashflowItems.formCreate')}
-      submitLabel={t('app.save')}
+      submitLabel={t(editing ? 'app.saveChanges' : 'directories.cashflowItems.create')}
       pending={save.pending}
       formError={save.formError}
       onSubmit={save.submit}
