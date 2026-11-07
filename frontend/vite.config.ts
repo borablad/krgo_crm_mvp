@@ -12,8 +12,9 @@ export default defineConfig({
   },
   server: {
     port: 5173,
-    // В разработке API отдаёт Go-сервер на :8080, cookie остаются на одном origin.
-    proxy: { '/api': 'http://localhost:8080' },
+    // В разработке API отдаёт Go-сервер (по умолчанию :8080), cookie остаются на одном origin.
+    // Другой порт бэкенда: VITE_API_TARGET=http://localhost:18084 npm run dev
+    proxy: { '/api': process.env.VITE_API_TARGET ?? 'http://localhost:8080' },
   },
   build: {
     outDir: 'dist',
