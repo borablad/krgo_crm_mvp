@@ -38,9 +38,9 @@ export function Landing({ redirectTo }: { redirectTo?: string }) {
 function Header() {
   const { t } = useTranslation()
   return (
-    <header className="sticky top-0 z-20 border-b border-border/70 bg-background/95 backdrop-blur-sm">
+    <header className="sticky top-0 z-20 border-b bg-background">
       <div className={`${container} flex h-16 items-center justify-between gap-4`}>
-        <a href="#top" aria-label="ASOP" className="text-[19px]">
+        <a href="#top" className="text-[19px]">
           <Logo />
         </a>
         <nav className="flex items-center gap-1 sm:gap-2">
@@ -66,7 +66,7 @@ function Header() {
 function Hero({ redirectTo }: { redirectTo?: string }) {
   const { t } = useTranslation()
   return (
-    <section id="top" className={`${container} grid gap-x-16 gap-y-10 py-10 sm:py-14 lg:grid-cols-[minmax(0,1fr)_400px] lg:py-20`}>
+    <section id="top" className={`${container} grid scroll-mt-16 gap-x-16 gap-y-10 py-10 sm:py-14 lg:grid-cols-[minmax(0,1fr)_400px] lg:py-20`}>
       <div className="lg:col-start-1 lg:row-start-1">
         <h1 className="max-w-[19ch] text-[34px] font-semibold leading-[1.08] tracking-[-0.02em] sm:text-[46px] lg:text-[54px]">
           {t('landing.title')}
@@ -75,7 +75,7 @@ function Hero({ redirectTo }: { redirectTo?: string }) {
       </div>
 
       <div className="lg:col-start-2 lg:row-span-2 lg:row-start-1 lg:self-center">
-        <LoginForm redirectTo={redirectTo} />
+        <LoginForm redirectTo={redirectTo} autoFocus={Boolean(redirectTo)} />
       </div>
 
       <ul className="grid gap-3 sm:grid-cols-3 lg:col-start-1 lg:row-start-2 lg:self-end">
@@ -246,7 +246,7 @@ function WmsPreview() {
       <div className="truncate font-semibold">{t('landing.sampleItem')}</div>
       <div className="mt-3 grid grid-cols-2 gap-2">
         {cells.map((cell) => (
-          <div key={cell.address} className="flex items-center justify-between gap-2 rounded-md border bg-background/60 px-2 py-1.5">
+          <div key={cell.address} className="flex min-w-0 flex-wrap items-center justify-between gap-x-2 gap-y-1 rounded-md border bg-background/60 px-2 py-1.5">
             <CellTag address={cell.address} className="self-start text-[12px]" />
             <span className={`text-[13px] tabular-nums ${cell.qty ? '' : 'text-muted-foreground'}`}>
               {t('landing.sampleQty', { qty: cell.qty })}

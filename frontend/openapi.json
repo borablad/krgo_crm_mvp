@@ -3756,7 +3756,7 @@
   },
   "info": {
     "description": "Внутренняя система: CRM, казначейство, склад.",
-    "title": "Cargo CRM API",
+    "title": "ASOP API",
     "version": "dev"
   },
   "openapi": "3.1.0",

@@ -45,7 +45,7 @@ export function LoginForm({ redirectTo, autoFocus }: { redirectTo?: string; auto
     <section
       id="sign-in"
       aria-labelledby="login-title"
-      className="scroll-mt-20 rounded-xl border bg-card p-6 shadow-[0_1px_2px_rgba(26,33,48,0.06),0_12px_32px_-12px_rgba(36,71,201,0.18)] sm:p-8"
+      className="scroll-mt-20 rounded-xl border bg-card p-6 sm:p-8"
     >
       <h2 id="login-title" className="text-[22px] font-semibold leading-tight">
         {t('landing.loginTitle')}
@@ -61,6 +61,7 @@ export function LoginForm({ redirectTo, autoFocus }: { redirectTo?: string; auto
             autoCapitalize="none"
             spellCheck={false}
             aria-invalid={errors.login ? true : undefined}
+            aria-describedby={errors.login ? 'login-error' : undefined}
             {...form.register('login')}
           />
         </Field>
@@ -70,6 +71,7 @@ export function LoginForm({ redirectTo, autoFocus }: { redirectTo?: string; auto
             type="password"
             autoComplete="current-password"
             aria-invalid={errors.password ? true : undefined}
+            aria-describedby={errors.password ? 'password-error' : undefined}
             {...form.register('password')}
           />
         </Field>

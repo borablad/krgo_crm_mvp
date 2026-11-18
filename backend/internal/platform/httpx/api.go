@@ -31,7 +31,7 @@ func IsPublic(op *huma.Operation) bool {
 
 // NewAPI создаёт Huma API поверх стандартного mux. OpenAPI доступен по /openapi.json, документация — по /docs.
 func NewAPI(mux *http.ServeMux, version string) huma.API {
-	cfg := huma.DefaultConfig("Cargo CRM API", version)
+	cfg := huma.DefaultConfig("ASOP API", version)
 	cfg.OpenAPIPath = "/openapi"
 	cfg.DocsPath = "/docs"
 	cfg.Info.Description = "Внутренняя система: CRM, казначейство, склад."

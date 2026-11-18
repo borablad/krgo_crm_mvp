@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next'
 import { cn } from '@/lib/utils'
 
 /** Знак ASOP: буква «А» из двух частей. Тот же рисунок лежит в public/favicon.svg. */
@@ -12,10 +13,11 @@ export function LogoMark({ className }: { className?: string }) {
 
 /** Знак и название рядом: в шапке лендинга и в меню приложения. */
 export function Logo({ className, markClassName }: { className?: string; markClassName?: string }) {
+  const { t } = useTranslation()
   return (
     <span className={cn('inline-flex items-center gap-2 font-semibold tracking-tight', className)}>
       <LogoMark className={markClassName} />
-      ASOP
+      {t('app.name')}
     </span>
   )
 }
