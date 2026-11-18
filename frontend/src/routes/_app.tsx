@@ -7,7 +7,8 @@ export const Route = createFileRoute('/_app')({
   beforeLoad: async ({ context, location }) => {
     const user = await context.queryClient.ensureQueryData(meQuery())
     if (!user) {
-      throw redirect({ to: '/login', search: { redirect: location.href } })
+      // С главной уходим на чистый адрес входа: так выглядит ссылка asop.kz для гостя.
+      throw redirect({ to: '/login', search: location.href === '/' ? {} : { redirect: location.href } })
     }
     return { user }
   },

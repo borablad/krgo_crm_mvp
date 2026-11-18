@@ -1,8 +1,9 @@
 import type { ReactNode } from 'react'
 import { Link, useNavigate } from '@tanstack/react-router'
 import { useTranslation } from 'react-i18next'
-import { Boxes, BookOpen, ClipboardList, Contact, Home, LogOut, ScrollText, Users, Wallet } from 'lucide-react'
+import { Boxes, BookOpen, Contact, Home, LogOut, ScrollText, Users, Wallet } from 'lucide-react'
 import { can, useSessionActions, type Permission, type SessionUser } from '@/auth/session'
+import { Logo } from '@/components/logo'
 import { Button } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
 
@@ -98,16 +99,9 @@ export function AppShell({ user, children }: { user: SessionUser; children: Reac
 }
 
 function Brand() {
-  const { t } = useTranslation()
   return (
-    <Link to="/" className="flex items-center gap-2 font-semibold tracking-tight">
-      <span
-        className="flex size-7 items-center justify-center rounded-md bg-primary text-[13px] font-semibold text-primary-foreground"
-        aria-hidden
-      >
-        <ClipboardList className="size-4" />
-      </span>
-      {t('app.name')}
+    <Link to="/">
+      <Logo />
     </Link>
   )
 }
