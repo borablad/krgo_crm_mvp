@@ -1,4 +1,8 @@
 {$SITE_ADDRESS} {
+	# www.домен уводим на основной адрес, чтобы сессия и ссылки были на одном хосте.
+	@www header_regexp www Host ^www\.(.+)$
+	redir @www https://{re.www.1}{uri} permanent
+
 	encode zstd gzip
 	reverse_proxy app:8080
 }

@@ -2,7 +2,7 @@
 
 ## Стенд
 - VPS: Ubuntu 22.04, 1 vCPU, 1 ГБ памяти (+2 ГБ swap), 20 ГБ диска. Docker 29, Compose v5.
-- Адрес: `http://38.180.39.171` (пока без домена; с доменом Caddy включит HTTPS сам).
+- Адрес: `https://asop.kz` (сервер 38.180.39.171). `www.asop.kz` и http уводят на `https://asop.kz`. Сертификат Let's Encrypt Caddy получает и продлевает сам.
 - Файлы стенда: `/opt/cargo-crm/` — `compose.yml`, `Caddyfile`, `.env`, `backup.sh`, `restore.sh`, папка `backups/`.
 - Три контейнера: `db` (PostgreSQL 17), `app` (Go-бинарник с фронтендом внутри), `caddy` (порты 80/443).
 - Сервер ничего не собирает: образ приходит из GitHub Container Registry `ghcr.io/borablad/krgo_crm_mvp`.
@@ -37,7 +37,9 @@ mkdir -p /opt/cargo-crm/backups
 Дальше — обычная выкатка из CI. Первого администратора создают демо-данные или `docker compose exec app /cargo create-admin -login admin -name "Имя" -password '...'`.
 
 ## Домен и HTTPS
-В `/opt/cargo-crm/.env`: `SITE_ADDRESS=crm.example.kz`, `SECURE_COOKIES=true`; DNS A-запись на IP сервера; `docker compose up -d`. Caddy получит сертификат Let's Encrypt сам.
+Включено 18.11.2026 для asop.kz (DNS у регистратора PS.kz, A-записи `@` и `www` на IP сервера).
+
+В `/opt/cargo-crm/.env`: `SITE_ADDRESS="asop.kz, www.asop.kz"`, `SECURE_COOKIES=true`, затем `docker compose up -d`. Caddy получит сертификат сам; запрос на `www.` Caddyfile уводит на основной адрес. После включения домена стенд по голому IP не открывается. Вернуть режим по IP: `SITE_ADDRESS=:80`, `SECURE_COOKIES=false`.
 
 ## Резервные копии
 > Статус на 08.11.2026: крон установлен (02:30 UTC), восстановление проверено в отдельную базу `cargo_restore_check` — данные совпали (AT-13).
