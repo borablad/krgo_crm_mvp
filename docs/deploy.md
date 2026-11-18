@@ -12,7 +12,8 @@
 2. Тесты бэкенда и проверка фронтенда → сборка образа (`Dockerfile`) → публикация в GHCR с тегами `sha-<коммит>` и `latest`.
 3. По SSH на сервер копируются `compose.yml`, `Caddyfile`, `backup.sh`, `restore.sh`; в `.env` прописывается новый `APP_TAG`; `docker compose pull && up -d`.
 4. Миграции применяет само приложение при старте (`CARGO_MIGRATE_ON_START=true` по умолчанию).
-5. Проверка: `GET /api/v1/health` отвечает `{"status":"ok"}` в течение 90 с.
+5. Caddy перечитывает Caddyfile (`caddy reload`), сам он за файлом не следит.
+6. Проверка: `GET https://asop.kz/api/v1/health` в течение 90 с отвечает версией только что собранного образа. Адрес задан в `deploy.yml` (`STAND_URL`); при смене домена поменять и там.
 
 Ветки, кроме `main`, и pull request'ы проходят только проверку (`ci.yml`), без выкатки.
 

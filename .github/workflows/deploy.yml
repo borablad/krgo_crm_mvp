@@ -101,13 +101,18 @@ jobs:
           sed -i "s/^APP_TAG=.*/APP_TAG=${{ needs.build.outputs.tag }}/" .env
           docker compose pull -q
           docker compose up -d --remove-orphans
+          # Caddy не следит за файлом: после копирования нового Caddyfile перечитываем его явно.
+          docker compose exec -T caddy caddy reload --config /etc/caddy/Caddyfile --adapter caddyfile
           docker image prune -f >/dev/null
           docker logout ghcr.io >/dev/null
           EOF
       - name: Проверка
+        # С доменом стенд отвечает только по имени, по голому IP Caddy сайт не отдаёт.
+        env:
+          STAND_URL: https://asop.kz
         run: |
           for i in $(seq 1 30); do
-            if curl -fsS "http://${{ secrets.VPS_HOST }}/api/v1/health" | grep -q '"ok"'; then echo "стенд отвечает"; exit 0; fi
+            if curl -fsS "$STAND_URL/api/v1/health" | grep -q '"version":"${{ needs.build.outputs.tag }}"'; then echo "стенд отвечает новой версией"; exit 0; fi
             sleep 3
           done
           echo "стенд не ответил за 90 с"; exit 1
